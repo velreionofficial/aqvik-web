@@ -18,9 +18,36 @@ export const siteConfig = {
   },
   legal: {
     jurisdiction: "India",
-    updated: "2026-07-01",
+    updated: "2026-07-30",
+  },
+  /**
+   * Single source of truth for every retention figure quoted in the legal
+   * documents. VERIFY THESE AGAINST ACTUAL INFRASTRUCTURE before launch —
+   * they are declarations Google checks against the Data safety form.
+   */
+  retention: {
+    accountDeletionDays: 30,
+    auditLogDays: 90,
+    crashReportDays: 90,
+    backupRotationDays: 90,
   },
 } as const;
+
+/**
+ * Gates every public statement that depends on the in-app "Delete account"
+ * control (Settings → Danger Zone).
+ *
+ * The control exists in the app codebase but has NOT shipped to Google Play.
+ * While this is `false` the website makes no claim that it exists: the
+ * delete-account page shows only the email route, and the Privacy Policy omits
+ * the self-service sentence in section 13.
+ *
+ * Flip to `true` ONLY after the Play build containing the control is live.
+ * Both documents turn on together, so they cannot disagree.
+ */
+export const featureFlags: { inAppAccountDeletionShipped: boolean } = {
+  inAppAccountDeletionShipped: false,
+};
 
 export const primaryNav: readonly NavItem[] = [
   { label: "Features", href: "/#features" },
@@ -32,5 +59,6 @@ export const primaryNav: readonly NavItem[] = [
 export const footerNav: readonly NavItem[] = [
   { label: "Privacy Policy", href: "/privacy" },
   { label: "Terms & Conditions", href: "/terms" },
+  { label: "Delete Account", href: "/delete-account" },
   { label: "Contact", href: "/contact" },
 ] as const;

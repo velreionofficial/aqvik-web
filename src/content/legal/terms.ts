@@ -81,6 +81,11 @@ export const termsAndConditions: LegalDocument = {
           type: "paragraph",
           text: "You are responsible for the accuracy of what you enter. Handling of personal data is described in our Privacy Policy, which forms part of these terms.",
         },
+        {
+          type: "link",
+          href: "/privacy",
+          label: "Read the AQVIK Privacy Policy",
+        },
       ],
     },
     {

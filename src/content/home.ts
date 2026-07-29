@@ -117,6 +117,46 @@ export const features: readonly Feature[] = [
   },
 ] as const;
 
+export type ProductScreen = {
+  src: string;
+  alt: string;
+  caption: string;
+};
+
+/** Real captures from the current build. Order sets the grid; the first is eager-loaded. */
+export const productScreens: readonly ProductScreen[] = [
+  {
+    src: "/screens/workspaces.webp",
+    alt: "AQVIK workspaces screen listing accounts, people, budgets, goals, investments, groups, bills and documents",
+    caption: "Workspaces",
+  },
+  {
+    src: "/screens/home-dashboard.webp",
+    alt: "AQVIK home screen showing total balance across accounts, money in and out for the month, and today's activity",
+    caption: "Home",
+  },
+  {
+    src: "/screens/ai-assistant.webp",
+    alt: "AQVIK AI screen with suggested questions and a field for asking about your own records",
+    caption: "AI Assistant",
+  },
+  {
+    src: "/screens/timeline.webp",
+    alt: "AQVIK timeline screen listing recent transactions with a search field and category filters",
+    caption: "Timeline",
+  },
+  {
+    src: "/screens/quick-actions.webp",
+    alt: "AQVIK quick actions for income, expense, transfer, khata, debtors and creditors above a recent activity list",
+    caption: "Quick Actions",
+  },
+  {
+    src: "/screens/monthly-summary.webp",
+    alt: "AQVIK monthly summary for July 2026 showing money in, money out and a day-by-day breakdown",
+    caption: "Monthly Summary",
+  },
+] as const;
+
 export const whyPoints: readonly { title: string; description: string }[] = [
   {
     title: "A system of record, not a scrapbook",

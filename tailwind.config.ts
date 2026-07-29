@@ -33,6 +33,7 @@ const config: Config = {
           soft: "#88A7FF",
           foreground: "#050816",
         },
+        warning: "#F5B34A",
         hairline: {
           DEFAULT: "rgba(255,255,255,0.07)",
           strong: "rgba(255,255,255,0.14)",

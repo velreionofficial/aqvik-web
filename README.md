@@ -21,6 +21,7 @@ Set `NEXT_PUBLIC_SITE_URL` (see `.env.example`) before deploying — canonical U
 ```
 public/
   brand/          official AQVIK app icon (192 / 512) used by the manifest and OG card
+  screens/        real app screenshots shown in the product section
 src/
   app/            routes, metadata, robots.ts, sitemap.ts, manifest.ts, OG image, icon.png, apple-icon.png
   components/
@@ -28,7 +29,7 @@ src/
     layout/       container, rail Section shell, header, footer, legal renderer
     motion/       the single Reveal primitive
     sections/     homepage bands
-    shared/       ScreenshotFrame (reserved product image slots)
+    shared/       ProductScreenshot (real app captures)
     ui/           button, badge, accordion
   content/        all copy — site config, homepage, legal documents
   lib/            cn(), date formatting, metadata builder
@@ -36,6 +37,11 @@ src/
 
 **Copy lives in `src/content`, never in components.** Editing the roadmap, FAQ or a legal
 clause is a data change, not a JSX change.
+
+Legal pages (`/privacy`, `/terms`, `/delete-account`) are all rendered by one component from
+a `LegalDocument`. Blocks available: `paragraph`, `note`, `list`, `steps`, `callout`, `link`,
+`table`. Inline `**bold**` is supported in block text. Retention periods quoted in more than
+one document come from `siteConfig.retention` so the documents cannot contradict each other.
 
 ## Branding
 
@@ -55,16 +61,15 @@ affordances, the rail node and one hero accent — never for decoration.
 
 ## Product screenshots
 
-`ScreenshotFrame` renders a labelled, correctly proportioned slot and no invented UI. When
-real captures exist, pass them as children:
+Real captures from the AQVIK Personal OS build live in `public/screens/` and are listed in
+`content/home.ts` as `productScreens`. `ProductScreenshot` renders them through `next/image`
+inside the site's device treatment.
 
-```tsx
-<ScreenshotFrame label="Dashboard" caption="Dashboard" ratio="phone">
-  <Image src="/screens/dashboard.png" alt="AQVIK dashboard" fill sizes="(max-width: 640px) 100vw, 33vw" />
-</ScreenshotFrame>
-```
-
-The layout does not change.
+All six assets share one aspect ratio (800 × 1346), so each fills its frame exactly — nothing
+is stretched, letterboxed or side-cropped. To add or replace one: export the screen, crop to
+the app UI only (no device bezel, no marketing text), resize to 800 × 1346, save as WebP at
+quality 88, and add an entry to `productScreens`. The first entry is eager-loaded; the rest
+lazy-load.
 
 ## Content rules
 

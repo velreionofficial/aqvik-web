@@ -1,5 +1,21 @@
-import { siteConfig } from "@/content/site";
-import type { LegalDocument } from "@/content/legal/types";
+import { featureFlags, siteConfig } from "@/content/site";
+import type { LegalBlock, LegalDocument } from "@/content/legal/types";
+
+const { accountDeletionDays, auditLogDays, crashReportDays, backupRotationDays } =
+  siteConfig.retention;
+
+/**
+ * CHANGE 7 — HELD. Published only once the in-app deletion control is live on
+ * Google Play. See `featureFlags.inAppAccountDeletionShipped`.
+ */
+const selfServiceRights: readonly LegalBlock[] = featureFlags.inAppAccountDeletionShipped
+  ? [
+      {
+        type: "paragraph",
+        text: "You can act on most of these yourself, without contacting anyone. Export is in Settings under Data. Account deletion is in Settings under Danger Zone.",
+      },
+    ]
+  : [];
 
 export const privacyPolicy: LegalDocument = {
   title: "Privacy Policy",
@@ -18,6 +34,10 @@ export const privacyPolicy: LegalDocument = {
         {
           type: "paragraph",
           text: "The short version: we collect what the product needs to work, we do not sell your data, and we do not share your financial records with advertisers. Everything below is the detail behind that statement.",
+        },
+        {
+          type: "paragraph",
+          text: `Questions about anything here: ${siteConfig.emails.support}`,
         },
       ],
     },
@@ -50,7 +70,7 @@ export const privacyPolicy: LegalDocument = {
       blocks: [
         {
           type: "paragraph",
-          text: "Authentication exists to make sure only you can reach your records. We store an identifier for your account and a session token for each signed-in device. Passwords, where used, are stored only as a salted one-way hash — we cannot read them.",
+          text: "Authentication exists to make sure only you can reach your records. We store an identifier for your account and a session token for each signed-in device. Passwords are stored only as a salted one-way hash — we cannot read them.",
         },
         {
           type: "list",
@@ -111,7 +131,7 @@ export const privacyPolicy: LegalDocument = {
         },
         {
           type: "paragraph",
-          text: "Crash reports are configured to exclude the contents of your financial records. If a report unavoidably contains such data, it is deleted once the fault is resolved.",
+          text: `Crash reports are configured to exclude the contents of your financial records. They are retained for ${crashReportDays} days and then deleted. If a report unavoidably contains such data, it is removed as soon as the fault is resolved.`,
         },
       ],
     },
@@ -182,7 +202,7 @@ export const privacyPolicy: LegalDocument = {
         {
           type: "list",
           items: [
-            "Service providers who run infrastructure on our behalf — hosting, database, error reporting, analytics and transactional email — under contract and only for those purposes.",
+            "Service providers who run infrastructure on our behalf — hosting, database, error reporting, analytics, transactional email and the AI model provider that powers AI features — under contract and only for those purposes.",
             "When you ask us to, for example by using a sharing feature inside the app.",
             "When required by law, valid legal process, or to protect the rights and safety of users.",
             "In connection with a merger or acquisition, in which case you will be notified before your information becomes subject to a different policy.",
@@ -198,8 +218,9 @@ export const privacyPolicy: LegalDocument = {
           type: "list",
           items: [
             "Your records are kept while your account is active.",
-            "If you delete your account, personal data is deleted within 30 days, except where law requires us to keep it longer.",
-            "Backups are rotated on a fixed schedule and deleted data ages out of them within 90 days.",
+            `If you delete your account, personal data is deleted within ${accountDeletionDays} days, except where law requires us to keep it longer.`,
+            `Security audit records — sign-in times and account actions, with no financial detail — are kept for ${auditLogDays} days, then deleted.`,
+            `Backups are rotated on a fixed schedule and deleted data ages out of them within ${backupRotationDays} days.`,
             "Aggregate, non-identifying statistics may be retained indefinitely.",
           ],
         },
@@ -243,9 +264,15 @@ export const privacyPolicy: LegalDocument = {
             "Object or restrict — ask us to stop specific processing.",
           ],
         },
+        ...selfServiceRights,
         {
           type: "paragraph",
-          text: `For privacy requests including access, correction, deletion, export of your data or any questions regarding personal information, contact ${siteConfig.emails.support}. We respond within 30 days and will ask you to verify ownership of the account first.`,
+          text: `For privacy requests including access, correction, deletion, export of your data or any questions regarding personal information, contact ${siteConfig.emails.support}. We respond within ${accountDeletionDays} days and will ask you to verify ownership of the account first.`,
+        },
+        {
+          type: "link",
+          href: "/delete-account",
+          label: "How to delete your AQVIK account",
         },
       ],
     },
@@ -255,7 +282,7 @@ export const privacyPolicy: LegalDocument = {
       blocks: [
         {
           type: "paragraph",
-          text: "AQVIK is not directed at children under 18 and we do not knowingly collect their personal information. If you believe a child has created an account, write to us and we will delete it.",
+          text: "AQVIK is not directed at children under 18 and we do not knowingly collect their personal information. If you believe a child has created an account, write to support@aqvik.com and we will delete it.",
         },
       ],
     },
@@ -286,6 +313,11 @@ export const privacyPolicy: LegalDocument = {
             "Account deletion can be requested in the app and via our website, in line with Google Play's account deletion requirements.",
           ],
         },
+        {
+          type: "link",
+          href: "/delete-account",
+          label: "Account deletion instructions",
+        },
       ],
     },
     {
@@ -305,6 +337,11 @@ export const privacyPolicy: LegalDocument = {
         {
           type: "paragraph",
           text: `For privacy requests including access, correction, deletion, export of your data or any questions regarding personal information, contact ${siteConfig.emails.support}. The same address handles support and every other enquiry.`,
+        },
+        {
+          type: "link",
+          href: "/terms",
+          label: "Read the AQVIK Terms & Conditions",
         },
       ],
     },
