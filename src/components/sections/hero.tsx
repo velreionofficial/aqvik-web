@@ -1,9 +1,10 @@
 import Link from "next/link";
-import { ArrowRight, Play } from "lucide-react";
+import { ArrowRight, Download } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/layout/container";
 import { Logo } from "@/components/brand/logo";
+import { Badge } from "@/components/ui/badge";
 import { siteConfig } from "@/content/site";
 
 /**
@@ -38,7 +39,7 @@ export function Hero() {
             <div className="sticky top-28">
               <p className="eyebrow">{siteConfig.status}</p>
               <p className="mt-3 max-w-[9rem] text-xs leading-relaxed text-muted-dim">
-                Android first, through Google Play.
+                Live on Google Play closed testing.
               </p>
             </div>
             <span
@@ -66,10 +67,14 @@ export function Hero() {
             </p>
 
             <div className="mt-11 flex flex-wrap items-center gap-4">
-              <span className="inline-flex h-12 select-none items-center gap-2.5 rounded-full bg-primary px-6 text-base font-medium text-primary-foreground">
-                <Play aria-hidden="true" className="size-4 fill-current" />
-                Coming soon on Google Play
-              </span>
+              <Button asChild size="lg">
+                <a href={siteConfig.android.playStoreUrl} target="_blank" rel="noopener noreferrer">
+                  <Download aria-hidden="true" className="size-4" />
+                  Download Beta on Google Play
+                </a>
+              </Button>
+
+              <Badge variant="accent">Beta</Badge>
 
               <Button asChild variant="secondary" size="lg">
                 <Link href="#why">
@@ -80,9 +85,9 @@ export function Hero() {
             </div>
 
             <p className="mt-5 font-mono text-xs text-muted-dim">
-              Not released yet.{" "}
-              <Link href="/contact" className="rounded-sm text-muted underline underline-offset-4 hover:text-foreground">
-                Ask for beta access
+              Closed testing — invite only.{" "}
+              <Link href="#beta" className="rounded-sm text-muted underline underline-offset-4 hover:text-foreground">
+                How to join
               </Link>
               .
             </p>

@@ -9,7 +9,7 @@ export function ProductPreview() {
       id="preview"
       label="Product"
       title="The app as it stands today"
-      description="Screenshots from the current AQVIK Personal OS build, not renders. It is still pre-beta, so the interface will keep changing before release."
+      description="Screenshots from the current AQVIK Personal OS build, not renders. It is still in beta, so the interface will keep changing before public release."
     >
       <div className="grid gap-6 sm:grid-cols-3">
         {productScreens.map((screen, index) => (

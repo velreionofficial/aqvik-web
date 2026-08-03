@@ -12,9 +12,26 @@ export const siteConfig = {
     "An AI personal finance operating system that organises your money and explains what is happening to it.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://aqvik.com",
   locale: "en_IN",
-  status: "Pre-beta",
+  status: "Closed beta",
   emails: {
     support: "support@aqvik.com",
+  },
+  /**
+   * Distribution. The app is in Google Play closed testing: only addresses on
+   * the tester list can see the listing or install the build.
+   */
+  android: {
+    packageId: "com.aqvik.personalos",
+    /** Play Store listing. Visible only to enrolled testers while in closed testing. */
+    playStoreUrl: "https://play.google.com/store/apps/details?id=com.aqvik.personalos",
+  },
+  /**
+   * Public contact number for beta enrolment. Digits only, country code first —
+   * this is the format wa.me expects.
+   */
+  whatsapp: {
+    number: "916351082185",
+    display: "+91 63510 82185",
   },
   legal: {
     jurisdiction: "India",

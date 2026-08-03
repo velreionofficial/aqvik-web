@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { Hero } from "@/components/sections/hero";
+import { BetaAccess } from "@/components/beta/beta-access";
 import { Trust } from "@/components/sections/trust";
 import { Features } from "@/components/sections/features";
 import { WhyAqvik } from "@/components/sections/why-aqvik";
@@ -30,6 +31,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <BetaAccess />
       <Trust />
       <Features />
       <WhyAqvik />

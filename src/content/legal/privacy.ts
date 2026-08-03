@@ -29,7 +29,7 @@ export const privacyPolicy: LegalDocument = {
       blocks: [
         {
           type: "paragraph",
-          text: "This policy explains how AQVIK handles personal information in the AQVIK Personal OS mobile application and on this website. AQVIK is operated from India and is currently in pre-beta.",
+          text: "This policy explains how AQVIK handles personal information in the AQVIK Personal OS mobile application and on this website. AQVIK is operated from India and is currently in closed beta testing.",
         },
         {
           type: "paragraph",

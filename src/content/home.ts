@@ -235,7 +235,7 @@ export const faqs: readonly FaqItem[] = [
   {
     question: "Is AQVIK available yet?",
     answer:
-      "Not publicly. AQVIK Personal OS is in pre-beta and preparing for release on Google Play. There are no download or user numbers to report yet, and we would rather say that than invent them.",
+      "It is in closed testing on Google Play, which is invite-only — the listing is visible only to accounts on the tester list. There is no public release yet, and no download or user numbers to report.",
   },
   {
     question: "Does AQVIK connect to my bank account?",
@@ -265,11 +265,11 @@ export const faqs: readonly FaqItem[] = [
   {
     question: "Which platforms will it support?",
     answer:
-      "Android first, through Google Play. Further platforms will be announced here when they are close enough to be real commitments.",
+      "Android, through Google Play, where the closed beta is running now. Further platforms will be announced here when they are close enough to be real commitments.",
   },
   {
-    question: "How do I follow the launch?",
+    question: "How do I join the beta?",
     answer:
-      "Write to us at support@aqvik.com and we will tell you when the beta opens. That is the only list we keep.",
+      "Send us the email address on your Google account — through the beta form on this page, over WhatsApp, or to support@aqvik.com. Once it is on the tester list, the Google Play link will work for you.",
   },
 ] as const;

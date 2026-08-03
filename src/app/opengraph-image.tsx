@@ -70,7 +70,7 @@ export default function OpengraphImage() {
           }}
         >
           <span>aqvik.com</span>
-          <span>Pre-beta — Android first</span>
+          <span>Closed beta — Android</span>
         </div>
       </div>
     ),

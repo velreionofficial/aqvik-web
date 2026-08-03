@@ -57,7 +57,7 @@ export function SiteFooter() {
             © {year} {siteConfig.name}. All rights reserved.
           </p>
           <p className="font-mono text-xs text-muted-dim">
-            {siteConfig.status} — not yet released on Google Play.
+            {siteConfig.status} — invite-only testing on Google Play.
           </p>
         </div>
       </Container>

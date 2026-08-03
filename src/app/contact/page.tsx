@@ -103,14 +103,16 @@ export default function ContactPage() {
             <div className="mt-16 border-t border-hairline pt-10">
               <h2 className="eyebrow">Beta access</h2>
               <p className="mt-6 max-w-measure text-[0.9375rem] leading-relaxed text-muted">
-                AQVIK Personal OS is in pre-beta and has not been released on Google Play. Write to{" "}
+                AQVIK Personal OS is in closed testing on Google Play, which is invite-only. Write
+                to{" "}
                 <a
                   href={`mailto:${siteConfig.emails.support}`}
                   className="rounded-sm text-foreground underline underline-offset-4 hover:text-primary-soft"
                 >
                   {siteConfig.emails.support}
                 </a>{" "}
-                and we will tell you when the beta opens. We keep no other list.
+                with the email address on your Google account and we will add you to the tester
+                list. You can also send your details over WhatsApp from the homepage.
               </p>
             </div>
           </div>

@@ -127,7 +127,7 @@ export const termsAndConditions: LegalDocument = {
       blocks: [
         {
           type: "paragraph",
-          text: "The Service is currently in pre-beta. Pre-release software may contain defects, may change substantially, and may be interrupted. Keep your own copies of anything you cannot afford to lose, and use the export tools we provide.",
+          text: "The Service is currently in closed beta testing. Pre-release software may contain defects, may change substantially, and may be interrupted. Keep your own copies of anything you cannot afford to lose, and use the export tools we provide.",
         },
       ],
     },

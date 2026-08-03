@@ -71,6 +71,18 @@ the app UI only (no device bezel, no marketing text), resize to 800 × 1346, sav
 quality 88, and add an entry to `productScreens`. The first entry is eager-loaded; the rest
 lazy-load.
 
+## Beta access
+
+The Android build is in Google Play **closed testing**. Distribution config — package id,
+Play Store URL, WhatsApp number — lives in `siteConfig.android` and `siteConfig.whatsapp`.
+
+`BetaTesterDialog` collects tester details and opens a `wa.me` deep link with the message
+pre-filled. **Nothing is posted to a server**: the visitor's own WhatsApp client sends it, and
+they see the message first. A true server-side send would need the WhatsApp Business Platform
+(Meta-approved sender plus a pre-approved template) — see the note in the deploy checklist.
+
+`WhatsAppFloat` renders once in the root layout, so it appears on every route.
+
 ## Content rules
 
 No invented testimonials, user counts, ratings, download numbers, investors, awards or
