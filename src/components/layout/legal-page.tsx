@@ -80,6 +80,13 @@ function Block({ block, label }: { block: LegalBlock; label: string }) {
         </p>
       );
 
+    case "subheading":
+      return (
+        <h3 className="max-w-prose pt-2 text-[1.0625rem] font-medium text-foreground">
+          {block.text}
+        </h3>
+      );
+
     case "note":
       return (
         <p className="max-w-prose text-[0.9375rem] italic leading-relaxed text-muted-dim">
@@ -221,6 +228,14 @@ export function LegalPage({ document: doc }: LegalPageProps) {
                 </div>
               </section>
             ))}
+
+            {doc.outro ? (
+              <div className="space-y-5">
+                {doc.outro.map((block, index) => (
+                  <Block key={`outro-${index}`} block={block} label={doc.title} />
+                ))}
+              </div>
+            ) : null}
           </div>
         </div>
       </Container>

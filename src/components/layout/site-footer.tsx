@@ -10,19 +10,15 @@ export function SiteFooter() {
   return (
     <footer className="border-t border-hairline">
       <Container>
-        <div className="grid gap-12 py-16 md:grid-cols-[minmax(0,1fr)_auto] md:gap-20">
+        <div className="grid gap-10 py-14 md:grid-cols-[minmax(0,1fr)_auto] md:gap-20">
           <div className="max-w-sm">
             <Logo />
-            <p className="mt-5 text-sm leading-relaxed text-muted">{siteConfig.tagline}</p>
-            <p className="mt-3 text-sm leading-relaxed text-muted-dim">
-              {siteConfig.shortDescription}
-            </p>
+            <p className="mt-5 text-sm leading-relaxed text-muted">{siteConfig.footerLine}</p>
           </div>
 
-          <div className="grid grid-cols-2 gap-12 sm:gap-20">
-            <div>
-              <h2 className="eyebrow">Company</h2>
-              <ul className="mt-5 space-y-3">
+          <div className="space-y-6">
+            <nav aria-label="Footer">
+              <ul className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-x-7">
                 {footerNav.map((item) => (
                   <li key={item.href}>
                     <Link
@@ -34,30 +30,19 @@ export function SiteFooter() {
                   </li>
                 ))}
               </ul>
-            </div>
-
-            <div>
-              <h2 className="eyebrow">Reach us</h2>
-              <ul className="mt-5 space-y-3">
-                <li>
-                  <a
-                    href={`mailto:${siteConfig.emails.support}`}
-                    className="rounded-sm text-sm text-muted transition-colors hover:text-foreground"
-                  >
-                    {siteConfig.emails.support}
-                  </a>
-                </li>
-              </ul>
-            </div>
+            </nav>
+            <a
+              href={`mailto:${siteConfig.emails.support}`}
+              className="inline-block rounded-sm text-sm text-primary-soft underline-offset-4 hover:underline"
+            >
+              {siteConfig.emails.support}
+            </a>
           </div>
         </div>
 
-        <div className="flex flex-col gap-4 border-t border-hairline py-8 sm:flex-row sm:items-center sm:justify-between">
+        <div className="border-t border-hairline py-8">
           <p className="font-mono text-xs text-muted-dim">
-            © {year} {siteConfig.name}. All rights reserved.
-          </p>
-          <p className="font-mono text-xs text-muted-dim">
-            {siteConfig.status} — invite-only testing on Google Play.
+            © {year} {siteConfig.name}. Built in India. Closed beta on Google Play.
           </p>
         </div>
       </Container>

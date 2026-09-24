@@ -1,28 +1,31 @@
+import Link from "next/link";
+
 import { Section } from "@/components/layout/section";
 import { Reveal } from "@/components/motion/reveal";
-import { trustPillars } from "@/content/home";
+import { trust } from "@/content/home";
 
 export function Trust() {
   return (
-    <Section
-      id="trust"
-      label="Standards"
-      title="Money apps earn trust before anything else"
-      description="These are commitments about how the product is built, not badges. Each one is testable, and each one holds from the first release."
-    >
-      <ul className="grid gap-px overflow-hidden rounded-2xl border border-hairline bg-hairline sm:grid-cols-2">
-        {trustPillars.map((pillar, index) => {
-          const Icon = pillar.icon;
-
-          return (
-            <Reveal as="li" key={pillar.title} delay={index * 0.06} className="bg-background p-7">
-              <Icon aria-hidden="true" className="size-5 text-primary" />
-              <h3 className="mt-5 text-[1.0625rem] font-medium">{pillar.title}</h3>
-              <p className="mt-2.5 text-sm leading-relaxed text-muted">{pillar.description}</p>
-            </Reveal>
-          );
-        })}
+    <Section id="trust" title={trust.heading} description={trust.intro}>
+      <ul className="glass divide-y divide-hairline rounded-2xl px-6 sm:px-8">
+        {trust.points.map((point, index) => (
+          <Reveal as="li" key={point.title} delay={index * 0.04}>
+            <div className="grid gap-2 py-7 md:grid-cols-[minmax(0,16rem)_minmax(0,1fr)] md:gap-12">
+              <h3 className="text-[1.0625rem] font-medium leading-snug">{point.title}</h3>
+              <p className="max-w-measure text-[0.9375rem] leading-relaxed text-muted">
+                {point.description}
+              </p>
+            </div>
+          </Reveal>
+        ))}
       </ul>
+
+      <Link
+        href="/privacy"
+        className="mt-8 inline-block rounded-sm text-[0.9375rem] text-primary-soft underline-offset-4 hover:underline"
+      >
+        {trust.link}
+      </Link>
     </Section>
   );
 }

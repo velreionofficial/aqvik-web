@@ -4,8 +4,9 @@ import { siteConfig } from "@/content/site";
 const PREFILLED_MESSAGE = "Hi AQVIK Team,\nI want to become a Beta Tester.";
 
 /**
- * Persistent contact affordance. Rendered once in the root layout so it is
- * present on every route, and kept clear of the iOS home indicator.
+ * Persistent WhatsApp button, in WhatsApp green so visitors recognise it at a
+ * glance. Rendered once in the root layout so it is on every route, and kept
+ * clear of the iOS home indicator.
  */
 export function WhatsAppFloat() {
   const href = `https://wa.me/${siteConfig.whatsapp.number}?text=${encodeURIComponent(
@@ -17,10 +18,11 @@ export function WhatsAppFloat() {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Message AQVIK on WhatsApp about beta testing"
-      className="fixed bottom-[max(1.25rem,env(safe-area-inset-bottom))] right-[max(1.25rem,env(safe-area-inset-right))] z-40 inline-flex size-14 items-center justify-center rounded-full border border-hairline-strong bg-surface text-foreground shadow-raised transition-[background-color,border-color,transform] duration-300 ease-entrance hover:-translate-y-0.5 hover:border-primary/50 hover:bg-surface-raised hover:text-primary-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background active:translate-y-0"
+      aria-label="Chat with AQVIK on WhatsApp"
+      title="Chat with us on WhatsApp"
+      className="fixed bottom-[max(1.25rem,env(safe-area-inset-bottom))] right-[max(1.25rem,env(safe-area-inset-right))] z-40 inline-flex size-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_12px_32px_-8px_rgba(37,211,102,0.55),inset_0_1px_0_rgba(255,255,255,0.35)] ring-1 ring-white/20 transition-transform duration-300 ease-entrance hover:-translate-y-0.5 hover:bg-[#20BD5A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-background active:translate-y-0 sm:size-[3.75rem]"
     >
-      <WhatsAppIcon className="size-6" />
+      <WhatsAppIcon className="size-7" />
     </a>
   );
 }

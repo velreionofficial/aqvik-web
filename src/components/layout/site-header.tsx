@@ -7,7 +7,7 @@ import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/layout/container";
 import { Logo } from "@/components/brand/logo";
-import { primaryNav } from "@/content/site";
+import { joinBetaHref, primaryNav } from "@/content/site";
 
 export function SiteHeader() {
   const [open, setOpen] = React.useState(false);
@@ -24,7 +24,7 @@ export function SiteHeader() {
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-hairline bg-background/80 backdrop-blur-xl">
+    <header className="glass-bar sticky top-0 z-50">
       <Container>
         <div className="flex h-16 items-center justify-between gap-6">
           <Link
@@ -35,7 +35,7 @@ export function SiteHeader() {
             <Logo priority />
           </Link>
 
-          <nav aria-label="Primary" className="hidden items-center gap-9 md:flex">
+          <nav aria-label="Primary" className="hidden items-center gap-7 lg:flex">
             {primaryNav.map((item) => (
               <Link
                 key={item.href}
@@ -47,33 +47,35 @@ export function SiteHeader() {
             ))}
           </nav>
 
-          <div className="hidden md:block">
-            <Button asChild size="sm" variant="secondary">
-              <Link href="/contact">Contact</Link>
+          <div className="flex items-center gap-2">
+            <Button asChild size="sm">
+              <Link href={joinBetaHref} onClick={() => setOpen(false)}>
+                Join the beta
+              </Link>
             </Button>
-          </div>
 
-          <button
-            type="button"
-            onClick={() => setOpen((value) => !value)}
-            aria-expanded={open}
-            aria-controls="mobile-navigation"
-            aria-label={open ? "Close menu" : "Open menu"}
-            className="-mr-2 inline-flex size-10 items-center justify-center rounded-full text-muted transition-colors hover:text-foreground md:hidden"
-          >
-            {open ? (
-              <X aria-hidden="true" className="size-5" />
-            ) : (
-              <Menu aria-hidden="true" className="size-5" />
-            )}
-          </button>
+            <button
+              type="button"
+              onClick={() => setOpen((value) => !value)}
+              aria-expanded={open}
+              aria-controls="mobile-navigation"
+              aria-label={open ? "Close menu" : "Open menu"}
+              className="-mr-2 inline-flex size-10 items-center justify-center rounded-full text-muted transition-colors hover:text-foreground lg:hidden"
+            >
+              {open ? (
+                <X aria-hidden="true" className="size-5" />
+              ) : (
+                <Menu aria-hidden="true" className="size-5" />
+              )}
+            </button>
+          </div>
         </div>
       </Container>
 
       <div
         id="mobile-navigation"
         hidden={!open}
-        className="border-t border-hairline bg-background md:hidden"
+        className="border-t border-hairline lg:hidden"
       >
         <Container>
           <nav aria-label="Primary mobile" className="flex flex-col py-4">
@@ -87,13 +89,6 @@ export function SiteHeader() {
                 {item.label}
               </Link>
             ))}
-            <Link
-              href="/contact"
-              onClick={() => setOpen(false)}
-              className="rounded-md py-3 text-[0.9375rem] text-muted transition-colors hover:text-foreground"
-            >
-              Contact
-            </Link>
           </nav>
         </Container>
       </div>

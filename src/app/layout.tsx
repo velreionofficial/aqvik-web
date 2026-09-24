@@ -19,15 +19,6 @@ export const metadata: Metadata = {
   },
   description: siteConfig.description,
   applicationName: siteConfig.name,
-  keywords: [
-    "AQVIK",
-    "personal finance app",
-    "AI personal finance",
-    "expense tracker",
-    "budget app",
-    "financial operating system",
-    "money management",
-  ],
   authors: [{ name: siteConfig.name }],
   creator: siteConfig.name,
   publisher: siteConfig.name,
@@ -104,6 +95,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Skip to content
         </a>
 
+        <div aria-hidden="true" className="ambient pointer-events-none fixed inset-0 -z-10" />
         <SiteHeader />
         <main id="main">{children}</main>
         <SiteFooter />

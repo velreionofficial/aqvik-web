@@ -1,5 +1,6 @@
 export type LegalBlock =
   | { type: "paragraph"; text: string }
+  | { type: "subheading"; text: string }
   | { type: "note"; text: string }
   | { type: "list"; items: readonly string[] }
   | { type: "steps"; items: readonly string[] }
@@ -27,4 +28,6 @@ export type LegalDocument = {
   intro?: readonly LegalBlock[];
   updated: string;
   sections: readonly LegalSection[];
+  /** Blocks rendered after the last section, without a heading. */
+  outro?: readonly LegalBlock[];
 };

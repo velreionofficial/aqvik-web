@@ -39,9 +39,11 @@ src/
 clause is a data change, not a JSX change.
 
 Legal pages (`/privacy`, `/terms`, `/delete-account`) are all rendered by one component from
-a `LegalDocument`. Blocks available: `paragraph`, `note`, `list`, `steps`, `callout`, `link`,
-`table`. Inline `**bold**` is supported in block text. Retention periods quoted in more than
-one document come from `siteConfig.retention` so the documents cannot contradict each other.
+a `LegalDocument`. Blocks available: `paragraph`, `subheading`, `note`, `list`, `steps`,
+`callout`, `link`, `table`. Inline `**bold**` is supported in block text. The Privacy Policy
+and Terms are copied word for word from the app's in-app text
+(`apps/mobile/src/features/settings/legalContent.ts`), which is the source of truth: change
+the app first, then copy it here.
 
 ## Branding
 

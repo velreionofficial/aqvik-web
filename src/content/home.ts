@@ -1,121 +1,149 @@
 import {
-  Accessibility,
   BarChart3,
   Brain,
-  Cpu,
-  Lock,
+  CalendarClock,
+  FileSpreadsheet,
+  Gauge,
   PiggyBank,
-  Receipt,
-  Repeat,
-  ShieldCheck,
   Target,
-  TrendingUp,
   Wallet,
   type LucideIcon,
 } from "lucide-react";
 
-export type Pillar = {
-  icon: LucideIcon;
-  title: string;
-  description: string;
-};
+/**
+ * Homepage copy. Everything here is final copy from the homepage brief
+ * (24 September 2026, claims checked against app commit b7dd852). Do not add
+ * features, numbers or promises that are not in the brief.
+ */
 
-export type Feature = {
-  icon: LucideIcon;
-  title: string;
-  description: string;
-};
+export type TitledText = { title: string; description: string };
 
-export type RoadmapStage = {
-  marker: string;
-  status: "Building" | "Next" | "Later";
-  title: string;
-  description: string;
-  items: readonly string[];
-};
+export const hero = {
+  eyebrow: "Personal finance · Built in India",
+  headline: "Money between friends, finally on one page.",
+  subheadline:
+    "Lend to a friend, borrow from a roommate, split a trip - AQVIK keeps one shared record that both of you see and both of you confirm. Your own spending, budgets and bills live right beside it.",
+  primaryCta: "Join the beta",
+  secondaryPrefix: "Already a tester?",
+  secondaryLink: "Open in Google Play",
+  microline: "Free during beta · Android · Closed testing, invite only",
+  screen: {
+    src: "/screens/loan-agreement.webp",
+    alt: "AQVIK loan agreement screen showing an active loan with its amount, the date it was given, the return date, the interest rate and the late-interest rate",
+  },
+} as const;
 
-export type FaqItem = {
-  question: string;
-  answer: string;
-};
-
-export const trustPillars: readonly Pillar[] = [
+export const proofPoints: readonly TitledText[] = [
   {
-    icon: Lock,
-    title: "Secure",
-    description:
-      "Encrypted in transit and at rest. Sessions are scoped per device and can be revoked from your account.",
+    title: "You confirm everything",
+    description: "The AI reads and explains. Nothing enters your records unless you tap confirm.",
   },
   {
-    icon: ShieldCheck,
-    title: "Private",
-    description:
-      "Your financial records are yours. We do not sell your data, and we do not share it with advertisers.",
+    title: "Exact to the paisa",
+    description: "No rounding, ever. Totals always add up.",
   },
   {
-    icon: Cpu,
-    title: "AI powered",
-    description:
-      "AI sorts, summarises and explains. Anything that changes your records asks you first.",
-  },
-  {
-    icon: Accessibility,
-    title: "Built for everyone",
-    description:
-      "Readable type, real contrast, full keyboard and screen-reader support — not an afterthought.",
+    title: "Works offline",
+    description: "Add entries without a signal; they sync when you are back online.",
   },
 ] as const;
 
-export const features: readonly Feature[] = [
-  {
-    icon: Receipt,
-    title: "Expense tracking",
-    description:
-      "Record spending in seconds. Amounts stay exact to the paisa, so your totals never drift.",
-  },
-  {
-    icon: Wallet,
-    title: "Budget management",
-    description:
-      "Set limits per category and see how much room is left before the month ends, not after.",
-  },
-  {
-    icon: Target,
-    title: "Financial goals",
-    description:
-      "Name what you are saving for, fund it on your own schedule, and track the distance left.",
-  },
-  {
-    icon: Repeat,
-    title: "Subscriptions",
-    description:
-      "Every recurring charge in one list, with the renewal date and the yearly cost written plainly.",
-  },
-  {
-    icon: TrendingUp,
-    title: "Investment tracking",
-    description:
-      "Hold your investments alongside everything else, so net worth is one number instead of six apps.",
-  },
-  {
-    icon: PiggyBank,
-    title: "Savings insights",
-    description:
-      "See what you actually kept each month and which habits moved that number.",
-  },
-  {
-    icon: Brain,
-    title: "AI financial assistant",
-    description:
-      "Ask questions in plain language. Get answers grounded in your own records, with the working shown.",
-  },
-  {
-    icon: BarChart3,
-    title: "Analytics",
-    description:
-      "Trends, categories and comparisons over time — the report you would build by hand, already built.",
-  },
-] as const;
+export const sharedMoney = {
+  eyebrow: "Shared money",
+  heading: "No more “I’m sure I paid you back.”",
+  intro:
+    "Most apps track only your side. AQVIK gives the two of you one record: every entry either person adds is visible to both, and it counts once the other person confirms it.",
+  steps: [
+    {
+      title: "Record it",
+      description:
+        "Add what you lent or borrowed - the person, the amount, and any terms you agreed.",
+    },
+    {
+      title: "They confirm",
+      description:
+        "Your friend gets a notification and confirms the entry, or disputes it if something is off.",
+    },
+    {
+      title: "Both stay in sync",
+      description:
+        "Repayments, balances and history stay identical on both phones. No screenshots, no arguments.",
+    },
+  ] as readonly TitledText[],
+  cards: [
+    {
+      title: "Loan agreements",
+      description:
+        "Propose a loan with an amount and terms. The other person can accept, or come back with a counter-offer. Interest, if you agree any, is calculated for you.",
+    },
+    {
+      title: "Group expenses",
+      description:
+        "Create a group for a trip, a flat or an office lunch, add what each person paid, and see who owes whom.",
+    },
+    {
+      title: "Khata for people you deal with",
+      description:
+        "Keep a running record of what customers or friends owe you, and what you owe others, in one list.",
+    },
+  ] as readonly TitledText[],
+  smallPrint:
+    "Both people need an AQVIK account. AQVIK only keeps the record - it never holds, sends or collects money.",
+} as const;
+
+export type Feature = TitledText & { icon: LucideIcon };
+
+export const everythingElse = {
+  heading: "The rest of your money, on the same record.",
+  intro:
+    "Every screen reads from one ledger, so the numbers on your budget, your home screen and your statement always agree.",
+  features: [
+    {
+      icon: Wallet,
+      title: "Expenses and income",
+      description: "Add an entry in seconds, across cash, bank and card accounts.",
+    },
+    {
+      icon: CalendarClock,
+      title: "Bills that remind you",
+      description:
+        "Rent, electricity, insurance, EMIs, vehicle tax and more - reminded before they are due, not after.",
+    },
+    {
+      icon: Gauge,
+      title: "Safe to spend",
+      description:
+        "What you can spend each day for the rest of the month, after bills and commitments are set aside.",
+    },
+    {
+      icon: PiggyBank,
+      title: "Budgets",
+      description: "Set limits by category and see the room left while the month is still running.",
+    },
+    {
+      icon: Target,
+      title: "Goals",
+      description: "Name what you are saving for and track the distance left.",
+    },
+    {
+      icon: BarChart3,
+      title: "Net worth and investments",
+      description: "Hold investments alongside everything else, so your net worth is one number.",
+    },
+    {
+      icon: FileSpreadsheet,
+      title: "Monthly statements",
+      description:
+        "Export any month as Excel or PDF, laid out like a bank statement - made on your phone.",
+    },
+    {
+      icon: Brain,
+      title: "An AI assistant for your own money",
+      description:
+        "Ask in plain words - English or Hinglish - and get answers from your own records.",
+    },
+  ] as readonly Feature[],
+} as const;
 
 export type ProductScreen = {
   src: string;
@@ -123,22 +151,35 @@ export type ProductScreen = {
   caption: string;
 };
 
-/** Real captures from the current build. Order sets the grid; the first is eager-loaded. */
+export const screensCopy = {
+  heading: "The app as it is today.",
+  line: "Real screens from the current beta, not mock-ups. The design will keep improving before public launch.",
+} as const;
+
+/**
+ * Real captures from the beta, in phone frames. The loan agreement screen is
+ * used in the hero. Order sets the carousel.
+ */
 export const productScreens: readonly ProductScreen[] = [
   {
-    src: "/screens/workspaces.webp",
-    alt: "AQVIK workspaces screen listing accounts, people, budgets, goals, investments, groups, bills and documents",
-    caption: "Workspaces",
+    src: "/screens/cashflow.webp",
+    alt: "AQVIK cash flow screen showing how much is safe to spend per day for the rest of the month, and a projection of opening balance, expected inflows, committed outflows and projected closing balance",
+    caption: "Cash flow",
   },
   {
-    src: "/screens/home-dashboard.webp",
-    alt: "AQVIK home screen showing total balance across accounts, money in and out for the month, and today's activity",
+    src: "/screens/home.webp",
+    alt: "AQVIK home screen showing total balance across accounts, safe to spend per day, and money in and out this month",
     caption: "Home",
   },
   {
     src: "/screens/ai-assistant.webp",
     alt: "AQVIK AI screen with suggested questions and a field for asking about your own records",
     caption: "AI Assistant",
+  },
+  {
+    src: "/screens/monthly-summary.webp",
+    alt: "AQVIK monthly summary for July 2026 showing money in, money out and a day-by-day breakdown",
+    caption: "Monthly Summary",
   },
   {
     src: "/screens/timeline.webp",
@@ -150,126 +191,162 @@ export const productScreens: readonly ProductScreen[] = [
     alt: "AQVIK quick actions for income, expense, transfer, khata, debtors and creditors above a recent activity list",
     caption: "Quick Actions",
   },
-  {
-    src: "/screens/monthly-summary.webp",
-    alt: "AQVIK monthly summary for July 2026 showing money in, money out and a day-by-day breakdown",
-    caption: "Monthly Summary",
-  },
 ] as const;
 
-export const whyPoints: readonly { title: string; description: string }[] = [
-  {
-    title: "A system of record, not a scrapbook",
-    description:
-      "Most trackers store a pile of rows. AQVIK keeps a consistent financial ledger underneath, so every screen agrees with every other screen and history stays auditable.",
-  },
-  {
-    title: "The AI works on your data, not on averages",
-    description:
-      "Generic advice is easy and useless. AQVIK reasons over your own transactions, budgets and goals, and tells you where a conclusion came from.",
-  },
-  {
-    title: "Automation that asks before it acts",
-    description:
-      "Capture and categorisation are automatic. Committing anything to your records is not. You stay the one who confirms.",
-  },
-  {
-    title: "One place for a whole financial life",
-    description:
-      "Spending is only the entry point. Budgets, goals, subscriptions, investments and savings belong in the same system, because they all draw from the same money.",
-  },
-] as const;
+export const trust = {
+  heading: "Built to be trusted with money.",
+  intro: "These are how the app works, not badges. Each one is enforced in the code and tested.",
+  points: [
+    {
+      title: "You stay in control",
+      description:
+        "The AI assistant reads and explains your records. During the beta it cannot add, change or delete anything; every entry is made or confirmed by you.",
+    },
+    {
+      title: "Your data is not for sale",
+      description:
+        "No ads, no selling data, no sharing with advertisers. Your records are not used to train AI models.",
+    },
+    {
+      title: "Your account, your devices",
+      description:
+        "Every signed-in device is listed in your account. Removing one signs it out immediately, and changing your password signs out every device.",
+    },
+    {
+      title: "Protected in transit",
+      description:
+        "All traffic is encrypted. Server data is protected by our hosting provider’s encryption and access controls.",
+    },
+    {
+      title: "Leave any time",
+      description:
+        "Export your records whenever you like. Delete your account from the app, and it happens straight away.",
+    },
+  ] as readonly TitledText[],
+  link: "Read the full Privacy Policy →",
+} as const;
 
-export const roadmap: readonly RoadmapStage[] = [
-  {
-    marker: "Now",
-    status: "Building",
-    title: "Expense management",
-    description:
-      "The foundation: fast capture, categories, accounts and a ledger that stays correct offline and on.",
-    items: ["Transaction capture", "Categories and accounts", "Offline-first sync", "Monthly breakdowns"],
+export const roadmap = {
+  heading: "What is built, and what comes next.",
+  intro: "No dates until they are commitments. Here is where things actually stand.",
+  built: {
+    title: "Built",
+    note: "Available in the beta",
+    items: [
+      "Shared ledger, loan agreements and group expenses",
+      "Expenses, income, transfers and multiple accounts",
+      "Bills and subscriptions with reminders",
+      "Budgets and goals",
+      "Safe-to-spend and cash-flow view",
+      "Net worth and investment tracking",
+      "AI assistant that reads and explains your records",
+      "Monthly statements as Excel or PDF",
+      "Offline-first sync and notifications",
+    ],
   },
-  {
-    marker: "Next",
-    status: "Next",
-    title: "Budget intelligence",
-    description:
-      "Budgets that respond to how you actually spend, and warn you early rather than reporting the damage.",
-    items: ["Adaptive category limits", "Early overspend signals", "Recurring cost detection"],
+  next: {
+    title: "Next",
+    items: [
+      "Attach receipts and documents to entries and bills",
+      "Let the assistant record entries for you - still only after you confirm",
+      "What-if planning: see how a decision changes your month",
+      "iPhone app",
+    ],
   },
-  {
-    marker: "Next",
-    status: "Next",
-    title: "Investment intelligence",
-    description:
-      "Holdings and contributions in the same ledger, so net worth and cash flow are one continuous picture.",
-    items: ["Portfolio tracking", "Contribution history", "Net worth over time"],
-  },
-  {
-    marker: "Later",
-    status: "Later",
-    title: "Financial AI",
-    description:
-      "An assistant that answers questions about your money and can show the records behind every answer.",
-    items: ["Conversational queries", "Explained reasoning", "Scenario questions"],
-  },
-  {
-    marker: "Later",
-    status: "Later",
-    title: "Finance memory",
-    description:
-      "Context that persists: what you decided, what you tried, and what you asked not to be reminded about again.",
-    items: ["Durable preferences", "Decision history", "Personal context"],
-  },
-  {
-    marker: "Later",
-    status: "Later",
-    title: "Smart planning",
-    description:
-      "Forward-looking planning across goals, commitments and income — with the trade-offs made visible.",
-    items: ["Cash-flow forecasting", "Goal trade-offs", "Commitment planning"],
-  },
-] as const;
+} as const;
+
+export const joinBeta = {
+  heading: "Join the closed beta.",
+  intro:
+    "AQVIK is being tested by a small group on Android. Testers get every new build first, and a direct line to the person building it.",
+  steps: [
+    {
+      title: "Ask to join",
+      description:
+        "Send us the Google account you use on your phone, using the form below or WhatsApp.",
+    },
+    {
+      title: "Accept the invite",
+      description:
+        "Once you are added, open the Google Play link and accept the testing invitation.",
+    },
+    {
+      title: "Install",
+      description: "Install AQVIK from Google Play. New builds arrive as normal updates.",
+    },
+  ] as readonly TitledText[],
+  consentBefore:
+    "We use these details only to add you to the AQVIK closed test and to contact you about it. See our ",
+  consentLink: "Privacy Policy",
+  consentAfter: ".",
+  requestAccess: "Request access",
+  whatsapp: "Message us on WhatsApp",
+  playStore: "Already added? Open Google Play",
+} as const;
+
+/** Founder-approved text (24 September 2026). No photo, no other biography. */
+export const founder = {
+  heading: "Built by a person you can reach.",
+  why: "I built AQVIK because keeping track of money — your own, and the money between you and the people around you — shouldn't depend on memory, screenshots or guesswork.",
+  reachBefore:
+    "AQVIK is built in India by Prakash Raj. If something is wrong, confusing or missing, write to ",
+  reachAfter: " — it comes to me.",
+} as const;
+
+export type FaqItem = { question: string; answer: string };
+
+export const faqHeading = "Straight answers.";
 
 export const faqs: readonly FaqItem[] = [
   {
-    question: "Is AQVIK available yet?",
+    question: "Is AQVIK available now?",
     answer:
-      "It is in closed testing on Google Play, which is invite-only — the listing is visible only to accounts on the tester list. There is no public release yet, and no download or user numbers to report.",
+      "Yes, as a closed beta on Android. Request access in the section above; once your Google account is added, you install it from Google Play.",
   },
   {
     question: "Does AQVIK connect to my bank account?",
     answer:
-      "The first release does not link bank accounts. You add and edit your own records, which keeps you in control of what the app knows while the product matures.",
+      "No. You add entries yourself, or with help from the assistant. AQVIK never asks for your bank login, card PIN, UPI PIN or OTP.",
   },
   {
-    question: "What does the AI actually do?",
+    question: "Does the other person need AQVIK for shared records?",
     answer:
-      "It handles the tedious parts: sorting entries, summarising a month, spotting recurring charges and answering questions about your own data. It does not move money, and it does not write to your records without your confirmation.",
+      "Yes. A shared ledger or group needs both people on AQVIK. You can send them the app from Settings, under Share AQVIK.",
   },
   {
-    question: "Who can see my financial data?",
+    question: "Does AQVIK move or hold money?",
     answer:
-      "You. Access is scoped to your account, data is encrypted in transit and at rest, and we do not sell it or share it with advertisers. The Privacy Policy sets out exactly what is collected and why.",
+      "No. AQVIK is a record-keeping app. It never holds, sends or collects money, and it is not a lender or payment service.",
   },
   {
-    question: "Will AQVIK be free?",
+    question: "What does the AI assistant do?",
     answer:
-      "The core of the product will be free to use. Pricing for advanced capabilities has not been finalised, and we will publish it here before anything is charged.",
+      "It answers questions about your own records - what you spent, what is due, how the month is going - and explains how it got there. During the beta it cannot change your records.",
   },
   {
-    question: "Is AQVIK financial advice?",
+    question: "Who can see my data?",
     answer:
-      "No. AQVIK organises information and explains what your own records show. It is not a registered investment adviser and its output is not personalised financial, tax or legal advice.",
+      "You. When you share a ledger or a group, the people in it see that shared record. Service providers that run AQVIK for us process data only to do that; they are listed in the Privacy Policy. We do not sell data or show ads.",
   },
   {
-    question: "Which platforms will it support?",
+    question: "Will AQVIK stay free?",
     answer:
-      "Android, through Google Play, where the closed beta is running now. Further platforms will be announced here when they are close enough to be real commitments.",
+      "It is free during the beta. If we add paid features later, the price will be published first and you will choose whether to pay.",
   },
   {
-    question: "How do I join the beta?",
+    question: "Is this financial advice?",
     answer:
-      "Send us the email address on your Google account — through the beta form on this page, over WhatsApp, or to support@aqvik.com. Once it is on the tester list, the Google Play link will work for you.",
+      "No. AQVIK helps you see your money clearly. For advice about your specific situation, talk to a qualified professional.",
+  },
+  {
+    question: "Can I delete my data?",
+    answer:
+      "Yes. Export your records any time from Settings, and delete your account from the app. The Delete Account page explains exactly what is removed.",
   },
 ] as const;
+
+export const finalCta = {
+  heading: "Keep the money between friends friendly.",
+  line: "Join the beta and try it with the person you split things with most.",
+  button: "Join the beta",
+} as const;

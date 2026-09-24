@@ -30,8 +30,8 @@ const config: Config = {
           dim: "#7E8AA6",
         },
         primary: {
-          DEFAULT: "#4F7CFF",
-          soft: "#88A7FF",
+          DEFAULT: "#22D3EE",
+          soft: "#67E8F9",
           foreground: "#050816",
         },
         warning: "#F5B34A",
@@ -39,7 +39,7 @@ const config: Config = {
           DEFAULT: "rgba(255,255,255,0.07)",
           strong: "rgba(255,255,255,0.14)",
         },
-        ring: "#4F7CFF",
+        ring: "#22D3EE",
       },
       borderColor: {
         DEFAULT: "rgba(255,255,255,0.07)",
@@ -51,7 +51,7 @@ const config: Config = {
       fontSize: {
         "display-xl": ["clamp(2.75rem, 7vw, 5.25rem)", { lineHeight: "0.98", letterSpacing: "-0.04em" }],
         "display-lg": ["clamp(2.25rem, 5vw, 3.75rem)", { lineHeight: "1.04", letterSpacing: "-0.035em" }],
-        "display-md": ["clamp(1.75rem, 3.2vw, 2.5rem)", { lineHeight: "1.12", letterSpacing: "-0.025em" }],
+        "display-md": ["clamp(1.875rem, 3.4vw, 2.5rem)", { lineHeight: "1.12", letterSpacing: "-0.025em" }],
         "display-sm": ["clamp(1.35rem, 2.2vw, 1.75rem)", { lineHeight: "1.2", letterSpacing: "-0.02em" }],
         lead: ["clamp(1.0625rem, 1.4vw, 1.1875rem)", { lineHeight: "1.65", letterSpacing: "-0.01em" }],
         label: ["0.6875rem", { lineHeight: "1", letterSpacing: "0.18em" }],
@@ -67,7 +67,7 @@ const config: Config = {
       },
       boxShadow: {
         raised: "0 1px 0 0 rgba(255,255,255,0.04) inset, 0 24px 60px -32px rgba(0,0,0,0.9)",
-        focus: "0 0 0 2px #050816, 0 0 0 4px #4F7CFF",
+        focus: "0 0 0 2px #050816, 0 0 0 4px #22D3EE",
       },
       keyframes: {
         "rail-draw": {

@@ -45,17 +45,17 @@ export default function OpengraphImage() {
             style={{
               display: "flex",
               flexDirection: "column",
-              fontSize: 84,
+              fontSize: 76,
               lineHeight: 1.05,
               letterSpacing: "-0.035em",
               fontWeight: 600,
             }}
           >
-            <div style={{ display: "flex" }}>Your AI Personal</div>
-            <div style={{ display: "flex", color: "#4F7CFF" }}>Finance OS</div>
+            <div style={{ display: "flex" }}>Money between friends,</div>
+            <div style={{ display: "flex", color: "#22D3EE" }}>finally on one page.</div>
           </div>
           <div style={{ fontSize: 28, color: "#A8B3CF", maxWidth: "760px", lineHeight: 1.45 }}>
-            One clear record of your money, and an assistant that explains what is happening to it.
+            One record for your money, and the money between friends.
           </div>
         </div>
 

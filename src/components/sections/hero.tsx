@@ -1,31 +1,11 @@
 import Link from "next/link";
-import { ArrowRight, Download } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/layout/container";
-import { Logo } from "@/components/brand/logo";
-import { Badge } from "@/components/ui/badge";
-import { siteConfig } from "@/content/site";
-
-/**
- * Three claims that are true about how the product is built. They sit on the
- * hairline, read like ledger rows, and do the work that a fabricated stat
- * strip would otherwise do badly.
- */
-const principles = [
-  {
-    term: "Exact to the paisa",
-    detail: "Every amount is stored as a whole number of paise, so totals never drift.",
-  },
-  {
-    term: "Offline first",
-    detail: "Entries are written on your device and reconcile when you reconnect.",
-  },
-  {
-    term: "You confirm the writes",
-    detail: "AI reads, sorts and suggests. Nothing enters your records unasked.",
-  },
-] as const;
+import { PhoneFrame } from "@/components/shared/phone-frame";
+import { hero } from "@/content/home";
+import { joinBetaHref, siteConfig } from "@/content/site";
 
 export function Hero() {
   return (
@@ -34,75 +14,50 @@ export function Hero() {
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 grid-fade" />
 
       <Container>
-        <div className="relative grid lg:grid-cols-[13rem_minmax(0,1fr)]">
-          <div className="relative hidden pt-28 lg:block lg:pr-10">
-            <div className="sticky top-28">
-              <p className="eyebrow">{siteConfig.status}</p>
-              <p className="mt-3 max-w-[9rem] text-xs leading-relaxed text-muted-dim">
-                Live on Google Play closed testing.
-              </p>
-            </div>
-            <span
-              aria-hidden="true"
-              className="absolute right-0 top-0 h-full w-px origin-top bg-hairline animate-rail-draw"
-            />
-          </div>
+        <div className="relative grid items-center gap-14 pb-[4.5rem] pt-14 lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-20 lg:pb-24 lg:pt-24">
+          <div>
+            <p className="eyebrow">{hero.eyebrow}</p>
 
-          <div className="relative pb-20 pt-16 lg:pb-28 lg:pl-14 lg:pt-28">
-            <Logo
-              size={36}
-              priority
-              className="gap-3"
-              wordmarkClassName="text-sm tracking-[0.34em]"
-            />
-
-            <h1 id="hero-heading" className="mt-9 max-w-[14ch] text-display-xl">
-              Your AI Personal <span className="text-primary">Finance OS</span>
+            <h1
+              id="hero-heading"
+              className="mt-6 max-w-[15ch] text-[2.375rem] font-semibold leading-[1.02] tracking-[-0.035em] sm:text-5xl lg:text-[3.875rem]"
+            >
+              {hero.headline}
             </h1>
 
-            <p className="mt-8 max-w-measure text-lead text-muted">
-              AQVIK keeps one clear record of your money — what you spent, what is committed, what
-              you are saving toward — and uses AI to explain what is actually happening to it. Not a
-              tracker you fight with. A system that keeps up.
+            <p className="mt-7 max-w-measure text-[1.0625rem] leading-relaxed text-muted sm:text-lg">
+              {hero.subheadline}
             </p>
 
-            <div className="mt-11 flex flex-wrap items-center gap-4">
-              <Button asChild size="lg">
-                <a href={siteConfig.android.playStoreUrl} target="_blank" rel="noopener noreferrer">
-                  <Download aria-hidden="true" className="size-4" />
-                  Download Beta on Google Play
+            <div className="mt-10 flex flex-col gap-5 sm:flex-row sm:items-center sm:gap-7">
+              <Button asChild size="lg" className="w-full sm:w-auto">
+                <Link href={joinBetaHref}>{hero.primaryCta}</Link>
+              </Button>
+
+              <p className="text-[0.9375rem] text-muted">
+                {hero.secondaryPrefix}{" "}
+                <a
+                  href={siteConfig.android.playStoreUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 rounded-sm text-primary-soft underline-offset-4 hover:underline"
+                >
+                  {hero.secondaryLink}
+                  <ArrowUpRight aria-hidden="true" className="size-3.5" />
                 </a>
-              </Button>
-
-              <Badge variant="accent">Beta</Badge>
-
-              <Button asChild variant="secondary" size="lg">
-                <Link href="#why">
-                  Learn more
-                  <ArrowRight aria-hidden="true" className="size-4" />
-                </Link>
-              </Button>
+              </p>
             </div>
 
-            <p className="mt-5 font-mono text-xs text-muted-dim">
-              Closed testing — invite only.{" "}
-              <Link href="#beta" className="rounded-sm text-muted underline underline-offset-4 hover:text-foreground">
-                How to join
-              </Link>
-              .
-            </p>
-
-            <dl className="mt-20 grid gap-px overflow-hidden rounded-2xl border border-hairline bg-hairline sm:grid-cols-3">
-              {principles.map((principle) => (
-                <div key={principle.term} className="bg-surface p-6">
-                  <dt className="font-mono text-xs uppercase tracking-[0.12em] text-foreground">
-                    {principle.term}
-                  </dt>
-                  <dd className="mt-3 text-sm leading-relaxed text-muted-dim">{principle.detail}</dd>
-                </div>
-              ))}
-            </dl>
+            <p className="mt-6 font-mono text-xs text-muted-dim">{hero.microline}</p>
           </div>
+
+          <PhoneFrame
+            src={hero.screen.src}
+            alt={hero.screen.alt}
+            priority
+            sizes="(max-width: 1024px) 72vw, 22rem"
+            className="max-w-[17rem] sm:max-w-[19rem] lg:max-w-none"
+          />
         </div>
       </Container>
     </section>

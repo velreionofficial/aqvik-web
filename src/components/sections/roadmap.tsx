@@ -1,52 +1,54 @@
 import { Section } from "@/components/layout/section";
 import { Reveal } from "@/components/motion/reveal";
-import { Badge } from "@/components/ui/badge";
 import { roadmap } from "@/content/home";
 import { cn } from "@/lib/utils";
 
-export function Roadmap() {
+function Column({
+  title,
+  note,
+  items,
+  accent,
+}: {
+  title: string;
+  note?: string;
+  items: readonly string[];
+  accent: boolean;
+}) {
   return (
-    <Section
-      id="roadmap"
-      label="Sequence"
-      title="What is built, and what comes after"
-      description="Order matters here: each stage depends on the ledger underneath it being correct first. Dates are deliberately absent — we will publish them when they are commitments rather than hopes."
-    >
-      <ol className="relative border-l border-hairline pl-8 sm:pl-12">
-        {roadmap.map((stage, index) => (
-          <Reveal as="li" key={stage.title} delay={index * 0.05} className="relative pb-12 last:pb-0">
+    <div className="glass h-full rounded-2xl p-6 sm:p-8">
+      <h3 className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+        <span className="text-display-sm">{title}</span>
+        {note ? <span className="font-mono text-xs text-muted-dim">{note}</span> : null}
+      </h3>
+      <ul className="mt-6 space-y-3.5">
+        {items.map((item) => (
+          <li key={item} className="grid grid-cols-[1rem_minmax(0,1fr)] gap-3">
             <span
               aria-hidden="true"
               className={cn(
-                "absolute -left-8 top-2 size-2 -translate-x-1/2 rounded-full sm:-left-12",
-                stage.status === "Building" ? "bg-primary" : "bg-muted-dim",
+                "mt-[0.55rem] size-1.5 rounded-full",
+                accent ? "bg-primary" : "bg-muted-dim",
               )}
             />
-            <div className="flex flex-wrap items-center gap-3">
-              <Badge variant={stage.status === "Building" ? "accent" : "outline"}>
-                {stage.marker}
-              </Badge>
-              <span className="font-mono text-xs uppercase tracking-[0.14em] text-muted-dim">
-                {stage.status}
-              </span>
-            </div>
-            <h3 className="mt-4 text-display-sm">{stage.title}</h3>
-            <p className="mt-3 max-w-measure text-[0.9375rem] leading-relaxed text-muted">
-              {stage.description}
-            </p>
-            <ul className="mt-5 flex flex-wrap gap-2">
-              {stage.items.map((item) => (
-                <li
-                  key={item}
-                  className="rounded-full border border-hairline bg-surface px-3 py-1.5 text-xs text-muted-dim"
-                >
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </Reveal>
+            <span className="text-[0.9375rem] leading-relaxed text-muted">{item}</span>
+          </li>
         ))}
-      </ol>
+      </ul>
+    </div>
+  );
+}
+
+export function Roadmap() {
+  return (
+    <Section id="roadmap" title={roadmap.heading} description={roadmap.intro}>
+      <div className="grid gap-4 md:grid-cols-2">
+        <Reveal className="h-full">
+          <Column {...roadmap.built} accent />
+        </Reveal>
+        <Reveal delay={0.06} className="h-full">
+          <Column {...roadmap.next} accent={false} />
+        </Reveal>
+      </div>
     </Section>
   );
 }
