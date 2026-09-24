@@ -28,8 +28,8 @@ export const hero = {
   secondaryLink: "Open in Google Play",
   microline: "Free during beta · Android · Closed testing, invite only",
   screen: {
-    src: "/screens/loan-agreement.webp",
-    alt: "AQVIK loan agreement screen showing an active loan with its amount, the date it was given, the return date, the interest rate and the late-interest rate",
+    src: "/screens/home.webp",
+    alt: "AQVIK home screen showing total balance across accounts, safe to spend per day, and money in and out this month",
   },
 } as const;
 
@@ -157,8 +157,8 @@ export const screensCopy = {
 } as const;
 
 /**
- * Real captures from the beta, in phone frames. The loan agreement screen is
- * used in the hero. Order sets the carousel.
+ * Real captures from the beta, in phone frames. The home screen is used in
+ * the hero. Order sets the carousel.
  */
 export const productScreens: readonly ProductScreen[] = [
   {
@@ -167,9 +167,9 @@ export const productScreens: readonly ProductScreen[] = [
     caption: "Cash flow",
   },
   {
-    src: "/screens/home.webp",
-    alt: "AQVIK home screen showing total balance across accounts, safe to spend per day, and money in and out this month",
-    caption: "Home",
+    src: "/screens/loan-agreement.webp",
+    alt: "AQVIK loan agreement screen showing an active loan with its amount, the date it was given, the return date, the interest rate and the late-interest rate",
+    caption: "Loan agreement",
   },
   {
     src: "/screens/ai-assistant.webp",
