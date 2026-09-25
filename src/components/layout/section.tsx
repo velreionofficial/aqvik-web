@@ -36,11 +36,13 @@ export function Section({ id, label, title, description, children }: SectionProp
             ) : null}
           </div>
 
+          {/* min-w-0 stops wide content (the screenshot row) from stretching the
+              grid column, and with it the whole page, past the screen. */}
           <div
             className={
               label
-                ? "relative pb-[4.5rem] pt-5 lg:pb-20 lg:pl-14 lg:pt-20"
-                : "relative pb-[4.5rem] pt-[4.5rem] lg:pb-20 lg:pl-14 lg:pt-20"
+                ? "relative min-w-0 pb-[4.5rem] pt-5 lg:pb-20 lg:pl-14 lg:pt-20"
+                : "relative min-w-0 pb-[4.5rem] pt-[4.5rem] lg:pb-20 lg:pl-14 lg:pt-20"
             }
           >
             <span aria-hidden="true" className="rail-node hidden lg:block" />
