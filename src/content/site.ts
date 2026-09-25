@@ -11,7 +11,9 @@ export const siteConfig = {
   description:
     "AQVIK is a personal finance app for India. Lend and borrow with friends on one shared record you both confirm, split group expenses, get reminded before bills are due, and ask an AI assistant about your own money. Free during beta.",
   /** Footer line, from the homepage brief. */
-  footerLine: "AQVIK - One record for your money, and the money between friends.",
+  footerLine: "AQVIK — Understand your money. Shape your tomorrow.",
+  /** Open Graph and Twitter card title. */
+  socialTitle: "AQVIK — Know where you stand. Plan where you're going.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://aqvik.com",
   locale: "en_IN",
   status: "Closed beta",
