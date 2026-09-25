@@ -14,12 +14,12 @@ export const metadata: Metadata = toolMetadata({
 export default function GstInvoiceGeneratorPage() {
   return (
     <ToolPage
+      slug={tool.slug}
       h1={tool.h1}
       intro={tool.intro}
       faqs={gstFaqs}
       disclaimer={gstCopy.footerDisclaimer}
       softCta={gstCopy.cta}
-      related={[{ href: "/tools/gst-calculator", label: "Just need the tax amount? Use the GST calculator" }]}
     >
       <GstInvoiceTool />
     </ToolPage>

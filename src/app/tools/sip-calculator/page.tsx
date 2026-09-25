@@ -13,7 +13,7 @@ export const metadata: Metadata = toolMetadata({
 
 export default function SIPCalculatorPage() {
   return (
-    <ToolPage h1={tool.h1} intro={tool.intro} how={tool.how} faqs={tool.faqs}>
+    <ToolPage slug={tool.slug} h1={tool.h1} intro={tool.intro} how={tool.how} faqs={tool.faqs}>
       <SipCalculator />
     </ToolPage>
   );

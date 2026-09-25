@@ -17,10 +17,10 @@ export const toolCta = {
 export const toolsIndex = {
   title: "Free Financial Tools — EMI, SIP, FD, GST & More | AQVIK",
   description:
-    "Free EMI, SIP, SWP, loan prepayment, credit card, FD, RD and GST calculators and a GST invoice generator. Everything runs in your browser; nothing is sent or stored.",
+    "Free EMI, SIP, SWP, FD, RD, loan prepayment, credit card and GST calculators, plus a GST invoice generator, Bill of Supply, credit/debit notes, delivery challan, bill, quotation and rent receipt makers. Nothing you enter is sent or stored.",
   h1: "Free financial tools.",
   intro:
-    "Quick, private calculators for loans, cards, deposits and GST, and a GST invoice generator. Everything runs in your browser - nothing you enter is sent or stored.",
+    "Calculators for loans, savings and GST, and makers for invoices, bills and receipts. Pick a group to see its tools. Everything runs in your browser - nothing you enter is sent or stored.",
 } as const;
 
 export type ToolCopy = {

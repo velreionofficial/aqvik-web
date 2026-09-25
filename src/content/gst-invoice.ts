@@ -22,7 +22,7 @@ export const gstCopy = {
   registeredYes: "Yes, regular scheme",
   registeredNo: "No, or composition scheme",
   notEligible:
-    "Unregistered and composition taxpayers cannot issue a Tax Invoice. They issue a Bill of Supply instead, which this tool does not create yet.",
+    "Unregistered and composition taxpayers cannot issue a Tax Invoice. Composition taxpayers issue a Bill of Supply; businesses not registered under GST can make a simple bill.",
   invoiceNumberNote:
     "Invoice numbers must be consecutive and unique within a financial year. This tool cannot check your earlier invoices — you are responsible for the series.",
   invoiceNumberSuggestion: "For example INV/2026-27/001",

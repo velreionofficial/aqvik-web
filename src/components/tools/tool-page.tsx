@@ -1,18 +1,21 @@
 import type * as React from "react";
 import Link from "next/link";
-import { Plus } from "lucide-react";
+import { ArrowRight, Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/layout/container";
 import { toolCta, toolDisclaimer, type ToolFaq } from "@/content/tools";
 import { joinBetaHref } from "@/content/site";
+import { groupOf, relatedTools } from "@/content/tool-groups";
 
 /**
  * Shared page body for every free tool: breadcrumb, H1, the tool, how it is
  * calculated, the disclaimer, the call to action and a short FAQ whose answers
- * are in the HTML (native <details>), plus FAQ structured data.
+ * are in the HTML (native <details>), plus FAQ structured data. The
+ * breadcrumb group and up to three related tools come from the tool groups.
  */
 export function ToolPage({
+  slug,
   h1,
   intro,
   how,
@@ -22,8 +25,9 @@ export function ToolPage({
   cta = toolCta,
   softCta,
   note,
-  related = [],
 }: {
+  /** The tool's slug; decides the breadcrumb group and the related tools. */
+  slug: string;
   h1: string;
   intro: string;
   how?: readonly string[];
@@ -35,9 +39,9 @@ export function ToolPage({
   softCta?: string;
   /** Tool-specific caution shown under the disclaimer. */
   note?: string;
-  /** Cross-links to related tools. */
-  related?: readonly { href: string; label: string }[];
 }) {
+  const group = groupOf(slug);
+  const related = relatedTools(slug);
   const faqData = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -56,6 +60,14 @@ export function ToolPage({
             Tools
           </Link>
           <span aria-hidden="true"> / </span>
+          {group ? (
+            <>
+              <Link href={`/tools/${group.slug}`} className="rounded-sm hover:text-foreground">
+                {group.title}
+              </Link>
+              <span aria-hidden="true"> / </span>
+            </>
+          ) : null}
           <span className="text-muted">{h1}</span>
         </nav>
 
@@ -70,15 +82,27 @@ export function ToolPage({
         {note ? <p className="mt-2 max-w-measure text-sm leading-relaxed text-muted-dim">{note}</p> : null}
 
         {related.length > 0 ? (
-          <ul className="mt-6 space-y-2">
-            {related.map((link) => (
-              <li key={link.href}>
-                <Link href={link.href} className="rounded-sm text-[0.9375rem] text-primary-soft underline-offset-4 hover:underline">
-                  {link.label} →
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <section aria-labelledby="related-heading" className="mt-10">
+            <h2 id="related-heading" className="text-sm font-medium text-muted">
+              Related tools
+            </h2>
+            <ul className="mt-3 grid gap-3 sm:grid-cols-3">
+              {related.map((tool) => (
+                <li key={tool.slug}>
+                  <Link
+                    href={`/tools/${tool.slug}`}
+                    className="glass group flex h-full flex-col rounded-xl p-4 transition-colors hover:bg-white/[0.06] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                  >
+                    <span className="inline-flex items-center justify-between gap-2 text-[0.9375rem] font-medium text-foreground">
+                      {tool.name}
+                      <ArrowRight aria-hidden="true" className="size-4 shrink-0 text-primary-soft transition-transform group-hover:translate-x-0.5" />
+                    </span>
+                    <span className="mt-1.5 text-sm leading-relaxed text-muted">{tool.cardLine}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
         ) : null}
 
         {softCta ? (

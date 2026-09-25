@@ -59,6 +59,8 @@ export function ItemsEditor({
   errorFor,
   intraState,
   hsnOptional = false,
+  showGstRate = true,
+  goodsOnly = false,
 }: {
   lines: LineDraft[];
   onChange: (lines: LineDraft[]) => void;
@@ -66,6 +68,10 @@ export function ItemsEditor({
   intraState: boolean | null;
   /** Up to ₹5 crore turnover and an unregistered buyer: HSN may be left out. */
   hsnOptional?: boolean;
+  /** False for documents that carry no tax (Bill of Supply, most delivery challans). */
+  showGstRate?: boolean;
+  /** Delivery challans move goods only (CGST Rule 55), so the Service option is hidden. */
+  goodsOnly?: boolean;
 }) {
   const update = (id: string, patch: Partial<LineDraft>) =>
     onChange(lines.map((line) => (line.id === id ? { ...line, ...patch } : line)));
@@ -107,7 +113,7 @@ export function ItemsEditor({
   return (
     <div className="space-y-4">
       <div className="space-y-1.5 text-xs leading-relaxed text-muted-dim">
-        <p>{gstCopy.rateNote}</p>
+        {showGstRate ? <p>{gstCopy.rateNote}</p> : null}
         <p>
           {gstCopy.rateHelp}{" "}
           <a
@@ -123,7 +129,11 @@ export function ItemsEditor({
       <ol className="space-y-4">
         {lines.map((line, index) => {
           const key = `lines.${line.id}`;
-          const computed = intraState === null ? null : computeLine(line, intraState);
+          const computed = showGstRate
+            ? intraState === null
+              ? null
+              : computeLine(line, intraState)
+            : computeLine({ ...line, gstRate: "0" }, true);
           const category = findCategory(line.category);
           const isService = line.kind === "service";
           return (
@@ -142,6 +152,7 @@ export function ItemsEditor({
                 ) : null}
               </div>
               <div className="grid gap-4 sm:grid-cols-6">
+                {goodsOnly ? null : (
                 <fieldset className="sm:col-span-6">
                   <legend className="mb-2 text-sm font-medium text-foreground">Type</legend>
                   <div className="flex flex-wrap gap-2">
@@ -172,6 +183,7 @@ export function ItemsEditor({
                     ))}
                   </div>
                 </fieldset>
+                )}
                 <div className="sm:col-span-6">
                   <Combobox
                     id={`${key}.category`}
@@ -321,6 +333,7 @@ export function ItemsEditor({
                   onChange={(v) => update(line.id, { discount: v })}
                   error={errorFor(`${key}.discount`, line.discount)}
                 />
+                {showGstRate ? (
                 <SelectField
                   className="sm:col-span-2"
                   id={`${key}.gstRate`}
@@ -333,7 +346,8 @@ export function ItemsEditor({
                   ]}
                   error={line.gstRate === "other" ? undefined : errorFor(`${key}.gstRate`, line.gstRate)}
                 />
-                {line.gstRate === "other" ? (
+                ) : null}
+                {showGstRate && line.gstRate === "other" ? (
                   <TextField
                     className="sm:col-span-2"
                     id={`${key}.customRate`}
@@ -348,8 +362,14 @@ export function ItemsEditor({
               {computed ? (
                 <p className="mt-3 text-right text-sm tabular-nums text-muted">
                   {line.pricing === "amount" ? `Rate ₹${formatPaise(computed.ratePaise)} per ${line.unit} · ` : null}
-                  Taxable ₹{formatPaise(computed.taxable)} · Tax ₹{formatPaise(computed.cgst + computed.sgst + computed.igst)} ·{" "}
-                  <span className="text-foreground">Total ₹{formatPaise(computed.total)}</span>
+                  {showGstRate ? (
+                    <>
+                      Taxable ₹{formatPaise(computed.taxable)} · Tax ₹{formatPaise(computed.cgst + computed.sgst + computed.igst)} ·{" "}
+                      <span className="text-foreground">Total ₹{formatPaise(computed.total)}</span>
+                    </>
+                  ) : (
+                    <span className="text-foreground">Value ₹{formatPaise(computed.taxable)}</span>
+                  )}
                 </p>
               ) : null}
             </li>

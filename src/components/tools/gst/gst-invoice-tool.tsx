@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 import { Download, FileSpreadsheet, Upload, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -190,7 +191,14 @@ export function GstInvoiceTool({
       />
       {registered === false ? (
         <p role="status" className="mt-5 rounded-xl border border-warning/40 bg-warning/10 px-4 py-3 text-[0.9375rem] text-foreground">
-          {gstCopy.notEligible}
+          {gstCopy.notEligible}{" "}
+          <Link href="/tools/bill-of-supply" className="text-primary-soft underline underline-offset-4">
+            Bill of Supply maker
+          </Link>{" "}
+          ·{" "}
+          <Link href="/tools/bill-maker" className="text-primary-soft underline underline-offset-4">
+            Simple bill maker
+          </Link>
         </p>
       ) : null}
     </div>
