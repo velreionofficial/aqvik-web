@@ -8,6 +8,10 @@ const routes = [
   { path: "/delete-account", priority: 0.5, changeFrequency: "yearly" },
   { path: "/privacy", priority: 0.4, changeFrequency: "yearly" },
   { path: "/terms", priority: 0.4, changeFrequency: "yearly" },
+  { path: "/tools", priority: 0.7, changeFrequency: "monthly" },
+  { path: "/tools/emi-calculator", priority: 0.8, changeFrequency: "monthly" },
+  { path: "/tools/sip-calculator", priority: 0.8, changeFrequency: "monthly" },
+  { path: "/tools/swp-calculator", priority: 0.8, changeFrequency: "monthly" },
 ] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {

@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "node --experimental-strip-types --test src/lib/calculators/finance.test.ts"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.2",
