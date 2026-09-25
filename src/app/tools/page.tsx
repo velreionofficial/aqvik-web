@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+
+import { toolMetadata } from "@/lib/seo";import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 import { Container } from "@/components/layout/container";
 import { gstInvoiceTool } from "@/content/gst-invoice";
 import { moneyTools, tools, toolsIndex } from "@/content/tools";
 
-export const metadata: Metadata = {
-  title: { absolute: toolsIndex.title },
+export const metadata: Metadata = toolMetadata({
+  title: toolsIndex.title,
   description: toolsIndex.description,
-  alternates: { canonical: "/tools" },
-};
+  path: "/tools",
+});
 
 export default function ToolsIndexPage() {
   return (

@@ -3,9 +3,7 @@ import { join } from "node:path";
 
 import { ImageResponse } from "next/og";
 
-import { siteConfig } from "@/content/site";
-
-export const alt = `${siteConfig.name} — ${siteConfig.tagline}`;
+export const alt = "AQVIK — Understand your money. Shape your tomorrow.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
