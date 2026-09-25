@@ -28,6 +28,11 @@ const routes = [
   { path: "/tools/credit-card-interest-calculator", priority: 0.8, changeFrequency: "monthly" },
   { path: "/tools/fd-calculator", priority: 0.8, changeFrequency: "monthly" },
   { path: "/tools/rd-calculator", priority: 0.8, changeFrequency: "monthly" },
+  { path: "/tools/financial-ratio-analyzer", priority: 0.8, changeFrequency: "monthly" },
+  { path: "/tools/inflation-calculator", priority: 0.8, changeFrequency: "monthly" },
+  { path: "/tools/flat-vs-reducing-rate-calculator", priority: 0.8, changeFrequency: "monthly" },
+  { path: "/tools/goal-planner", priority: 0.8, changeFrequency: "monthly" },
+  { path: "/tools/byaj-calculator", priority: 0.8, changeFrequency: "monthly" },
 ] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {

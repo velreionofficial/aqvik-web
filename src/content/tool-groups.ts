@@ -1,6 +1,10 @@
 import { billMakerTool, quotationTool } from "@/content/bill-tools";
 import { billOfSupplyTool, deliveryChallanTool, noteTool, rentReceiptTool } from "@/content/gst-docs";
+import { byajTool } from "@/content/byaj";
+import { flatRateTool, goalTool } from "@/content/flat-goal";
 import { gstInvoiceTool } from "@/content/gst-invoice";
+import { inflationTool } from "@/content/inflation";
+import { ratioTool } from "@/content/ratio-analyzer";
 import { creditCardTool, emiTool, fdTool, gstCalcTool, prepaymentTool, rdTool, sipTool, swpTool } from "@/content/tools";
 
 /**
@@ -48,30 +52,35 @@ export const toolGroups: readonly ToolGroup[] = [
     id: "loans",
     slug: "loans-and-credit",
     title: "Loans & credit",
-    description: "Plan your EMI, see what paying early saves, and what card debt really costs.",
-    metaTitle: "Loan & Credit Calculators — EMI, Prepayment, Credit Card | AQVIK",
+    description: "EMIs, prepayment, card debt, a loan's real rate, and byaj on udhaar between people.",
+    metaTitle: "Loan & Credit Calculators — EMI, Byaj, Prepayment, Flat Rate | AQVIK",
     metaDescription:
-      "Free loan and credit calculators: EMI with a repayment schedule, loan prepayment savings, and what paying only the credit card minimum really costs.",
+      "Free loan calculators: EMI with a schedule, prepayment savings, credit card minimum-due cost, the real rate behind a flat-rate loan, and byaj on udhaar in rupaye sainkda.",
     tools: [
       entry(emiTool, "Open calculator", "loan home car personal kist instalment interest byaj"),
       entry(prepaymentTool, "Open calculator", "loan emi part payment foreclosure interest saved byaj kist"),
       entry(creditCardTool, "Open calculator", "credit card minimum due interest debt"),
+      entry(byajTool, "Open calculator", "udhaar udhar byaj sood interest sainkda saikda rupaye sau karz loan friend family simple compound byaj par byaj hisaab"),
+      entry(flatRateTool, "Open calculator", "flat rate reducing balance 0% emi no cost emi processing fee real interest apr byaj loan offer", "emi-calculator"),
     ],
-    fallback: ["sip-calculator"],
+    fallback: [],
   },
   {
     id: "savings",
     slug: "savings-and-investing",
     title: "Savings & investing",
-    description: "See how monthly investing and bank deposits grow, and how long withdrawals last.",
-    metaTitle: "Savings & Investment Calculators — SIP, SWP, FD, RD | AQVIK",
+    description: "Plan a goal, see how investing and deposits grow, what inflation does, and read a company's accounts.",
+    metaTitle: "Savings & Investment Calculators — Goal, SIP, FD, RD, Inflation | AQVIK",
     metaDescription:
-      "Free SIP, SWP, FD and RD calculators: see what monthly investing or a bank deposit could grow to, and how long a monthly withdrawal lasts.",
+      "Free goal planner, SIP, SWP, FD, RD and inflation calculators and a financial ratio analyzer: plan a goal, see what saving grows to and what inflation does to it.",
     tools: [
+      entry(goalTool, "Open planner", "goal plan target sip needed child education wedding house retirement lakshya", "sip-calculator"),
       entry(sipTool, "Open calculator", "mutual fund investment returns step-up monthly"),
       entry(swpTool, "Open calculator", "withdrawal retirement pension corpus monthly income"),
       entry(fdTool, "Open calculator", "fixed deposit bank interest maturity", "rd-calculator"),
       entry(rdTool, "Open calculator", "recurring deposit bank monthly saving interest", "fd-calculator"),
+      entry(inflationTool, "Open calculator", "inflation mehngai price rise future cost real return purchasing power value of money"),
+      entry(ratioTool, "Open analyzer", "ratio roe roce roa eps pe pb margin annual report balance sheet dupont company analysis"),
     ],
     fallback: [],
   },
