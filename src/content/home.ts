@@ -20,9 +20,9 @@ export type TitledText = { title: string; description: string };
 
 export const hero = {
   eyebrow: "Personal finance · Built in India",
-  headline: "Money between friends, finally on one page.",
+  headline: "Know where you stand. Plan where you're going.",
   subheadline:
-    "Lend to a friend, borrow from a roommate, split a trip - AQVIK keeps one shared record that both of you see and both of you confirm. Your own spending, budgets and bills live right beside it.",
+    "From daily spending to bills, savings and money between friends — AQVIK helps you understand your financial health and build a better month, one step at a time.",
   primaryCta: "Join the beta",
   secondaryPrefix: "Already a tester?",
   secondaryLink: "Open in Google Play",
