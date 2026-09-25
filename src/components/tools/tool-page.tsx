@@ -20,6 +20,7 @@ export function ToolPage({
   children,
   disclaimer = toolDisclaimer,
   cta = toolCta,
+  softCta,
 }: {
   h1: string;
   intro: string;
@@ -28,6 +29,8 @@ export function ToolPage({
   children: React.ReactNode;
   disclaimer?: string;
   cta?: { line: string; button: string };
+  /** A quiet one-line link to the beta instead of the call-to-action card. */
+  softCta?: string;
 }) {
   const faqData = {
     "@context": "https://schema.org",
@@ -59,12 +62,20 @@ export function ToolPage({
 
         <p className="mt-6 max-w-measure text-sm leading-relaxed text-muted-dim">{disclaimer}</p>
 
-        <div className="glass mt-10 flex flex-col gap-5 rounded-2xl p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
-          <p className="max-w-xl text-[1.0625rem] text-foreground">{cta.line}</p>
-          <Button asChild size="lg" className="w-full shrink-0 sm:w-auto">
-            <Link href={joinBetaHref}>{cta.button}</Link>
-          </Button>
-        </div>
+        {softCta ? (
+          <p className="mt-8">
+            <Link href={joinBetaHref} className="rounded-sm text-[1.0625rem] text-primary-soft underline-offset-4 hover:underline">
+              {softCta}
+            </Link>
+          </p>
+        ) : (
+          <div className="glass mt-10 flex flex-col gap-5 rounded-2xl p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
+            <p className="max-w-xl text-[1.0625rem] text-foreground">{cta.line}</p>
+            <Button asChild size="lg" className="w-full shrink-0 sm:w-auto">
+              <Link href={joinBetaHref}>{cta.button}</Link>
+            </Button>
+          </div>
+        )}
 
         {how && how.length > 0 ? (
           <section aria-labelledby="how-heading" className="mt-16">

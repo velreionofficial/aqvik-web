@@ -12,6 +12,7 @@ const routes = [
   { path: "/tools/emi-calculator", priority: 0.8, changeFrequency: "monthly" },
   { path: "/tools/sip-calculator", priority: 0.8, changeFrequency: "monthly" },
   { path: "/tools/swp-calculator", priority: 0.8, changeFrequency: "monthly" },
+  { path: "/tools/gst-invoice-generator", priority: 0.8, changeFrequency: "monthly" },
 ] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 import { Container } from "@/components/layout/container";
+import { gstInvoiceTool } from "@/content/gst-invoice";
 import { tools, toolsIndex } from "@/content/tools";
 
 export const metadata: Metadata = {
@@ -20,8 +21,8 @@ export default function ToolsIndexPage() {
         </h1>
         <p className="mt-5 max-w-measure text-lead text-muted">{toolsIndex.intro}</p>
 
-        <ul className="mt-12 grid gap-4 md:grid-cols-3">
-          {tools.map((tool) => (
+        <ul className="mt-12 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          {[...tools, gstInvoiceTool].map((tool) => (
             <li key={tool.slug}>
               <Link
                 href={`/tools/${tool.slug}`}
@@ -30,7 +31,7 @@ export default function ToolsIndexPage() {
                 <h2 className="text-[1.125rem] font-medium text-foreground">{tool.name}</h2>
                 <p className="mt-2.5 flex-1 text-[0.9375rem] leading-relaxed text-muted">{tool.cardLine}</p>
                 <span className="mt-6 inline-flex items-center gap-1.5 text-sm text-primary-soft">
-                  Open calculator
+                  {tool.slug === gstInvoiceTool.slug ? "Open generator" : "Open calculator"}
                   <ArrowRight aria-hidden="true" className="size-4 transition-transform group-hover:translate-x-0.5" />
                 </span>
               </Link>

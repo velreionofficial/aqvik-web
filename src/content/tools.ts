@@ -15,12 +15,12 @@ export const toolCta = {
 } as const;
 
 export const toolsIndex = {
-  title: "Free Financial Calculators — EMI, SIP & SWP | AQVIK",
+  title: "Free Financial Tools — EMI, SIP, SWP & GST Invoice | AQVIK",
   description:
-    "Free EMI, SIP and SWP calculators with Indian number formatting. Everything runs in your browser; nothing is sent or stored.",
-  h1: "Free financial calculators.",
+    "Free EMI, SIP and SWP calculators and a GST invoice generator with Indian number formatting. Everything runs in your browser; nothing is sent or stored.",
+  h1: "Free financial tools.",
   intro:
-    "Quick, private calculators for loans and investments. Everything runs in your browser - nothing you enter is sent or stored.",
+    "Quick, private calculators for loans and investments, and a GST invoice generator. Everything runs in your browser - nothing you enter is sent or stored.",
 } as const;
 
 export type ToolCopy = {
