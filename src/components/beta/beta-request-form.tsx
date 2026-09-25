@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Send } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -98,6 +99,7 @@ function buildMessage(values: FormState): string {
  * and the visitor sees and sends the message themselves.
  */
 export function BetaRequestForm() {
+  const router = useRouter();
   const [values, setValues] = React.useState<FormState>(EMPTY);
   const [errors, setErrors] = React.useState<Partial<Record<FieldName, string>>>({});
 
@@ -128,6 +130,9 @@ export function BetaRequestForm() {
     )}`;
     window.open(url, "_blank", "noopener,noreferrer");
     setValues(EMPTY);
+    // Page views of /beta/thanks are the conversion count; nothing typed here
+    // is sent anywhere except the WhatsApp message the visitor sends themselves.
+    router.push("/beta/thanks");
   };
 
   return (

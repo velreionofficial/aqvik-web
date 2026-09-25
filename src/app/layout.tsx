@@ -7,6 +7,7 @@ import "./globals.css";
 
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { SiteAnalytics } from "@/components/site-analytics";
 import { WhatsAppFloat } from "@/components/shared/whatsapp-float";
 import { siteConfig } from "@/content/site";
 import { cn } from "@/lib/utils";
@@ -100,6 +101,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main id="main">{children}</main>
         <SiteFooter />
         <WhatsAppFloat />
+        <SiteAnalytics />
 
         <script
           type="application/ld+json"

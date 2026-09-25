@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/layout/container";
@@ -16,6 +16,16 @@ export function Hero() {
       <Container>
         <div className="relative grid items-center gap-14 pb-[4.5rem] pt-14 lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-20 lg:pb-24 lg:pt-24">
           <div>
+            <Link
+              href={hero.toolsLink.href}
+              className="glass group mb-8 inline-flex max-w-full items-center gap-2.5 rounded-full py-1.5 pl-1.5 pr-4 text-sm text-foreground transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            >
+              <span className="shrink-0 rounded-full bg-primary px-2.5 py-0.5 text-xs font-semibold text-primary-foreground">
+                {hero.toolsLink.tag}
+              </span>
+              <span className="min-w-0">{hero.toolsLink.label}</span>
+              <ArrowRight aria-hidden="true" className="size-4 shrink-0 text-primary-soft transition-transform group-hover:translate-x-0.5" />
+            </Link>
             <p className="eyebrow">{hero.eyebrow}</p>
 
             <h1

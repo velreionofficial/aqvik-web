@@ -1,4 +1,3 @@
-import { siteConfig } from "@/content/site";
 import type { LegalDocument } from "@/content/legal/types";
 
 /**
@@ -9,7 +8,8 @@ import type { LegalDocument } from "@/content/legal/types";
 export const privacyPolicy: LegalDocument = {
   title: "AQVIK - Privacy Policy",
   summary: "What AQVIK collects, why, who sees it, how long it is kept, and your rights.",
-  updated: siteConfig.legal.updated,
+  /** Privacy only; Terms and Delete Account keep siteConfig.legal.updated. */
+  updated: "2026-09-25",
   sections: [
     {
       id: "who-we-are",
@@ -81,6 +81,10 @@ export const privacyPolicy: LegalDocument = {
             `If you use the WhatsApp link, your conversation happens on WhatsApp and is governed by WhatsApp's privacy policy; we see your number and what you write.`,
           ],
         },
+        {
+          type: "paragraph",
+          text: `The website is hosted on Vercel. We use Vercel Web Analytics to count page visits in aggregate - which pages are visited, the referring site, and the visitor's country, device type and browser. It does not use cookies, does not identify you, and nothing you type into our tools is sent.`,
+        },
       ],
     },
     {
@@ -101,7 +105,7 @@ export const privacyPolicy: LegalDocument = {
           type: "list",
           items: [
             `We do not read your SMS, your contacts, your precise location, your camera, your microphone, or other apps.`,
-            `We do not currently use any third-party analytics or crash-reporting service. If we add one, we will update this policy before it goes live.`,
+            `We do not currently use any third-party analytics or crash-reporting service in the app. The website uses Vercel Web Analytics, as described in section 3. If we add any other service, we will update this policy before it goes live.`,
           ],
         },
         { type: "subheading", text: "Error records" },
@@ -232,6 +236,7 @@ export const privacyPolicy: LegalDocument = {
           type: "list",
           items: [
             `Railway — application hosting and database.`,
+            `Vercel — website hosting and aggregate website analytics.`,
             `Brevo — transactional email (for example sign-up and password emails).`,
             `Expo and Google (Firebase Cloud Messaging) — delivery of push notifications.`,
             `our AI model provider — processing AI assistant requests.`,

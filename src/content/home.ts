@@ -19,6 +19,12 @@ import {
 export type TitledText = { title: string; description: string };
 
 export const hero = {
+  /** Link to the free tools, shown above the headline. */
+  toolsLink: {
+    tag: "Free",
+    label: "Tools for your work: GST invoice, EMI, FD & more",
+    href: "/tools",
+  },
   eyebrow: "Personal finance · Built in India",
   headline: "Know where you stand. Plan where you're going.",
   subheadline:
