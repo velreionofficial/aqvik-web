@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 
 import { Container } from "@/components/layout/container";
 import { gstInvoiceTool } from "@/content/gst-invoice";
-import { tools, toolsIndex } from "@/content/tools";
+import { moneyTools, tools, toolsIndex } from "@/content/tools";
 
 export const metadata: Metadata = {
   title: { absolute: toolsIndex.title },
@@ -22,7 +22,7 @@ export default function ToolsIndexPage() {
         <p className="mt-5 max-w-measure text-lead text-muted">{toolsIndex.intro}</p>
 
         <ul className="mt-12 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          {[...tools, gstInvoiceTool].map((tool) => (
+          {[...tools, ...moneyTools, gstInvoiceTool].map((tool) => (
             <li key={tool.slug}>
               <Link
                 href={`/tools/${tool.slug}`}

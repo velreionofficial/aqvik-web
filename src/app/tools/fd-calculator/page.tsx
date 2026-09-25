@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
-import { GstInvoiceTool } from "@/components/tools/gst/gst-invoice-tool";
+import { FdCalculator } from "@/components/tools/fd-calculator";
 import { ToolPage } from "@/components/tools/tool-page";
-import { gstCopy, gstFaqs, gstInvoiceTool as tool } from "@/content/gst-invoice";
+import { moneyToolCta, moneyToolDisclaimer, fdTool as tool } from "@/content/tools";
 
 export const metadata: Metadata = {
   title: { absolute: tool.title },
@@ -11,17 +11,19 @@ export const metadata: Metadata = {
   openGraph: { title: tool.title, description: tool.description, url: `/tools/${tool.slug}` },
 };
 
-export default function GstInvoiceGeneratorPage() {
+export default function Page() {
   return (
     <ToolPage
       h1={tool.h1}
       intro={tool.intro}
-      faqs={gstFaqs}
-      disclaimer={gstCopy.footerDisclaimer}
-      softCta={gstCopy.cta}
-      related={[{ href: "/tools/gst-calculator", label: "Just need the tax amount? Use the GST calculator" }]}
+      how={tool.how}
+      faqs={tool.faqs}
+      disclaimer={moneyToolDisclaimer}
+      note={tool.note}
+      cta={moneyToolCta}
+      related={[{ href: "/tools/rd-calculator", label: "Saving every month instead? Try the RD calculator" }]}
     >
-      <GstInvoiceTool />
+      <FdCalculator />
     </ToolPage>
   );
 }

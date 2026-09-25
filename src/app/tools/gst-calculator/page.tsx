@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
-import { EmiCalculator } from "@/components/tools/emi-calculator";
+import { GstCalculator } from "@/components/tools/gst-calculator";
 import { ToolPage } from "@/components/tools/tool-page";
-import { emiTool as tool } from "@/content/tools";
+import { moneyToolCta, moneyToolDisclaimer, gstCalcTool as tool } from "@/content/tools";
 
 export const metadata: Metadata = {
   title: { absolute: tool.title },
@@ -11,19 +11,19 @@ export const metadata: Metadata = {
   openGraph: { title: tool.title, description: tool.description, url: `/tools/${tool.slug}` },
 };
 
-export default function EMICalculatorPage() {
+export default function Page() {
   return (
     <ToolPage
       h1={tool.h1}
       intro={tool.intro}
       how={tool.how}
       faqs={tool.faqs}
-      related={[
-        { href: "/tools/loan-prepayment-calculator", label: "Paying extra? See how much interest you save" },
-        { href: "/tools/credit-card-interest-calculator", label: "Carrying a credit card balance? See what paying only the minimum costs" },
-      ]}
+      disclaimer={moneyToolDisclaimer}
+      note={tool.note}
+      cta={moneyToolCta}
+      related={[{ href: "/tools/gst-invoice-generator", label: "Need a full tax invoice? Use the GST invoice generator" }]}
     >
-      <EmiCalculator />
+      <GstCalculator />
     </ToolPage>
   );
 }

@@ -15,12 +15,12 @@ export const toolCta = {
 } as const;
 
 export const toolsIndex = {
-  title: "Free Financial Tools — EMI, SIP, SWP & GST Invoice | AQVIK",
+  title: "Free Financial Tools — EMI, SIP, FD, GST & More | AQVIK",
   description:
-    "Free EMI, SIP and SWP calculators and a GST invoice generator with Indian number formatting. Everything runs in your browser; nothing is sent or stored.",
+    "Free EMI, SIP, SWP, loan prepayment, credit card, FD, RD and GST calculators and a GST invoice generator. Everything runs in your browser; nothing is sent or stored.",
   h1: "Free financial tools.",
   intro:
-    "Quick, private calculators for loans and investments, and a GST invoice generator. Everything runs in your browser - nothing you enter is sent or stored.",
+    "Quick, private calculators for loans, cards, deposits and GST, and a GST invoice generator. Everything runs in your browser - nothing you enter is sent or stored.",
 } as const;
 
 export type ToolCopy = {
@@ -138,3 +138,192 @@ export const swpTool: ToolCopy = {
 };
 
 export const tools = [emiTool, sipTool, swpTool] as const;
+
+/* ---------------------------------------------------------------------------
+ * Second set of tools (GST calculator, loan prepayment, credit card, FD, RD).
+ * Shared legal copy is fixed by the tools brief; rates are always user-entered.
+ * ------------------------------------------------------------------------- */
+
+export const moneyToolDisclaimer =
+  "Estimates for illustration only, based on the numbers you enter. Your bank or lender may calculate differently. This is not financial, tax or legal advice.";
+
+export const lenderRateNote =
+  "Enter the rate from your bank or lender. Rates change; this tool does not know current rates.";
+
+export const moneyToolCta = {
+  line: "Keep track of EMIs, bills and money you lend to friends in one place.",
+  button: "Join the beta",
+} as const;
+
+export type ToolCopyWithNote = ToolCopy & { note: string };
+
+export const gstCalcTool: ToolCopyWithNote = {
+  slug: "gst-calculator",
+  name: "GST Calculator",
+  cardLine: "Add GST to a price or take it out, with the CGST, SGST or IGST split.",
+  title: "GST Calculator — Add or Remove GST | AQVIK",
+  description: "Add GST to an amount or remove it from a GST-inclusive price, with the CGST and SGST or IGST split.",
+  h1: "GST calculator",
+  intro: "Add GST to a price, or work out how much GST is inside a price that already includes it.",
+  how: [
+    "When the amount excludes GST, CGST and SGST are each half the rate applied to the amount, rounded to the paisa; between states, IGST is the full rate. The total is the amount plus the tax.",
+    "When the amount includes GST, the taxable value is the amount × 100 ÷ (100 + rate), rounded to the paisa, and GST is the difference. CGST is half of that, rounded, and SGST is the rest, so the parts always add up exactly.",
+  ],
+  faqs: [
+    {
+      question: "When do I use CGST and SGST, and when IGST?",
+      answer:
+        "CGST and SGST (or UTGST in some union territories) apply when the supplier and the place of supply are in the same state. IGST applies when they are in different states.",
+    },
+    {
+      question: "How do I remove GST from a price?",
+      answer:
+        "Choose \"Amount includes GST\". The taxable value is the price × 100 ÷ (100 + GST rate), and the GST is the price minus that value.",
+    },
+    {
+      question: "Which GST rate should I use?",
+      answer:
+        "The rate depends on the exact goods or service and its HSN or SAC code. Rates were revised in 2025, so check the current rate for your item on the GST portal or with your tax professional.",
+    },
+  ],
+  note: "GST rates were revised in 2025. Choose the current rate for your item.",
+};
+
+export const prepaymentTool: ToolCopyWithNote = {
+  slug: "loan-prepayment-calculator",
+  name: "Loan Prepayment Calculator",
+  cardLine: "See how much interest and time a part-payment could save on your loan.",
+  title: "Loan Prepayment Calculator — Interest Saved | AQVIK",
+  description: "See how a one-time, monthly or yearly part-payment changes your loan's interest, tenure or EMI.",
+  h1: "Loan prepayment calculator",
+  intro: "Paying extra on a loan? Compare the interest and time left with and without a part-payment.",
+  how: [
+    "The EMI is the loan amount × monthly rate × (1 + monthly rate)^months ÷ ((1 + monthly rate)^months − 1), rounded to the paisa. The monthly rate is the annual rate divided by 12.",
+    "Each month, interest is charged on the balance and rounded to the paisa, like a real loan schedule. The rest of the EMI reduces the balance. The last instalment pays exactly what is left, so the loan ends on time.",
+    "A prepayment is taken off the balance after that month's EMI. With \"Reduce tenure\" the EMI stays the same and the loan ends sooner; with \"Reduce EMI\" the EMI is worked out again on the remaining balance over the remaining months.",
+    "Because interest is rounded every month here, the total without prepayment can differ by a few paise from the EMI calculator, which works at full precision. Both are correct for their method.",
+  ],
+  faqs: [
+    {
+      question: "Is it better to reduce the tenure or the EMI?",
+      answer:
+        "Reducing the tenure usually saves more interest, because the loan is repaid sooner. Reducing the EMI lowers your monthly outgo instead. Compare both above for your numbers.",
+    },
+    {
+      question: "Does my bank charge for prepaying?",
+      answer:
+        "It depends on your loan. Some loans carry a prepayment or foreclosure charge. Check your loan agreement or ask your lender before prepaying.",
+    },
+    {
+      question: "Why is my bank's figure slightly different?",
+      answer:
+        "Banks may count days differently, change a floating rate during the loan, or apply prepayments on a different date. Treat this as an estimate.",
+    },
+  ],
+  note: "Some loans carry a prepayment or foreclosure charge, and tax benefits on home-loan interest are not included. Check your loan terms before prepaying.",
+};
+
+export const creditCardTool: ToolCopyWithNote = {
+  slug: "credit-card-interest-calculator",
+  name: "Credit Card Interest Calculator",
+  cardLine: "See what paying only the minimum due really costs, and how long it takes.",
+  title: "Credit Card Interest Calculator — Minimum Due Cost | AQVIK",
+  description: "See how long a credit card balance takes to clear, and what it costs, if you pay only the minimum due.",
+  h1: "Credit card interest calculator",
+  intro: "Find out how long a card balance takes to clear if you pay only the minimum due, compared with a fixed amount each month.",
+  how: [
+    "Assumptions: no new purchases, no late fees, and every payment made on time.",
+    "Each month, interest is the balance × the monthly rate, rounded to the paisa. If GST is on, 18% of the interest is added. The statement is the balance plus interest plus GST.",
+    "The minimum due is the larger of the minimum percentage of the statement and the minimum amount. The payment is the minimum due (or your fixed amount), never more than the statement, and the rest carries forward.",
+    "The calculation stops when the balance reaches zero, or after 100 years.",
+  ],
+  faqs: [
+    {
+      question: "Why does paying the minimum take so long?",
+      answer:
+        "Most of a small minimum payment goes to interest and GST, so the balance falls very slowly. Paying a fixed, larger amount clears it much faster.",
+    },
+    {
+      question: "What monthly rate should I enter?",
+      answer:
+        "Use the monthly finance charge shown on your card statement or in your card's terms. It is often quoted per month.",
+    },
+    {
+      question: "Is GST charged on card interest?",
+      answer:
+        "Yes, GST applies to interest and fees charged by card issuers. You can switch it off above to compare.",
+    },
+  ],
+  note: "Real cards charge interest daily from each transaction date, stop the interest-free period while you carry a balance, and may add late fees. Your actual cost can be higher. Check your card statement for your rate.",
+};
+
+const depositTaxNote =
+  "Shows the pre-tax amount for a cumulative FD. Interest may be taxable and TDS may apply. Payout FDs are not covered yet.";
+
+export const fdTool: ToolCopyWithNote = {
+  slug: "fd-calculator",
+  name: "FD Calculator",
+  cardLine: "Maturity amount and interest on a cumulative fixed deposit.",
+  title: "FD Calculator — Fixed Deposit Maturity | AQVIK",
+  description: "Work out the maturity amount and interest on a cumulative fixed deposit, with quarterly, monthly, half-yearly or yearly compounding.",
+  h1: "FD calculator",
+  intro: "Work out what a cumulative fixed deposit grows to by maturity.",
+  how: [
+    "Interest is added at the end of each compounding period (quarterly by default) and then earns interest itself.",
+    "Maturity = deposit × (1 + rate ÷ (100 × periods per year))^(whole periods). Any months left over after the last whole period earn simple interest: × (1 + rate ÷ 100 × leftover months ÷ 12).",
+    "The result is rounded to the paisa only at the end.",
+  ],
+  faqs: [
+    {
+      question: "What is a cumulative FD?",
+      answer:
+        "In a cumulative FD the interest is not paid out; it is added to the deposit and paid with it at maturity. In a payout FD the interest is paid monthly or quarterly instead, which this tool does not cover yet.",
+    },
+    {
+      question: "Is FD interest taxable?",
+      answer:
+        "FD interest is generally taxable as income, and the bank may deduct TDS. This calculator shows the amount before tax.",
+    },
+    {
+      question: "Why does compounding frequency matter?",
+      answer:
+        "The more often interest is compounded, the sooner it starts earning interest itself, so the maturity amount is slightly higher.",
+    },
+  ],
+  note: depositTaxNote,
+};
+
+export const rdTool: ToolCopyWithNote = {
+  slug: "rd-calculator",
+  name: "RD Calculator",
+  cardLine: "Maturity amount of a recurring deposit, with quarterly compounding.",
+  title: "RD Calculator — Recurring Deposit Maturity | AQVIK",
+  description: "Work out the maturity amount and interest on a recurring deposit with quarterly compounding.",
+  h1: "RD calculator",
+  intro: "Work out what a fixed monthly deposit grows to by maturity.",
+  how: [
+    "Compounding is quarterly, as most banks use for recurring deposits.",
+    "Each deposit is made at the start of its month and grows until maturity: the deposit made in month k of n grows for (n − k + 1) months, at (1 + rate ÷ 400)^(months ÷ 3).",
+    "The maturity amount is the sum of all deposits with their growth, rounded to the paisa only at the end.",
+  ],
+  faqs: [
+    {
+      question: "How is an RD different from an FD?",
+      answer:
+        "An FD is one lump sum deposited once. An RD is a fixed amount deposited every month for a chosen period.",
+    },
+    {
+      question: "What tenure can I choose?",
+      answer:
+        "Banks usually offer RDs in multiples of 3 months. The calculator accepts any number of months so you can compare.",
+    },
+    {
+      question: "Is RD interest taxable?",
+      answer:
+        "RD interest is generally taxable as income, and TDS may apply. This calculator shows the amount before tax.",
+    },
+  ],
+  note: "Shows the pre-tax amount for a recurring deposit. Interest may be taxable and TDS may apply.",
+};
+
+export const moneyTools = [gstCalcTool, prepaymentTool, creditCardTool, fdTool, rdTool] as const;

@@ -13,6 +13,11 @@ const routes = [
   { path: "/tools/sip-calculator", priority: 0.8, changeFrequency: "monthly" },
   { path: "/tools/swp-calculator", priority: 0.8, changeFrequency: "monthly" },
   { path: "/tools/gst-invoice-generator", priority: 0.8, changeFrequency: "monthly" },
+  { path: "/tools/gst-calculator", priority: 0.8, changeFrequency: "monthly" },
+  { path: "/tools/loan-prepayment-calculator", priority: 0.8, changeFrequency: "monthly" },
+  { path: "/tools/credit-card-interest-calculator", priority: 0.8, changeFrequency: "monthly" },
+  { path: "/tools/fd-calculator", priority: 0.8, changeFrequency: "monthly" },
+  { path: "/tools/rd-calculator", priority: 0.8, changeFrequency: "monthly" },
 ] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {

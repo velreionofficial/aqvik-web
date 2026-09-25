@@ -21,6 +21,8 @@ export function ToolPage({
   disclaimer = toolDisclaimer,
   cta = toolCta,
   softCta,
+  note,
+  related = [],
 }: {
   h1: string;
   intro: string;
@@ -31,6 +33,10 @@ export function ToolPage({
   cta?: { line: string; button: string };
   /** A quiet one-line link to the beta instead of the call-to-action card. */
   softCta?: string;
+  /** Tool-specific caution shown under the disclaimer. */
+  note?: string;
+  /** Cross-links to related tools. */
+  related?: readonly { href: string; label: string }[];
 }) {
   const faqData = {
     "@context": "https://schema.org",
@@ -61,6 +67,19 @@ export function ToolPage({
         <div className="mt-10">{children}</div>
 
         <p className="mt-6 max-w-measure text-sm leading-relaxed text-muted-dim">{disclaimer}</p>
+        {note ? <p className="mt-2 max-w-measure text-sm leading-relaxed text-muted-dim">{note}</p> : null}
+
+        {related.length > 0 ? (
+          <ul className="mt-6 space-y-2">
+            {related.map((link) => (
+              <li key={link.href}>
+                <Link href={link.href} className="rounded-sm text-[0.9375rem] text-primary-soft underline-offset-4 hover:underline">
+                  {link.label} →
+                </Link>
+              </li>
+            ))}
+          </ul>
+        ) : null}
 
         {softCta ? (
           <p className="mt-8">
