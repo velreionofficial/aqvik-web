@@ -5,6 +5,7 @@ import { flatRateTool, goalTool } from "@/content/flat-goal";
 import { gstInvoiceTool } from "@/content/gst-invoice";
 import { inflationTool } from "@/content/inflation";
 import { ratioTool } from "@/content/ratio-analyzer";
+import { statementTool } from "@/content/statement-analyzer";
 import { creditCardTool, emiTool, fdTool, gstCalcTool, prepaymentTool, rdTool, sipTool, swpTool } from "@/content/tools";
 
 /**
@@ -48,6 +49,19 @@ const entry = (tool: ToolMeta, action: string, keywords: string, closest?: strin
 });
 
 export const toolGroups: readonly ToolGroup[] = [
+  {
+    id: "spending",
+    slug: "spending-and-statements",
+    title: "Spending & statements",
+    description: "See where your money actually went, from your own bank or UPI statement.",
+    metaTitle: "Bank Statement Analyzer — See Where Your Money Went | AQVIK",
+    metaDescription:
+      "Open your bank or UPI statement and see spending by category, top payees and monthly auto-debits. The file is read in your browser and never uploaded.",
+    tools: [
+      entry(statementTool, "Open analyzer", "bank statement analyzer upi phonepe gpay paytm pdf csv excel spending kharcha kahan gaya expense tracker auto debit subscription"),
+    ],
+    fallback: ["inflation-calculator", "goal-planner"],
+  },
   {
     id: "loans",
     slug: "loans-and-credit",

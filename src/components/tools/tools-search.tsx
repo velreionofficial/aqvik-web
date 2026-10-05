@@ -80,7 +80,7 @@ export function ToolsSearch({ sections }: { sections: readonly ToolSection[] }) 
                   {section.cards.map((card) => card.name).join(" · ")}
                 </p>
                 <span className="mt-6 inline-flex items-center gap-1.5 text-sm text-primary-soft">
-                  View {section.cards.length} tools
+                  {section.cards.length === 1 ? "Open the tool" : `View ${section.cards.length} tools`}
                   <ArrowRight aria-hidden="true" className="size-4 transition-transform group-hover:translate-x-0.5" />
                 </span>
               </Link>

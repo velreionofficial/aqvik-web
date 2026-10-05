@@ -9,6 +9,7 @@ const routes = [
   { path: "/privacy", priority: 0.4, changeFrequency: "yearly" },
   { path: "/terms", priority: 0.4, changeFrequency: "yearly" },
   { path: "/tools", priority: 0.7, changeFrequency: "monthly" },
+  { path: "/tools/spending-and-statements", priority: 0.7, changeFrequency: "monthly" },
   { path: "/tools/loans-and-credit", priority: 0.7, changeFrequency: "monthly" },
   { path: "/tools/savings-and-investing", priority: 0.7, changeFrequency: "monthly" },
   { path: "/tools/business-and-gst", priority: 0.7, changeFrequency: "monthly" },
@@ -33,6 +34,7 @@ const routes = [
   { path: "/tools/flat-vs-reducing-rate-calculator", priority: 0.8, changeFrequency: "monthly" },
   { path: "/tools/goal-planner", priority: 0.8, changeFrequency: "monthly" },
   { path: "/tools/byaj-calculator", priority: 0.8, changeFrequency: "monthly" },
+  { path: "/tools/bank-statement-analyzer", priority: 0.9, changeFrequency: "monthly" },
 ] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {

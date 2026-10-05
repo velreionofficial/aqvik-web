@@ -23,7 +23,7 @@ export function ToolGroupPage({ id }: { id: string }) {
         </h1>
         <p className="mt-5 max-w-measure text-lead text-muted">{group.description}</p>
         <p className="mt-2 text-sm text-muted-dim">
-          {group.tools.length} free tools · Nothing you enter is sent or stored.
+          {group.tools.length === 1 ? "1 free tool" : `${group.tools.length} free tools`} · Nothing you enter is sent or stored.
         </p>
 
         <div className="mt-10">
