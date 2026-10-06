@@ -32,4 +32,5 @@ export type { HealthItem, Insight, Insights, StoryLine } from "./insights.ts";
 export { toRaw } from "./links.ts";
 export { readStatementContext, type StatementContext } from "./context.ts";
 export { queryTransactions, type QueryResult, type TxnQuery } from "./query.ts";
+export { compareMonths, mergeSnapshots, monthName, monthSnapshots, pickComparison, reviewQuestion, type Change, type Comparison, type MonthSnapshot, type QuestionOption, type ReviewQuestion } from "./review.ts";
 export { fits } from "./classify.ts";

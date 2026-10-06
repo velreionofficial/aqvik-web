@@ -3,7 +3,8 @@
 import { Analytics } from "@vercel/analytics/next";
 
 /**
- * Vercel Web Analytics: page views only, no cookies, no custom events.
+ * Vercel Web Analytics: page views, plus a few named product events (lib/events.ts) that carry
+ * no properties at all. No cookies.
  * Query strings and fragments are removed before anything is sent, so no
  * value from a form or tool can ever reach the analytics, even by accident.
  */

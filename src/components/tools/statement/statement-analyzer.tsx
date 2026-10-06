@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { joinBetaHref } from "@/content/site";
 import { statementCopy } from "@/content/statement-analyzer";
 import { MoneyReport, Transactions, kindFor } from "@/components/tools/statement/money-report";
+import { MoneyReview } from "@/components/tools/statement/money-review";
+import { logEvent } from "@/lib/events";
 import { readStatementContext, runEngine, toRaw, type RawTxn, type StatementContext, type TxnType, type UserEdit, type UserRule } from "@/lib/statement/engine";
 import {
   FIELDS,
@@ -41,16 +43,16 @@ const FIELD_LABELS: Record<Field, string> = {
   balance: "Balance",
 };
 
-type Loaded = { name: string; kind: string; grid: string[][]; lines?: string[] };
+type Loaded = { name: string; kind: string; grid: string[][]; lines?: string[]; sample?: boolean };
 /** A statement that passed the checks and is part of the report. */
-type Accepted = { id: string; name: string; raw: RawTxn[]; checked: number | null; app: boolean; from: string; to: string; context: StatementContext };
+type Accepted = { id: string; name: string; raw: RawTxn[]; checked: number | null; app: boolean; from: string; to: string; context: StatementContext; sample?: boolean };
 
 const headerTexts = (l: { grid: string[][]; lines?: string[] }) => [...l.grid.slice(0, 60).flat(), ...(l.lines ?? []).slice(0, 60)];
 
 function sampleAccepted(): Accepted {
   const grid = parseDelimited(SAMPLE_CSV);
   const txns = extractTransactions(grid, detectHeader(grid)!).txns;
-  return { id: "file1", name: "sample-statement.csv", raw: toRaw(txns, "file1"), checked: balanceCheck(txns).matched, app: false, from: txns[0]!.date, to: txns[txns.length - 1]!.date, context: readStatementContext(headerTexts({ grid })) };
+  return { id: "file1", sample: true, name: "sample-statement.csv", raw: toRaw(txns, "file1"), checked: balanceCheck(txns).matched, app: false, from: txns[0]!.date, to: txns[txns.length - 1]!.date, context: readStatementContext(headerTexts({ grid })) };
 }
 
 export function StatementAnalyzer({ demo }: { /** Start on the sample (screenshots and previews). */ demo?: "review" | "results" } = {}) {
@@ -60,6 +62,7 @@ export function StatementAnalyzer({ demo }: { /** Start on the sample (screensho
   const [files, setFiles] = React.useState<Accepted[]>(() => (demo === "results" ? [sampleAccepted()] : []));
   const [adding, setAdding] = React.useState(false);
   const [reviewSignal, setReviewSignal] = React.useState(0);
+  const [fullReport, setFullReport] = React.useState(demo === "results");
   const nextId = React.useRef(demo === "results" ? 2 : 1);
   const [pending, setPending] = React.useState<File | null>(null);
   const [password, setPassword] = React.useState("");
@@ -85,9 +88,9 @@ export function StatementAnalyzer({ demo }: { /** Start on the sample (screensho
     if (inputRef.current) inputRef.current.value = "";
   };
 
-  const accept = (name: string, kind: string, grid: string[][], lines?: string[]) => {
+  const accept = (name: string, kind: string, grid: string[][], lines?: string[], sample = false) => {
     const header = detectHeader(grid);
-    setLoaded({ name, kind, grid, lines });
+    setLoaded({ name, kind, grid, lines, sample });
     setHeaderRow(header?.row ?? 0);
     setMapping(header?.mapping ?? {});
     setPending(null);
@@ -101,6 +104,7 @@ export function StatementAnalyzer({ demo }: { /** Start on the sample (screensho
     setRules([]);
     setEdits([]);
     try {
+      if (!pdfPassword) logEvent("statement_file_chosen"); // a password retry is the same file
       const { readStatement } = await import("@/lib/statement/read-file");
       const result: ReadResult = await readStatement(file, pdfPassword);
       if (result.ok) accept(file.name, result.kind, result.grid, result.lines);
@@ -163,7 +167,7 @@ export function StatementAnalyzer({ demo }: { /** Start on the sample (screensho
     const txns = extraction.txns;
     setFiles((list) => [
       ...list,
-      { id, name: loaded.name, raw: toRaw(txns, id), checked: check?.ok ? check.matched : null, app: appStatement, from: txns[0]!.date, to: txns[txns.length - 1]!.date, context: readStatementContext(headerTexts(loaded)) },
+      { id, sample: loaded.sample, name: loaded.name, raw: toRaw(txns, id), checked: check?.ok ? check.matched : null, app: appStatement, from: txns[0]!.date, to: txns[txns.length - 1]!.date, context: readStatementContext(headerTexts(loaded)) },
     ]);
     setLoaded(null);
     setMapping(null);
@@ -284,7 +288,7 @@ export function StatementAnalyzer({ demo }: { /** Start on the sample (screensho
             </p>
           ) : null}
           <div className="mt-6 flex flex-wrap items-center gap-3 border-t border-hairline pt-5">
-            <Button type="button" variant="secondary" onClick={() => accept("sample-statement.csv", "csv", parseDelimited(SAMPLE_CSV))}>
+            <Button type="button" variant="secondary" onClick={() => accept("sample-statement.csv", "csv", parseDelimited(SAMPLE_CSV), undefined, true)}>
               Try a sample statement
             </Button>
             <span className="text-sm text-muted">Made-up data, to see how it works.</span>
@@ -443,6 +447,19 @@ export function StatementAnalyzer({ demo }: { /** Start on the sample (screensho
   const reportCheck = allChecked ? { ok: true, matched: files.reduce((n, f) => n + (f.checked ?? 0), 0) } : null;
   return (
     <div className="space-y-4">
+      {engine.insights ? (
+        <MoneyReview
+          facts={facts}
+          insights={engine.insights}
+          txns={engine.txns}
+          onAnswer={addRule}
+          measure={files.some((f) => !f.sample)}
+          onSomethingElse={() => {
+            setFullReport(true);
+            setTimeout(() => document.getElementById("all-heading")?.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
+          }}
+        />
+      ) : null}
       <section className="glass rounded-2xl p-5 sm:p-7" aria-labelledby="files-heading">
         <div className="flex flex-wrap items-baseline justify-between gap-3">
           <h2 id="files-heading" className="text-[1.0625rem] font-semibold">
@@ -469,7 +486,22 @@ export function StatementAnalyzer({ demo }: { /** Start on the sample (screensho
         </ul>
         {files.length > 1 ? <p className="mt-2 text-xs text-muted-dim">{statementCopy.multiNote(facts.duplicatesExcluded)}</p> : <p className="mt-2 text-xs text-muted-dim">{statementCopy.addHint}</p>}
       </section>
-      {engine.insights ? (
+      {!fullReport ? (
+        <div className="flex justify-center">
+          <Button
+            type="button"
+            size="lg"
+            variant="secondary"
+            onClick={() => {
+              setFullReport(true);
+              logEvent("review_full_report_opened");
+            }}
+          >
+            See the full report
+          </Button>
+        </div>
+      ) : null}
+      {fullReport && engine.insights ? (
         <MoneyReport
           facts={facts}
           insights={engine.insights}
@@ -478,12 +510,13 @@ export function StatementAnalyzer({ demo }: { /** Start on the sample (screensho
           appStatement={files.some((f) => f.app)}
           fileName={files.length === 1 ? files[0]!.name : `${files.length} statements`}
           onReview={() => {
+            setFullReport(true);
             setReviewSignal((n) => n + 1);
             document.getElementById("all-heading")?.scrollIntoView({ behavior: "smooth", block: "start" });
           }}
         />
       ) : null}
-      <Transactions reviewSignal={reviewSignal} txns={engine.txns} onEdit={editTxn} rules={rules} onAddRule={addRule} onRemoveRule={removeRule} />
+      {fullReport ? <Transactions reviewSignal={reviewSignal} txns={engine.txns} onEdit={editTxn} rules={rules} onAddRule={addRule} onRemoveRule={removeRule} /> : null}
       <div className="flex flex-col gap-3 sm:flex-row">
         <Button type="button" size="lg" onClick={() => download("pdf")} disabled={busy}>
           <Download aria-hidden="true" className="size-4" /> Summary PDF

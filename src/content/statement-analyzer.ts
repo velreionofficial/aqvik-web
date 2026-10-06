@@ -5,13 +5,13 @@ import type { ToolFaq } from "@/content/tools";
 export const statementTool = {
   slug: "bank-statement-analyzer",
   name: "Bank Statement Analyzer",
-  cardLine: "See where your money went from your own bank or UPI statement. The file never leaves your device.",
-  title: "Bank Statement Analyzer — Where Did My Money Go? | AQVIK",
+  cardLine: "A 60-second money review from your own bank or UPI statement: what came in, what went out, what you actually spent. The file never leaves your device.",
+  title: "Bank Statement Analyzer — 60-Second Money Review | AQVIK",
   description:
-    "Open your bank or UPI statement (CSV, Excel or PDF) and see spending by category, top payees, monthly totals and auto-debits. Runs in your browser; nothing is uploaded.",
+    "Open your bank or UPI statement (CSV, Excel or PDF) and get a 60-second money review: money in, money out, actual spending, regular payments and what changed since last month. Runs in your browser; nothing is uploaded.",
   h1: "Bank statement analyzer",
   intro:
-    "Open a statement from your bank or UPI app and see where the money went: by category, by person and by month, plus the payments that repeat every month. Your file is read on this device and is never uploaded.",
+    "Open a statement from your bank or UPI app and get a 60-second money review: what came in, what went out, how much was actually spent, your regular payments, and what changed since last month. Your file is read on this device and is never uploaded.",
 } as const;
 
 export const statementCopy = {
@@ -37,6 +37,10 @@ export const statementCopy = {
   reviewHelp: "Check that the dates, descriptions and amounts below look right. If a column is wrong, change it here.",
   guessNote: "Categories and payees are best guesses from each transaction's description. Change any category in the list below.",
   recurringNote: "Payments to the same payee for about the same amount at a steady interval (weekly, monthly, every 3 months or yearly). Next dates are estimates.",
+  reviewNoCompare:
+    "Save this review on this device. Next month, open your new statement here and AQVIK shows what changed: spending, income, debt, new or stopped regular payments.",
+  reviewSaveNote:
+    "Saving keeps only monthly totals, category totals and the names of your regular payments in this browser. Your statement, descriptions and account details are never saved, and nothing is sent to AQVIK. The calendar reminder is a file for your own calendar.",
   subsExplain:
     "Subscription-like spending includes every payment categorised as a subscription; detected recurring subscriptions are only those AQVIK found repeating with enough evidence.",
   subscriptionNote: "Services and memberships you pay for. Check each one is still something you want.",
@@ -96,6 +100,16 @@ export const statementFaqs: readonly ToolFaq[] = [
     question: "Why is my PDF asking for a password?",
     answer:
       "Many banks protect statement PDFs. The password is usually explained in the email that came with the statement, for example your date of birth or part of your mobile number. It is used only on your device to open the file.",
+  },
+  {
+    question: "Why is money out not the same as spending?",
+    answer:
+      "Money that leaves your account includes transfers to people or your own accounts, money sent to investment platforms, EMIs and card bills, and cash withdrawals. None of these is spending on goods or services, so the review shows actual spending separately.",
+  },
+  {
+    question: "How does the month-to-month comparison work?",
+    answer:
+      "If your statement has two full months, the review compares them straight away. Otherwise, save the review on this device; next month, open your new statement here and it is compared with the saved month. Only monthly totals, category totals and the names of regular payments are saved, in your browser, and you can delete them at any time.",
   },
   {
     question: "How are categories decided?",

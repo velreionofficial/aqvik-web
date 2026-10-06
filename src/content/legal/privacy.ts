@@ -9,7 +9,7 @@ export const privacyPolicy: LegalDocument = {
   title: "AQVIK - Privacy Policy",
   summary: "What AQVIK collects, why, who sees it, how long it is kept, and your rights.",
   /** Privacy only; Terms and Delete Account keep siteConfig.legal.updated. */
-  updated: "2026-09-25",
+  updated: "2026-10-06",
   sections: [
     {
       id: "who-we-are",
@@ -83,7 +83,11 @@ export const privacyPolicy: LegalDocument = {
         },
         {
           type: "paragraph",
-          text: `The website is hosted on Vercel. We use Vercel Web Analytics to count page visits in aggregate - which pages are visited, the referring site, and the visitor's country, device type and browser. It does not use cookies, does not identify you, and nothing you type into our tools is sent.`,
+          text: `The website is hosted on Vercel. We use Vercel Web Analytics to count page visits in aggregate - which pages are visited, the referring site, and the visitor's country, device type and browser. It also counts a few named actions in our tools, such as that a money review was shown, a statement file was chosen or a review was saved. These counts carry no amounts, names, descriptions, file contents or anything you typed. Analytics does not use cookies and does not identify you.`,
+        },
+        {
+          type: "paragraph",
+          text: `Our tools run in your browser. Files you open in the Bank Statement Analyzer are read on your device and are never uploaded to us or anyone else, and passwords you enter to open them are used only on your device and not stored. If you choose "Save this review on this device", the monthly totals, category totals and names of your regular payments are kept in your browser's local storage on that device only, so that next month's review can show what changed. They are never sent to us. You can remove them with "Delete saved months" in the tool or by clearing this site's data in your browser. The monthly reminder is a calendar file created on your device; we do not receive your email address or calendar.`,
         },
       ],
     },
