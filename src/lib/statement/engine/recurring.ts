@@ -100,10 +100,12 @@ export function detectRecurring(txns: ClassifiedTxn[], spanMonths: number): Recu
     const gap = median(gaps);
     const freq = FREQS.find((q) => gap >= q.lo && gap <= q.hi && gaps.filter((g) => g >= q.lo && g <= q.hi).length >= gaps.length * 0.7);
     if (!freq) continue;
-    const needed = freq.f === "monthly" ? Math.min(3, Math.max(2, spanMonths)) : freq.min;
-    if (steady.length < needed) continue;
     const last = steady[steady.length - 1]!;
     const subscription = direction === "out" && isSubscriptionText(last.description, last.c.category);
+    // Two payments a month apart are enough for a known subscription (it may have started recently);
+    // anything else needs three in a statement of three months or more.
+    const needed = freq.f === "monthly" ? (subscription ? 2 : Math.min(3, Math.max(2, spanMonths))) : freq.min;
+    if (steady.length < needed) continue;
     const varies = steady.some((t) => Math.abs(amount(t) - typical) > typical * 0.05);
     const annualized = typical * freq.perYear;
     out.push({

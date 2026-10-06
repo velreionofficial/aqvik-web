@@ -105,8 +105,11 @@ function structural(t: string, out: boolean): Candidate | null {
 }
 
 function entity(t: string, out: boolean): Candidate | null {
+  // Banks such as SBI cut names short and break UPI IDs with spaces ("pay tmmoney"), so long
+  // single-word names are also looked for in the text with spaces removed.
+  const squashed = t.replace(/\s+/g, "");
   for (const e of ENTITIES) {
-    const word = e.words.find((w) => hasWord(t, w));
+    const word = e.words.find((w) => hasWord(t, w) || (w.length >= 8 && !w.includes(" ") && squashed.includes(w)));
     if (!word) continue;
     const target = out ? e.out : e.in;
     if (!target) continue;
@@ -167,7 +170,7 @@ const CACHE_LIMIT = 50_000;
 
 /** Classify one transaction from its own text (no cross-transaction evidence). */
 export function classifyOne(txn: RawTxn): Classification {
-  const key = `${txn.debit > 0 ? "o" : "i"}|${txn.description}`;
+  const key = `${txn.debit > 0 ? "o" : "i"}|${txn.credit > 0 && txn.credit <= 10_00 ? "tiny|" : ""}${txn.description}`;
   const hit = CACHE.get(key);
   if (hit) return { ...hit, counterparty: { ...hit.counterparty }, reasons: [...hit.reasons] };
   const result = classifyFresh(txn);
@@ -181,7 +184,11 @@ function classifyFresh(txn: RawTxn): Classification {
   const t = W(txn.description);
   const method = paymentMethod(txn.description);
   const name = payeeOf(txn.description);
-  const found = structural(t, out) ?? entity(t, out) ?? channel(t, out, method);
+  let found = structural(t, out) ?? entity(t, out) ?? channel(t, out, method);
+  // ₹10 or less from a lender or payments company is an account check ("penny drop"), not a loan.
+  if (found && !out && txn.credit <= 10_00 && found.category === "Loan received") {
+    found = { ...found, category: "Account verification", reason: "A tiny credit from a lender, usually an account check" };
+  }
   if (found && fits(found.type, out)) {
     return { type: found.type, category: found.category, counterparty: { name, kind: found.kind }, method, confidence: found.confidence, layer: found.layer, reasons: [found.reason] };
   }

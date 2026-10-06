@@ -1,4 +1,5 @@
 import { canReplace } from "./classify.ts";
+import { nameMatches, type StatementContext } from "./context.ts";
 import type { ClassifiedTxn, Paise, RawTxn } from "./model.ts";
 
 /**
@@ -137,6 +138,36 @@ export function markRoundTrips(txns: ClassifiedTxn[]): ClassifiedTxn[] {
     out[j] = mark(c);
   });
   return out;
+}
+
+/**
+ * Transfers to and from people whose name matches the statement header. Own account needs two
+ * signals: the name matches the account holder AND money moves both ways (2+ times each). A
+ * care-of name marks the transfers as Family. Only the category changes; they stay transfers.
+ */
+export function markHolderAndFamily(txns: ClassifiedTxn[], ctx: StatementContext): ClassifiedTxn[] {
+  if (!ctx.holderNames.length && !ctx.familyNames.length) return txns;
+  const flows = new Map<string, { out: number; in: number }>();
+  for (const t of txns) {
+    if (t.c.type !== "TRANSFER" || t.c.counterparty.kind !== "person" || t.c.duplicateOf) continue;
+    const k = norm(t.c.counterparty.name);
+    const f = flows.get(k) ?? { out: 0, in: 0 };
+    if (t.debit) f.out += 1;
+    else f.in += 1;
+    flows.set(k, f);
+  }
+  return txns.map((t) => {
+    if (t.c.type !== "TRANSFER" || t.c.counterparty.kind !== "person" || !canReplace(t.c.layer, "structural")) return t;
+    const name = t.c.counterparty.name;
+    const f = flows.get(norm(name)) ?? { out: 0, in: 0 };
+    if (ctx.holderNames.some((h) => nameMatches(name, h)) && f.out >= 2 && f.in >= 2) {
+      return { ...t, c: { ...t.c, category: "Own accounts", counterparty: { ...t.c.counterparty, kind: "own" }, confidence: 0.65, reasons: ["Name matches the account holder on this statement, and money moves both ways often", ...t.c.reasons] } };
+    }
+    if (ctx.familyNames.some((h) => nameMatches(name, h))) {
+      return { ...t, c: { ...t.c, category: "Family", confidence: 0.6, reasons: ["Name matches the care-of (family) name on this statement", ...t.c.reasons] } };
+    }
+    return t;
+  });
 }
 
 export const toRaw = (txns: { date: string; narration: string; debit: number; credit: number; balance: number | null }[], sourceFileId: string): RawTxn[] =>

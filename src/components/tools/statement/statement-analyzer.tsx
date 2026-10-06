@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { joinBetaHref } from "@/content/site";
 import { statementCopy } from "@/content/statement-analyzer";
 import { MoneyReport, Transactions, kindFor } from "@/components/tools/statement/money-report";
-import { runEngine, toRaw, type RawTxn, type TxnType, type UserEdit, type UserRule } from "@/lib/statement/engine";
+import { readStatementContext, runEngine, toRaw, type RawTxn, type StatementContext, type TxnType, type UserEdit, type UserRule } from "@/lib/statement/engine";
 import {
   FIELDS,
   balanceCheck,
@@ -43,12 +43,14 @@ const FIELD_LABELS: Record<Field, string> = {
 
 type Loaded = { name: string; kind: string; grid: string[][]; lines?: string[] };
 /** A statement that passed the checks and is part of the report. */
-type Accepted = { id: string; name: string; raw: RawTxn[]; checked: number | null; app: boolean; from: string; to: string };
+type Accepted = { id: string; name: string; raw: RawTxn[]; checked: number | null; app: boolean; from: string; to: string; context: StatementContext };
+
+const headerTexts = (l: { grid: string[][]; lines?: string[] }) => [...l.grid.slice(0, 60).flat(), ...(l.lines ?? []).slice(0, 60)];
 
 function sampleAccepted(): Accepted {
   const grid = parseDelimited(SAMPLE_CSV);
   const txns = extractTransactions(grid, detectHeader(grid)!).txns;
-  return { id: "file1", name: "sample-statement.csv", raw: toRaw(txns, "file1"), checked: balanceCheck(txns).matched, app: false, from: txns[0]!.date, to: txns[txns.length - 1]!.date };
+  return { id: "file1", name: "sample-statement.csv", raw: toRaw(txns, "file1"), checked: balanceCheck(txns).matched, app: false, from: txns[0]!.date, to: txns[txns.length - 1]!.date, context: readStatementContext(headerTexts({ grid })) };
 }
 
 export function StatementAnalyzer({ demo }: { /** Start on the sample (screenshots and previews). */ demo?: "review" | "results" } = {}) {
@@ -145,13 +147,23 @@ export function StatementAnalyzer({ demo }: { /** Start on the sample (screensho
   const pdfRefused = loaded?.kind === "pdf" && Boolean(extraction?.txns.length) && !check?.ok && !appStatement;
   // Only a confirmed, verified reading reaches the engine; all totals come from its facts.
   // Every accepted statement passed its own checks; the engine sees them together and drops overlaps.
-  const engine = React.useMemo(() => (files.length ? runEngine(files.flatMap((f) => f.raw), rules, edits) : null), [files, rules, edits]);
+  const engine = React.useMemo(() => {
+    if (!files.length) return null;
+    const context: StatementContext = {
+      holderNames: [...new Set(files.flatMap((f) => f.context.holderNames))],
+      familyNames: [...new Set(files.flatMap((f) => f.context.familyNames))],
+    };
+    return runEngine(files.flatMap((f) => f.raw), rules, edits, context);
+  }, [files, rules, edits]);
   const acceptCurrent = () => {
     if (!loaded || !extraction?.txns.length) return;
     const id = `file${nextId.current}`;
     nextId.current += 1;
     const txns = extraction.txns;
-    setFiles((list) => [...list, { id, name: loaded.name, raw: toRaw(txns, id), checked: check?.ok ? check.matched : null, app: appStatement, from: txns[0]!.date, to: txns[txns.length - 1]!.date }]);
+    setFiles((list) => [
+      ...list,
+      { id, name: loaded.name, raw: toRaw(txns, id), checked: check?.ok ? check.matched : null, app: appStatement, from: txns[0]!.date, to: txns[txns.length - 1]!.date, context: readStatementContext(headerTexts(loaded)) },
+    ]);
     setLoaded(null);
     setMapping(null);
     setAdding(false);

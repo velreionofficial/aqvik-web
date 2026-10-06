@@ -4,7 +4,7 @@ import * as React from "react";
 
 import { statementCopy } from "@/content/statement-analyzer";
 import { IN_CHOICES, OUT_CHOICES, TYPE_LABEL, kindFor } from "@/lib/statement/engine/catalog";
-import type { Bucket, ClassifiedTxn, FinancialFacts, Insight, Insights, TxnType, UserRule } from "@/lib/statement/engine";
+import { queryTransactions, type Bucket, type ClassifiedTxn, type FinancialFacts, type Insight, type Insights, type TxnType, type UserRule } from "@/lib/statement/engine";
 import { maskText } from "@/lib/statement/mask";
 import { cn } from "@/lib/utils";
 
@@ -435,8 +435,23 @@ export function Transactions({
   const [offer, setOffer] = React.useState<{ counterparty: string; type: TxnType; category: string; count: number } | null>(null);
   const [reveal, setReveal] = React.useState(false);
   const show = (text: string) => (reveal ? text : maskText(text));
+  const [search, setSearch] = React.useState("");
+  const [from, setFrom] = React.useState("");
+  const [to, setTo] = React.useState("");
   const live = txns.filter((t) => !t.c.duplicateOf);
-  const filtered = live.filter((t) => (filter === "all" ? true : filter === "review" ? t.c.confidence < 0.5 : t.c.type === filter));
+  const result = React.useMemo(
+    () =>
+      queryTransactions(txns, {
+        text: search,
+        from: from || undefined,
+        to: to || undefined,
+        type: filter !== "all" && filter !== "review" ? filter : undefined,
+        needsReview: filter === "review",
+      }),
+    [txns, search, from, to, filter],
+  );
+  const filtered = result.items;
+  const searching = Boolean(search.trim() || from || to || filter !== "all");
   const visible = showAll ? filtered : filtered.slice(0, 50);
   const review = live.filter((t) => t.c.confidence < 0.5).length;
 
@@ -466,7 +481,52 @@ export function Transactions({
           </select>
         </label>
       </div>
-      <p className="mt-1 text-xs text-muted-dim">{statementCopy.editNote}</p>
+      <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-[minmax(0,1fr)_9.5rem_9.5rem] sm:items-end">
+        <label className="col-span-2 block sm:col-span-1">
+          <span className="sr-only">Search transactions</span>
+          <input
+            type="search"
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setShowAll(false);
+            }}
+            placeholder="Name, ref no., date or amount"
+            className="w-full rounded-xl border border-white/10 bg-background/60 px-3 py-2 text-sm text-foreground placeholder:text-muted-dim focus:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary"
+          />
+        </label>
+        <label className="block text-xs text-muted">
+          <span className="mb-1 block">From</span>
+          <input type="date" value={from} onChange={(e) => setFrom(e.target.value)} className="w-full rounded-xl border border-white/10 bg-background/60 px-3 py-2 text-sm text-foreground" />
+        </label>
+        <label className="block text-xs text-muted">
+          <span className="mb-1 block">To</span>
+          <input type="date" value={to} onChange={(e) => setTo(e.target.value)} className="w-full rounded-xl border border-white/10 bg-background/60 px-3 py-2 text-sm text-foreground" />
+        </label>
+      </div>
+      {searching ? (
+        <p role="status" className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 rounded-xl border border-primary/30 bg-primary/10 px-3 py-2 text-sm">
+          <span className="font-medium text-foreground">
+            {result.count} {result.count === 1 ? "transaction" : "transactions"}
+          </span>
+          <span className="tabular-nums text-muted">out {rupees(result.moneyOut)}</span>
+          <span className="tabular-nums text-muted">in {rupees(result.moneyIn)}</span>
+          <button
+            type="button"
+            onClick={() => {
+              setSearch("");
+              setFrom("");
+              setTo("");
+              setFilter("all");
+            }}
+            className="ml-auto rounded-sm text-xs text-primary-soft hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+          >
+            Clear search
+          </button>
+        </p>
+      ) : null}
+      <p className="mt-1.5 text-xs text-muted-dim">Examples: MOHAN · 412300000001 · 05-10-2026 · Oct 2026 · 12900</p>
+      <p className="mt-2 text-xs text-muted-dim">{statementCopy.editNote}</p>
       <label className="mt-2 inline-flex cursor-pointer items-center gap-2 text-xs text-muted">
         <input type="checkbox" checked={reveal} onChange={(e) => setReveal(e.target.checked)} className="accent-[#22D3EE]" />
         Show full descriptions (account numbers and UPI IDs are hidden by default)
@@ -552,6 +612,7 @@ export function Transactions({
           );
         })}
       </ul>
+      {filtered.length === 0 ? <p className="mt-4 text-sm text-muted">No transactions match. Try a shorter name, another date format (05-10-2026) or clear the search.</p> : null}
       {!showAll && filtered.length > 50 ? (
         <button type="button" onClick={() => setShowAll(true)} className="mt-3 rounded-md text-sm text-primary-soft hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
           Show all {filtered.length}
