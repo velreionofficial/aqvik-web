@@ -136,10 +136,30 @@ const MONTH_WORDS = /\b(JAN|JANUARY|FEB|FEBRUARY|MAR|MARCH|APR|APRIL|MAY|JUN|JUN
 const tidy = (name: string) =>
   name.replace(MONTH_WORDS, " ").replace(/\b\d+\b/g, " ").replace(/\s+/g, " ").trim().slice(0, 40) || name.trim().slice(0, 40);
 
+/** Banks app statements print as the user's own account ("State Bank Of India - 12"). */
+const ACCOUNT_BANKS = [
+  "STATE BANK OF INDIA", "HDFC BANK", "ICICI BANK", "AXIS BANK", "KOTAK MAHINDRA BANK", "PUNJAB NATIONAL BANK", "BANK OF BARODA",
+  "BANK OF INDIA", "CANARA BANK", "UNION BANK OF INDIA", "INDIAN BANK", "YES BANK", "IDFC FIRST BANK", "INDUSIND BANK",
+  "PAYTM PAYMENTS BANK", "AIRTEL PAYMENTS BANK", "FEDERAL BANK", "CENTRAL BANK OF INDIA", "INDIAN OVERSEAS BANK", "UCO BANK",
+  "BANK OF MAHARASHTRA", "PUNJAB & SIND BANK", "IDBI BANK", "AU SMALL FINANCE BANK", "RBL BANK", "BANDHAN BANK", "PAYTM WALLET",
+].join("|").replace(/&/g, "&");
+
+/**
+ * "Paid to X" / "Received from X" in app statements. The name stops at what follows it: the
+ * user's own account ("State Bank Of India - 12"), a tag, notes, a reference or a time, so it
+ * never absorbs the bank's name.
+ */
+const PHRASE = new RegExp(
+  `(?:PAID TO|RECEIVED FROM|SENT TO|TRANSFER TO|TRANSFER FROM)\\s+([A-Z0-9 .&'-]+?)(?:\\s+(?:TRANSACTION|TXN|UTR|UPI|REF|ON|TAG|NOTES)\\b|\\s*#|\\s+(?:${ACCOUNT_BANKS})\\s*-\\s*\\d|\\s+\\d{1,2}:\\d{2}|$)`,
+);
+
 /** A short, stable name for who the money went to or came from. */
+const OWN_ACCOUNT_TRAILER = new RegExp(`\\s(?:${ACCOUNT_BANKS})\\s*-\\s*\\d+`, "g");
+
 export function payeeOf(narration: string): string {
-  const t = narration.toUpperCase().replace(/\s+/g, " ").trim();
-  const phrase = /(?:PAID TO|RECEIVED FROM|SENT TO|TRANSFER TO|TRANSFER FROM)\s+([A-Z0-9 .&'-]+?)(?:\s+(?:TRANSACTION|TXN|UTR|UPI|REF|ON)\b|\s+\d{1,2}:\d{2}|$)/.exec(t);
+  // The user's own account as printed by app statements is never the counterparty.
+  const t = ` ${narration.toUpperCase().replace(/\s+/g, " ")} `.replace(OWN_ACCOUNT_TRAILER, " ").replace(/\s+/g, " ").trim();
+  const phrase = PHRASE.exec(t);
   if (phrase) return tidy(phrase[1]!);
 
   const parts = t.split(/[/|:*\\-]+|\s{2,}/).map((p) => p.trim()).filter(Boolean);

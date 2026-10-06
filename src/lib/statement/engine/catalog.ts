@@ -18,8 +18,8 @@ export const TYPE_LABEL: Record<TxnType, string> = {
 export type Choice = { type: TxnType; category: string; kind?: CounterpartyKind };
 
 export const OUT_CHOICES: { type: TxnType; categories: string[]; kind?: CounterpartyKind }[] = [
-  { type: "SPENDING", categories: ["Food & dining", "Groceries", "Shopping", "Travel & transport", "Bills & utilities", "Subscriptions", "Rent", "Education", "Healthcare", "Insurance", "Personal care", "Gifts", "Business", "Other spending"] },
-  { type: "TRANSFER", categories: ["To people", "Family", "Friend", "Loan given", "Own accounts", "Broker funding", "Wallet top-up", "Bank transfer", "Other transfer"] },
+  { type: "SPENDING", categories: ["Food & dining", "Groceries", "Shopping", "Travel & transport", "Hotels & restaurants", "Entertainment", "Bills & utilities", "Subscriptions", "Rent", "Education", "Healthcare", "Insurance", "Taxes & government fees", "Personal care", "Gifts", "Business", "Other spending"] },
+  { type: "TRANSFER", categories: ["To people", "Family", "Friend", "Loan given", "Own accounts", "Broker funding", "Wallet top-up", "Bank transfer", "To government", "Other transfer"] },
   { type: "INVESTMENT", categories: ["Mutual funds", "Stocks", "FD / RD", "Gold", "Government schemes", "Other investment"] },
   { type: "DEBT_PAYMENT", categories: ["EMI & loans", "Credit card", "Buy now, pay later", "Other debt"] },
   { type: "CASH_WITHDRAWAL", categories: ["Cash withdrawal"] },
@@ -28,8 +28,8 @@ export const OUT_CHOICES: { type: TxnType; categories: string[]; kind?: Counterp
 ];
 
 export const IN_CHOICES: { type: TxnType; categories: string[] }[] = [
-  { type: "INCOME", categories: ["Salary", "Regular income", "Business income", "Freelance", "From a company", "Dividend", "Rent received", "Other income"] },
-  { type: "TRANSFER", categories: ["From people", "Family", "Friend", "Loan received", "Loan repaid to me", "Own accounts", "From investment platform", "From wallet", "Bank transfer in", "Cash deposited", "Other transfer"] },
+  { type: "INCOME", categories: ["Salary", "Regular income", "Business income", "Freelance", "From a company", "Government payment", "Dividend", "Rent received", "Other income"] },
+  { type: "TRANSFER", categories: ["From people", "Family", "Friend", "Loan received", "Loan repaid to me", "Own accounts", "From investment platform", "From wallet", "Bank transfer in", "From bank", "From government", "From a company", "From a business", "From insurance", "Cash deposited", "Other transfer"] },
   { type: "REFUND", categories: ["Refund"] },
   { type: "CASHBACK", categories: ["Cashback"] },
   { type: "INTEREST", categories: ["Interest"] },
@@ -41,6 +41,7 @@ export function kindFor(type: TxnType, category: string): CounterpartyKind | und
   if (category === "Own accounts") return "own";
   if (["Family", "Friend", "To people", "From people", "Loan given", "Loan received", "Loan repaid to me"].includes(category)) return "person";
   if (category === "Broker funding" || category === "From investment platform") return "broker";
+  if (category === "Taxes & government fees" || category === "To government" || category === "From government" || category === "Government payment") return "government";
   if (type === "SPENDING") return "merchant";
   return undefined;
 }

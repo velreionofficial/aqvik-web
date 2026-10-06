@@ -23,6 +23,7 @@ const short = (paise: number) => {
 const dmy = (iso: string) => iso.split("-").reverse().join("-");
 const monthLabel = (ym: string) => new Date(`${ym}-01T00:00:00Z`).toLocaleDateString("en-IN", { month: "short", year: "numeric", timeZone: "UTC" });
 const pct = (part: number, whole: number) => (whole > 0 ? `${Math.round((part * 100) / whole)}%` : "0%");
+const GROUP_TITLE = { subscription: "Subscriptions", debt: "Debt payments", other: "Other recurring payments" } as const;
 const FREQ = { weekly: "weekly", monthly: "monthly", quarterly: "every 3 months", yearly: "yearly" } as const;
 const bandLabel = (c: number) => (c >= 0.8 ? "High" : c >= 0.5 ? "Medium" : "Low");
 
@@ -151,7 +152,9 @@ export function MoneyReport({
   check,
   appStatement,
   fileName,
+  onReview,
 }: {
+  onReview?: () => void;
   facts: FinancialFacts;
   insights: Insights;
   txns: ClassifiedTxn[];
@@ -192,7 +195,8 @@ export function MoneyReport({
         <dl className="mt-2 grid grid-cols-2 gap-3 lg:grid-cols-3">
           <Tile strong label="True income" value={f.trueIncome} sub={statementCopy.tiles.income} />
           <Tile strong label="Actual spending" value={f.actualSpending} sub={f.refundsLinked ? `${rupees(f.grossSpending)} spent, ${rupees(f.refundsLinked)} refunded` : statementCopy.tiles.spending} />
-          <Tile label="Investments" value={f.investmentsConfirmed} sub={f.brokerFunding ? `+ ${rupees(f.brokerFunding)} sent to investment platforms (not confirmed as invested)` : statementCopy.tiles.investments} />
+          <Tile label="Confirmed investments" value={f.investmentsConfirmed} sub={statementCopy.tiles.investments} />
+          <Tile label="Sent to investment platforms" value={f.brokerFunding} sub={statementCopy.tiles.platforms} />
           <Tile label="Debt payments" value={f.debtPayments} sub={statementCopy.tiles.debt} />
           <Tile label="Transfers out" value={f.transfersOut} sub={`${rupees(f.transfersIn)} came in as transfers`} />
           <Tile label="Cash withdrawals" value={f.cashWithdrawals} sub={statementCopy.tiles.cash} />
@@ -204,6 +208,11 @@ export function MoneyReport({
           {f.duplicatesExcluded ? `${f.duplicatesExcluded} duplicate entries were left out. ` : ""}
         </p>
         {check?.ok ? <p className="mt-2 text-sm text-primary-soft">✓ {statementCopy.checkedOk(check.matched)}</p> : null}
+        {f.lowConfidence && onReview ? (
+          <button type="button" onClick={onReview} className="mt-3 rounded-full border border-warning/50 px-4 py-1.5 text-sm text-foreground hover:bg-warning/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+            Review {f.lowConfidence} uncertain {f.lowConfidence === 1 ? "transaction" : "transactions"}
+          </button>
+        ) : null}
         {appStatement ? <p className="mt-2 text-xs text-muted-dim">{statementCopy.appNote}</p> : null}
         {f.unknownOut || f.unknownIn ? (
           <p className="mt-2 text-sm text-muted">
@@ -270,7 +279,12 @@ export function MoneyReport({
       </Card>
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <Card id="spend-heading" title="Where your spending went" note={statementCopy.guessNote}>
+        <Card id="spend-heading" title="Where your actual spending went" note={statementCopy.guessNote}>
+          {f.subscriptionLikeSpending ? (
+            <p className="mt-2 text-xs leading-relaxed text-muted-dim">
+              Subscription-like spending {rupees(f.subscriptionLikeSpending)} · detected recurring subscriptions ≈ {rupees(f.detectedSubscriptionsMonthly)} a month. {statementCopy.subsExplain}
+            </p>
+          ) : null}
           <Bars items={f.spendingByCategory} total={f.grossSpending} empty="No spending found." />
         </Card>
         <Card id="month-heading" title="Month by month" note="Money in and out as on your bank statement, with income and spending below each month.">
@@ -294,7 +308,8 @@ export function MoneyReport({
                   <div className="h-1.5 rounded-full bg-[#6366F1]/70" style={{ width: `${(m.moneyOut / maxMonth) * 100}%` }} />
                 </div>
                 <p className="mt-1 text-xs text-muted-dim">
-                  Income {short(m.income)} · spending {short(m.spending)}
+                  Income {short(m.income)} · spending {short(m.spending)} · transfers {short(m.otherTransfersOut)} · debt {short(m.debt)}
+                  {m.brokerFunding ? ` · to platforms ${short(m.brokerFunding)}` : ""}
                   {m.partial ? " · part of the month only" : changeOf(m.month) !== null ? ` · spending ${changeOf(m.month)! >= 0 ? "up" : "down"} ${Math.round(Math.abs(changeOf(m.month)!) / 100)}% on the month before` : ""}
                 </p>
               </li>
@@ -330,22 +345,33 @@ export function MoneyReport({
             </p>
           ) : null}
           {outgoing.length ? (
-            <ul className="mt-3 divide-y divide-hairline">
-              {outgoing.map((r) => (
-                <li key={r.counterparty + r.frequency} className="flex items-baseline justify-between gap-3 py-2.5 text-sm">
-                  <span className="min-w-0">
-                    <span className="block truncate text-foreground">{r.counterparty}</span>
-                    <span className="block text-xs text-muted-dim">
-                      {r.kind} · {FREQ[r.frequency]} · last {dmy(r.last)} · next around {dmy(r.nextEstimate)} (estimate)
-                    </span>
-                  </span>
-                  <span className="shrink-0 text-right tabular-nums">
-                    <span className="block text-foreground">{rupees(r.typical)}</span>
-                    <span className="block text-xs text-muted-dim">≈ {short(r.annualized)}/year</span>
-                  </span>
-                </li>
-              ))}
-            </ul>
+            <div className="mt-1">
+              {(["subscription", "debt", "other"] as const).map((g) =>
+                outgoing.some((r) => r.group === g) ? (
+                  <div key={g}>
+                    <h3 className="mt-4 text-sm font-medium text-foreground">{GROUP_TITLE[g]}</h3>
+                    <ul className="mt-1 divide-y divide-hairline">
+                      {outgoing
+                        .filter((r) => r.group === g)
+                        .map((r) => (
+                          <li key={r.counterparty + r.frequency} className="flex items-baseline justify-between gap-3 py-2.5 text-sm">
+                            <span className="min-w-0">
+                              <span className="block truncate text-foreground">{r.counterparty}</span>
+                              <span className="block text-xs text-muted-dim">
+                                {r.kind} · {FREQ[r.frequency]} · last {dmy(r.last)} · next around {dmy(r.nextEstimate)} (estimate)
+                              </span>
+                            </span>
+                            <span className="shrink-0 text-right tabular-nums">
+                              <span className="block text-foreground">{rupees(r.typical)}</span>
+                              <span className="block text-xs text-muted-dim">≈ {short(r.annualized)}/year</span>
+                            </span>
+                          </li>
+                        ))}
+                    </ul>
+                  </div>
+                ) : null,
+              )}
+            </div>
           ) : (
             <p className="mt-3 text-sm text-muted">No regular payments found. A statement of 3 months or more finds more.</p>
           )}
@@ -359,7 +385,7 @@ export function MoneyReport({
                   <span className="min-w-0">
                     <span className="block truncate text-foreground">{s.counterparty}</span>
                     <span className="block text-xs text-muted-dim">
-                      {s.frequency === "seen once" || s.frequency === "irregular" ? s.frequency : FREQ[s.frequency]} · last {dmy(s.last)} · Review this subscription
+                      {s.possible ? `Possible subscription · ${s.frequency}` : FREQ[s.frequency as keyof typeof FREQ]} · last {dmy(s.last)} · Review this subscription
                     </span>
                   </span>
                   <span className="shrink-0 text-right tabular-nums">
@@ -401,8 +427,11 @@ export function MoneyReport({
           )}
         </Card>
 
-        <Card id="merchants-heading" title="Top merchants" note="Where your spending went, by merchant.">
-          <List items={f.topMerchants} empty="No merchants identified." />
+        <Card id="merchants-heading" title="Top merchants" note="Shops, restaurants, utilities, schools and hospitals you paid.">
+          <List items={f.topMerchants} empty="No significant merchant spending found." />
+        </Card>
+        <Card id="institutions-heading" title="Institutions" note="Government bodies, banks, lenders, insurers and other organisations, money in and out together.">
+          <List items={f.topInstitutions} empty="No institutions found." />
         </Card>
         <Card id="people-heading" title="People" note="UPI payments to and from individuals. Some may be small shops using a personal UPI ID.">
           <h3 className="mt-3 text-sm font-medium text-foreground">Sent to</h3>
@@ -418,12 +447,14 @@ export function MoneyReport({
 const enc = (type: TxnType, category: string) => `${type}|${category}`;
 
 export function Transactions({
+  reviewSignal = 0,
   txns,
   onEdit,
   rules,
   onAddRule,
   onRemoveRule,
 }: {
+  reviewSignal?: number;
   txns: ClassifiedTxn[];
   onEdit: (txnId: string, type: TxnType, category: string) => void;
   rules: UserRule[];
@@ -431,6 +462,9 @@ export function Transactions({
   onRemoveRule: (id: string) => void;
 }) {
   const [filter, setFilter] = React.useState<"all" | "review" | TxnType>("all");
+  React.useEffect(() => {
+    if (reviewSignal) setFilter("review");
+  }, [reviewSignal]);
   const [showAll, setShowAll] = React.useState(false);
   const [offer, setOffer] = React.useState<{ counterparty: string; type: TxnType; category: string; count: number } | null>(null);
   const [reveal, setReveal] = React.useState(false);

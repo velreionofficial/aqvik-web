@@ -40,7 +40,35 @@ export type TxnType = (typeof TXN_TYPES)[number];
 export const OUT_TYPES: ReadonlySet<TxnType> = new Set(["SPENDING", "INVESTMENT", "DEBT_PAYMENT", "CASH_WITHDRAWAL", "FEE", "TRANSFER", "UNKNOWN"]);
 export const IN_TYPES: ReadonlySet<TxnType> = new Set(["INCOME", "REFUND", "CASHBACK", "INTEREST", "TRANSFER", "UNKNOWN"]);
 
-export type CounterpartyKind = "person" | "merchant" | "institution" | "broker" | "wallet" | "own" | "unknown";
+/**
+ * Who the other side is. Kind says nothing by itself about the economic type: money from a
+ * government body is not automatically income, and a payment to a merchant is not automatically
+ * spending. Type is decided from direction, description, channel, entities and links.
+ */
+export const COUNTERPARTY_KINDS = [
+  "person",
+  "merchant",
+  "government",
+  "bank",
+  "lender",
+  "broker",
+  "investment_platform",
+  "wallet",
+  "insurance",
+  "utility",
+  "education",
+  "hospitality",
+  "healthcare",
+  "other_institution",
+  "own",
+  "unknown",
+] as const;
+export type CounterpartyKind = (typeof COUNTERPARTY_KINDS)[number];
+
+/** Kinds that sell goods or services: these make up "Top merchants". */
+export const MERCHANT_KINDS: ReadonlySet<CounterpartyKind> = new Set(["merchant", "hospitality", "utility", "education", "healthcare"]);
+/** Kinds shown as "Top institutions". */
+export const INSTITUTION_KINDS: ReadonlySet<CounterpartyKind> = new Set(["government", "bank", "lender", "insurance", "other_institution"]);
 export type PaymentMethod = "UPI" | "NEFT" | "IMPS" | "RTGS" | "ATM" | "AUTO_DEBIT" | "CARD" | "CHEQUE" | "CASH" | "INTERNAL" | "OTHER";
 
 /**

@@ -27,7 +27,12 @@ export type RecurringFact = {
   type: TxnType;
   category: string;
   kind: CommitmentKind;
+  /** The median amount: robust to one odd payment. */
   typical: Paise;
+  /** The mean of the steady payments, exact paise rounded to the nearest paisa. */
+  averageAmount: Paise;
+  /** How the report groups it: subscriptions, debt payments, or other. */
+  group: "subscription" | "debt" | "other";
   occurrences: number;
   first: string;
   last: string;
@@ -44,6 +49,8 @@ export type RecurringFact = {
 export type SubscriptionFact = {
   counterparty: string;
   frequency: Frequency | "seen once" | "irregular";
+  /** True when the evidence is weak (not shown as repeating): "Possible subscription". */
+  possible: boolean;
   typical: Paise;
   last: string;
   annualized: Paise | null;
@@ -60,8 +67,19 @@ const median = (xs: number[]) => {
 };
 const norm = (s: string) => s.toUpperCase().replace(/[^A-Z0-9]+/g, " ").trim();
 
-export const isSubscriptionText = (description: string, category: string) =>
-  category === "Subscriptions" || SUBSCRIPTION_WORDS.some((w) => hasWord(` ${description.toUpperCase()} `, w));
+/** A known subscription service named in the description (spaces ignored for long names). */
+export const knownSubscription = (description: string) => {
+  const t = ` ${description.toUpperCase().replace(/\s+/g, " ")} `;
+  const squashed = t.replace(/\s+/g, "");
+  return SUBSCRIPTION_WORDS.some((w) => hasWord(t, w) || (w.length >= 8 && !w.includes(" ") && squashed.includes(w)));
+};
+
+/**
+ * Subscription evidence: a known service, or the Subscriptions category (set by a known name,
+ * an app's "# Subscription" tag or the user). A repeating series still has to pass the
+ * frequency checks; this only decides whether a series is called a subscription.
+ */
+export const isSubscriptionText = (description: string, category: string) => category === "Subscriptions" || knownSubscription(description);
 
 function kindOf(t: ClassifiedTxn, subscription: boolean): CommitmentKind {
   if (subscription) return "Subscriptions";
@@ -116,6 +134,8 @@ export function detectRecurring(txns: ClassifiedTxn[], spanMonths: number): Recu
       category: last.c.category,
       kind: direction === "out" ? kindOf(last, subscription) : "Other",
       typical,
+      averageAmount: Math.round(steady.reduce((s, x) => s + amount(x), 0) / steady.length),
+      group: subscription ? "subscription" : last.c.type === "DEBT_PAYMENT" ? "debt" : "other",
       occurrences: steady.length,
       first: steady[0]!.date,
       last: last.date,
@@ -135,15 +155,16 @@ export function subscriptions(txns: ClassifiedTxn[], recurring: RecurringFact[])
   const inSeries = new Set(recurring.flatMap((r) => r.txnIds));
   const fromSeries: SubscriptionFact[] = recurring
     .filter((r) => r.isSubscription)
-    .map((r) => ({ counterparty: r.counterparty, frequency: r.frequency, typical: r.typical, last: r.last, annualized: r.annualized, monthlyEquivalent: r.monthlyEquivalent, txnIds: r.txnIds }));
+    .map((r) => ({ counterparty: r.counterparty, frequency: r.frequency, possible: false, typical: r.typical, last: r.last, annualized: r.annualized, monthlyEquivalent: r.monthlyEquivalent, txnIds: r.txnIds }));
   const seen = new Map<string, ClassifiedTxn[]>();
   for (const t of txns) {
-    if (t.debit === 0 || t.c.duplicateOf || inSeries.has(t.id) || t.c.type !== "SPENDING" || !isSubscriptionText(t.description, t.c.category)) continue;
+    // Only a known subscription name counts here; a category alone (one cinema ticket) never does.
+    if (t.debit === 0 || t.c.duplicateOf || inSeries.has(t.id) || t.c.type !== "SPENDING" || !knownSubscription(t.description)) continue;
     seen.set(t.c.counterparty.name, [...(seen.get(t.c.counterparty.name) ?? []), t]);
   }
   const once: SubscriptionFact[] = [...seen.entries()].map(([name, list]) => {
     const last = [...list].sort((a, b) => a.date.localeCompare(b.date)).pop()!;
-    return { counterparty: name, frequency: list.length === 1 ? ("seen once" as const) : ("irregular" as const), typical: last.debit, last: last.date, annualized: null, monthlyEquivalent: null, txnIds: list.map((t) => t.id) };
+    return { counterparty: name, possible: true, frequency: list.length === 1 ? ("seen once" as const) : ("irregular" as const), typical: last.debit, last: last.date, annualized: null, monthlyEquivalent: null, txnIds: list.map((t) => t.id) };
   });
   return [...fromSeries, ...once];
 }

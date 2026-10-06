@@ -37,6 +37,8 @@ export const statementCopy = {
   reviewHelp: "Check that the dates, descriptions and amounts below look right. If a column is wrong, change it here.",
   guessNote: "Categories and payees are best guesses from each transaction's description. Change any category in the list below.",
   recurringNote: "Payments to the same payee for about the same amount at a steady interval (weekly, monthly, every 3 months or yearly). Next dates are estimates.",
+  subsExplain:
+    "Subscription-like spending includes every payment categorised as a subscription; detected recurring subscriptions are only those AQVIK found repeating with enough evidence.",
   subscriptionNote: "Services and memberships you pay for. Check each one is still something you want.",
   feesNote: "Charges taken by your bank or card company. You can ask your bank about any charge you don't recognise.",
   checkedOk: (n: number) =>
@@ -52,7 +54,8 @@ export const statementCopy = {
     income: "Salary, regular income and payments from companies. Money from people is shown as transfers.",
     spending: "Payments to merchants and for bills, after linked refunds.",
     net: "Money in minus money out, as on your bank statement.",
-    investments: "Purchases the statement itself shows, such as mutual fund SIPs.",
+    investments: "Purchases the statement itself shows, such as mutual fund SIPs or digital gold.",
+    platforms: "Money sent to a broker or investment platform. This statement cannot confirm what was actually purchased.",
     debt: "EMIs, loans, credit card bills and pay-later.",
     cash: "Cash taken out. What it was spent on is not in the statement.",
     refunds: "Refunds linked to a payment reduce spending.",

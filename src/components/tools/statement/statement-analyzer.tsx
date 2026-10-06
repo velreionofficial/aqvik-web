@@ -59,6 +59,7 @@ export function StatementAnalyzer({ demo }: { /** Start on the sample (screensho
   );
   const [files, setFiles] = React.useState<Accepted[]>(() => (demo === "results" ? [sampleAccepted()] : []));
   const [adding, setAdding] = React.useState(false);
+  const [reviewSignal, setReviewSignal] = React.useState(0);
   const nextId = React.useRef(demo === "results" ? 2 : 1);
   const [pending, setPending] = React.useState<File | null>(null);
   const [password, setPassword] = React.useState("");
@@ -476,9 +477,13 @@ export function StatementAnalyzer({ demo }: { /** Start on the sample (screensho
           check={reportCheck}
           appStatement={files.some((f) => f.app)}
           fileName={files.length === 1 ? files[0]!.name : `${files.length} statements`}
+          onReview={() => {
+            setReviewSignal((n) => n + 1);
+            document.getElementById("all-heading")?.scrollIntoView({ behavior: "smooth", block: "start" });
+          }}
         />
       ) : null}
-      <Transactions txns={engine.txns} onEdit={editTxn} rules={rules} onAddRule={addRule} onRemoveRule={removeRule} />
+      <Transactions reviewSignal={reviewSignal} txns={engine.txns} onEdit={editTxn} rules={rules} onAddRule={addRule} onRemoveRule={removeRule} />
       <div className="flex flex-col gap-3 sm:flex-row">
         <Button type="button" size="lg" onClick={() => download("pdf")} disabled={busy}>
           <Download aria-hidden="true" className="size-4" /> Summary PDF

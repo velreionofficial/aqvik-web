@@ -16,7 +16,7 @@ export function summaryRows(f: FinancialFacts): [string, string][] {
     ...f.moneyOutParts.map((p) => [`  Out: ${p.label}`, rupees(p.amount)] as [string, string]),
     ["True income", rupees(f.trueIncome)],
     ["Actual spending (after linked refunds)", rupees(f.actualSpending)],
-    ["Investments confirmed", rupees(f.investmentsConfirmed)],
+    ["Confirmed investments", rupees(f.investmentsConfirmed)],
     ["Sent to investment platforms (not confirmed as invested)", rupees(f.brokerFunding)],
     ["Debt payments", rupees(f.debtPayments)],
     ["Transfers out", rupees(f.transfersOut)],
@@ -89,21 +89,20 @@ export async function statementXlsx(f: FinancialFacts, txns: ClassifiedTxn[], no
   t.columns = [
     { header: "Date", width: 12 },
     { header: "Description (masked)", width: 60 },
-    { header: "Counterparty (guess)", width: 26 },
+    { header: "Amount (₹, − out / + in)", width: 18 },
     { header: "Type", width: 16 },
     { header: "Category", width: 24 },
+    { header: "Counterparty", width: 26 },
+    { header: "Counterparty kind", width: 18 },
     { header: "Confidence", width: 12 },
-    { header: "Why", width: 50 },
-    { header: "Money out", width: 14 },
-    { header: "Money in", width: 14 },
+    { header: "Reason", width: 50 },
   ];
   t.getRow(1).font = { bold: true };
   for (const x of txns) {
     if (x.c.duplicateOf) continue;
-    t.addRow([x.date, maskText(x.description), x.c.counterparty.name, TYPE_LABEL[x.c.type], x.c.category, band(x.c.confidence), x.c.reasons[0] ?? "", x.debit ? x.debit / 100 : null, x.credit ? x.credit / 100 : null]);
+    t.addRow([x.date, maskText(x.description), (x.credit - x.debit) / 100, TYPE_LABEL[x.c.type], x.c.category, x.c.counterparty.name, x.c.counterparty.kind.replace(/_/g, " "), band(x.c.confidence), x.c.reasons[0] ?? ""]);
   }
-  t.getColumn(8).numFmt = "#,##,##0.00";
-  t.getColumn(9).numFmt = "#,##,##0.00";
+  t.getColumn(3).numFmt = "#,##,##0.00";
   const buffer = await wb.xlsx.writeBuffer();
   return new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
 }

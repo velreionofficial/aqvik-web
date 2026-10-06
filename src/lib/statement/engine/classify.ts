@@ -1,5 +1,6 @@
 import { hasWord, payeeOf } from "../categorize.ts";
 import { ENTITIES } from "./entities.ts";
+import { kindFromName } from "./kinds.ts";
 import {
   IN_TYPES,
   OUT_TYPES,
@@ -89,17 +90,17 @@ function structural(t: string, out: boolean): Candidate | null {
   if (SELF_WORDS.some((w) => t.includes(w))) return c("TRANSFER", "Own accounts", "own", 0.85, "The statement marks this as a self transfer");
   if (out) {
     const fee = feeKind(t);
-    if (fee) return c("FEE", fee, "institution", 0.9, "Bank or card charge code in the description");
+    if (fee) return c("FEE", fee, "bank", 0.9, "Bank or card charge code in the description");
     if (any(t, ["ATM", "ATW", "NWD", "CASH WDL", "CASH WITHDRAWAL", "CWDR", "SELF WITHDRAWAL"])) return c("CASH_WITHDRAWAL", "Cash withdrawal", "own", 0.95, "ATM / cash withdrawal code");
-    if (any(t, ["CREDIT CARD", "CC PAYMENT", "CARD PAYMENT", "CRED CLUB", "CREDCLUB", "CC BILL"])) return c("DEBT_PAYMENT", "Credit card", "institution", 0.85, "Credit card bill payment");
-    if (any(t, ["INTEREST", "INT CHARGED"])) return c("FEE", "Interest charged", "institution", 0.7, "Interest debited");
+    if (any(t, ["CREDIT CARD", "CC PAYMENT", "CARD PAYMENT", "CRED CLUB", "CREDCLUB", "CC BILL"])) return c("DEBT_PAYMENT", "Credit card", "lender", 0.85, "Credit card bill payment");
+    if (any(t, ["INTEREST", "INT CHARGED"])) return c("FEE", "Interest charged", "bank", 0.7, "Interest debited");
     return null;
   }
-  if (any(t, ["INT.PD", "INT PD", "INTEREST", "INT CREDIT", "INT.CR", "SB INT", "CREDIT INTEREST"])) return c("INTEREST", "Interest", "institution", 0.95, "Interest credited by the bank");
+  if (any(t, ["INT.PD", "INT PD", "INTEREST", "INT CREDIT", "INT.CR", "SB INT", "CREDIT INTEREST"])) return c("INTEREST", "Interest", "bank", 0.95, "Interest credited by the bank");
   if (any(t, ["CASHBACK", "CASH BACK"])) return c("CASHBACK", "Cashback", "merchant", 0.9, "Cashback wording");
   if (any(t, ["REFUND", "REVERSAL", "REVERSED", "CHARGEBACK", "RFND"])) return c("REFUND", "Refund", "merchant", 0.85, "Refund / reversal wording");
-  if (any(t, ["SALARY", "SAL CREDIT", "SAL FOR", "PAYROLL", "SAL "])) return c("INCOME", "Salary", "institution", 0.9, "Salary wording in the description");
-  if (any(t, ["DIVIDEND", "DIV "])) return c("INCOME", "Dividend", "institution", 0.85, "Dividend wording");
+  if (any(t, ["SALARY", "SAL CREDIT", "SAL FOR", "PAYROLL", "SAL "])) return c("INCOME", "Salary", "other_institution", 0.9, "Salary wording in the description");
+  if (any(t, ["DIVIDEND", "DIV "])) return c("INCOME", "Dividend", "other_institution", 0.85, "Dividend wording");
   if (any(t, ["CASH DEP", "BY CASH", "CASH DEPOSIT"])) return c("TRANSFER", "Cash deposited", "own", 0.8, "Cash deposit");
   return null;
 }
@@ -125,7 +126,8 @@ const APP_TAGS: [RegExp, string][] = [
   [/^SHOPPING/, "Shopping"],
   [/^(TRAVEL|FUEL|TRANSPORT|CAB)/, "Travel & transport"],
   [/^(BILL|RECHARGE|UTILIT)/, "Bills & utilities"],
-  [/^(ENTERTAINMENT|SUBSCRIPTION)/, "Subscriptions"],
+  [/^(ENTERTAINMENT|MOVIE|CINEMA|GAMING|GAMES)/, "Entertainment"],
+  [/^SUBSCRIPTION/, "Subscriptions"],
   [/^(HEALTH|MEDICAL|MEDICINE)/, "Healthcare"],
   [/^EDUCATION/, "Education"],
   [/^RENT/, "Rent"],
@@ -140,7 +142,7 @@ function channel(t: string, out: boolean, method: PaymentMethod): Candidate | nu
   const tagged = tag ? APP_TAGS.find(([re]) => re.test(tag)) : undefined;
   if (out && tagged) return c("SPENDING", tagged[1], "merchant", 0.7, `Tagged "${tag}" in the app`);
   if (method === "CARD" && out) return c("SPENDING", "Other spending", "merchant", 0.6, "Card payment at a merchant");
-  if (method === "AUTO_DEBIT" && out) return c("UNKNOWN", "Auto-debit", "institution", 0.35, "Auto-debit (mandate) to a company we could not identify");
+  if (method === "AUTO_DEBIT" && out) return c("UNKNOWN", "Auto-debit", "other_institution", 0.35, "Auto-debit (mandate) to a company we could not identify");
   if (method === "UPI") {
     const vpa = /([A-Z0-9._-]+)@([A-Z]+)/.exec(t.replace(/\s/g, ""));
     if (MERCHANT_VPA.test(t) || COMPANY.test(t)) {
@@ -150,7 +152,7 @@ function channel(t: string, out: boolean, method: PaymentMethod): Candidate | nu
     if (looksPerson) return out ? c("TRANSFER", "To people", "person", 0.5, "UPI payment to an individual's UPI ID (could also be a small shop)") : c("TRANSFER", "From people", "person", 0.5, "UPI payment from an individual");
   }
   if (method === "NEFT" || method === "IMPS" || method === "RTGS" || method === "INTERNAL") {
-    if (!out && COMPANY.test(t)) return c("INCOME", "From a company", "institution", 0.55, "Bank transfer from a company");
+    if (!out && COMPANY.test(t)) return c("INCOME", "From a company", "other_institution", 0.55, "Bank transfer from a company");
     return out ? c("TRANSFER", "Bank transfer", "unknown", 0.4, "Bank transfer (NEFT/IMPS) to an account") : c("TRANSFER", "Bank transfer in", "unknown", 0.4, "Bank transfer (NEFT/IMPS) received");
   }
   if (method === "CHEQUE") return c("UNKNOWN", out ? "Cheque paid" : "Cheque received", "unknown", 0.3, "Cheque or clearing entry");
@@ -179,12 +181,77 @@ export function classifyOne(txn: RawTxn): Classification {
   return { ...result, counterparty: { ...result.counterparty }, reasons: [...result.reasons] };
 }
 
+/** Categories the channel layer gives when it knows only how money moved, not what it was. */
+const DEFAULT_CATEGORIES = new Set(["To people", "From people", "Bank transfer", "Bank transfer in", "Cheque paid", "Cheque received"]);
+
+const has = (t: string, words: string[]) => words.some((w) => wholeWord(w).test(t));
+const TAX_WORDS = ["TAX", "GST", "CHALLAN", "FEE", "FEES", "LICENCE", "LICENSE", "REGISTRATION", "NTRP", "STAMP DUTY", "PENALTY", "FINE"];
+const GOVT_INCOME = ["SALARY", "PENSION", "SCHOLARSHIP", "SUBSIDY", "DBT", "BENEFIT", "STIPEND", "HONORARIUM", "KISAN", "INCENTIVE", "ALLOWANCE", "WAGES", "MGNREGA"];
+const REFUND_WORDS = ["REFUND", "REVERSAL", "REVERSED", "RFND", "TAX REFUND", "ITR REFUND"];
+const ENTERTAINMENT_WORDS = ["CINEMA", "CINEMAS", "MULTIPLEX", "PVR", "INOX", "BOOKMYSHOW"];
+
+/**
+ * Economic type from a counterparty kind, used only when the channel layer had nothing better
+ * than a default. Kind alone never makes income: government money needs income wording to be
+ * income, and is otherwise a transfer with low confidence (PFMS alone is not enough).
+ */
+function fromKind(kind: string, w: string, t: string, out: boolean): Candidate | null {
+  const c = (type: TxnType, category: string, confidence: number, reason: string): Candidate => ({ type, category, kind: kind as CounterpartyKind, confidence, layer: "entity", reason });
+  switch (kind) {
+    case "government":
+      if (out) return has(t, TAX_WORDS) ? c("SPENDING", "Taxes & government fees", 0.75, `Payment to a government body ("${w}") for a tax or fee`) : c("TRANSFER", "To government", 0.4, `Payment to a government body ("${w}"); purpose not stated`);
+      if (has(t, REFUND_WORDS)) return c("REFUND", "Refund", 0.75, `Refund from a government body ("${w}")`);
+      if (has(t, GOVT_INCOME)) return c("INCOME", "Government payment", has(t, ["SALARY", "PENSION"]) ? 0.8 : 0.6, `Payment from a government body ("${w}") with income wording`);
+      return c("TRANSFER", "From government", 0.35, `From a government body or payment system ("${w}"); purpose not stated`);
+    case "bank":
+      return out ? c("TRANSFER", "Bank transfer", 0.4, `Paid to a bank ("${w}")`) : c("TRANSFER", "From bank", 0.4, `Received from a bank ("${w}")`);
+    case "lender":
+      return out ? c("DEBT_PAYMENT", "EMI & loans", 0.6, `Paid to a lender ("${w}")`) : c("TRANSFER", "Loan received", 0.5, `Received from a lender ("${w}")`);
+    case "insurance":
+      return out ? c("SPENDING", "Insurance", 0.65, `Paid to an insurer ("${w}")`) : c("TRANSFER", "From insurance", 0.4, `Received from an insurer ("${w}")`);
+    case "broker":
+      return out ? c("TRANSFER", "Broker funding", 0.7, `"${w}" is an investment platform`) : c("TRANSFER", "From investment platform", 0.7, `"${w}" is an investment platform`);
+    case "wallet":
+      return out ? c("TRANSFER", "Wallet top-up", 0.6, `"${w}" is a wallet`) : c("TRANSFER", "From wallet", 0.6, `"${w}" is a wallet`);
+    case "healthcare":
+    case "education":
+    case "utility":
+    case "hospitality":
+    case "merchant": {
+      if (!out) return c("TRANSFER", "From a business", 0.4, `Received from a business ("${w}")`);
+      const category =
+        kind === "healthcare" ? "Healthcare" : kind === "education" ? "Education" : kind === "utility" ? "Bills & utilities" : kind === "hospitality" ? "Hotels & restaurants" : has(t, ENTERTAINMENT_WORDS) ? "Entertainment" : "Other spending";
+      return c("SPENDING", category, 0.6, `Business name ("${w}")`);
+    }
+    case "other_institution":
+      return out ? c("SPENDING", "Other spending", 0.45, `Paid to a company or organisation ("${w}")`) : c("TRANSFER", "From a company", 0.4, `Received from a company or organisation ("${w}")`);
+    default:
+      return null;
+  }
+}
+
 function classifyFresh(txn: RawTxn): Classification {
   const out = txn.debit > 0;
   const t = W(txn.description);
   const method = paymentMethod(txn.description);
   const name = payeeOf(txn.description);
   let found = structural(t, out) ?? entity(t, out) ?? channel(t, out, method);
+  const named = kindFromName(name, txn.description);
+  if (named) {
+    if (!found || (found.layer === "channel" && DEFAULT_CATEGORIES.has(found.category))) {
+      // The channel only knew how money moved; the name tells us who the other side is.
+      found = fromKind(named.kind, named.word, t, out) ?? found;
+    } else if (["unknown", "other_institution", "merchant"].includes(found.kind) && named.kind !== "merchant") {
+      // Keep the type a stronger rule decided; only make the kind more precise.
+      found = { ...found, kind: named.kind };
+    } else if (found.kind === "unknown") {
+      found = { ...found, kind: named.kind };
+    }
+  } else if (found && found.kind === "unknown" && found.layer === "entity") {
+    // e.g. rent paid by UPI to an individual
+    const ch = channel(t, out, method);
+    if (ch?.kind === "person") found = { ...found, kind: "person" };
+  }
   // ₹10 or less from a lender or payments company is an account check ("penny drop"), not a loan.
   if (found && !out && txn.credit <= 10_00 && found.category === "Loan received") {
     found = { ...found, category: "Account verification", reason: "A tiny credit from a lender, usually an account check" };

@@ -1,4 +1,4 @@
-import type { Bucket, ClassifiedTxn, Paise, TxnType } from "./model.ts";
+import { INSTITUTION_KINDS, MERCHANT_KINDS, type Bucket, type ClassifiedTxn, type Paise, type TxnType } from "./model.ts";
 import { detectRecurring, subscriptions, type RecurringFact, type SubscriptionFact } from "./recurring.ts";
 
 export type { RecurringFact, SubscriptionFact };
@@ -22,6 +22,8 @@ export type MonthFacts = {
   brokerFunding: Paise;
   debt: Paise;
   transfersOut: Paise;
+  /** Transfers out other than money sent to investment platforms. */
+  otherTransfersOut: Paise;
   cash: Paise;
   fees: Paise;
   net: Paise;
@@ -89,10 +91,21 @@ export type FinancialFacts = {
     shareOfIncomeBp: number | null;
   };
   feeTxnIds: string[];
+  /** Spending at merchants (shops, restaurants, utilities, schools, hospitals) only. */
   topMerchants: Bucket[];
+  /** Money to and from government, banks, lenders, insurers and other organisations. */
+  topInstitutions: Bucket[];
   topPeopleOut: Bucket[];
   topPeopleIn: Bucket[];
+  /** Spending in the Subscriptions category, whether or not it repeats. */
+  subscriptionLikeSpending: Paise;
+  /** Monthly equivalent of subscriptions detected as recurring. */
+  detectedSubscriptionsMonthly: Paise;
   largestOut: string[];
+  /**
+   * Uncertain = an automatic classification with confidence below 0.5 (the "low" band).
+   * Medium-confidence and user-set transactions are not counted.
+   */
   lowConfidence: number;
   byType: { out: Record<TxnType, Paise>; in: Record<TxnType, Paise> };
   /** Where money out went; the parts always add up to raw.moneyOut. */
@@ -143,7 +156,7 @@ export function computeFacts(all: ClassifiedTxn[]): FinancialFacts | null {
   const transfersOut = ofType(outs, "TRANSFER");
   const transfersIn = ofType(ins, "TRANSFER");
   const brokerFunding = sum(transfersOut.filter((t) => t.c.category === "Broker funding"), (t) => t.debit);
-  const fromInvestments = sum(transfersIn.filter((t) => t.c.counterparty.kind === "broker" || /investment|FD \/ RD/i.test(t.c.category)), (t) => t.credit);
+  const fromInvestments = sum(transfersIn.filter((t) => t.c.counterparty.kind === "broker" || t.c.counterparty.kind === "investment_platform" || /investment|FD \/ RD/i.test(t.c.category)), (t) => t.credit);
 
   const moneyIn = sum(ins, (t) => t.credit);
   const moneyOut = sum(outs, (t) => t.debit);
@@ -155,7 +168,7 @@ export function computeFacts(all: ClassifiedTxn[]): FinancialFacts | null {
   const monthMap = new Map<string, MonthFacts>();
   for (const t of txns) {
     const k = t.date.slice(0, 7);
-    const m = monthMap.get(k) ?? { month: k, moneyIn: 0, moneyOut: 0, income: 0, spending: 0, investments: 0, brokerFunding: 0, debt: 0, transfersOut: 0, cash: 0, fees: 0, net: 0, partial: false, byCategory: {} };
+    const m = monthMap.get(k) ?? { month: k, moneyIn: 0, moneyOut: 0, income: 0, spending: 0, investments: 0, brokerFunding: 0, debt: 0, transfersOut: 0, otherTransfersOut: 0, cash: 0, fees: 0, net: 0, partial: false, byCategory: {} };
     if (t.debit && t.c.type === "SPENDING") m.byCategory[t.c.category] = (m.byCategory[t.c.category] ?? 0) + t.debit;
     m.moneyIn += t.credit;
     m.moneyOut += t.debit;
@@ -166,6 +179,7 @@ export function computeFacts(all: ClassifiedTxn[]): FinancialFacts | null {
     if (t.debit && t.c.type === "TRANSFER" && t.c.category === "Broker funding") m.brokerFunding += t.debit;
     if (t.debit && t.c.type === "DEBT_PAYMENT") m.debt += t.debit;
     if (t.debit && t.c.type === "TRANSFER") m.transfersOut += t.debit;
+    if (t.debit && t.c.type === "TRANSFER" && t.c.category !== "Broker funding") m.otherTransfersOut += t.debit;
     if (t.debit && t.c.type === "CASH_WITHDRAWAL") m.cash += t.debit;
     if (t.debit && t.c.type === "FEE") m.fees += t.debit;
     m.net = m.moneyIn - m.moneyOut;
@@ -262,11 +276,14 @@ export function computeFacts(all: ClassifiedTxn[]): FinancialFacts | null {
       shareOfIncomeBp: incomeReliable ? Math.round((commitmentMonthly * 10_000 * monthly.length) / trueIncome) : null,
     },
     feeTxnIds: ofType(outs, "FEE").map((t) => t.id),
-    topMerchants: buckets(spending.filter((t) => t.c.counterparty.kind === "merchant" || t.c.counterparty.kind === "institution"), (t) => t.c.counterparty.name, (t) => t.debit).slice(0, 10),
+    topMerchants: buckets(spending.filter((t) => MERCHANT_KINDS.has(t.c.counterparty.kind)), (t) => t.c.counterparty.name, (t) => t.debit).slice(0, 10),
+    topInstitutions: buckets(txns.filter((t) => INSTITUTION_KINDS.has(t.c.counterparty.kind)), (t) => t.c.counterparty.name, (t) => t.debit + t.credit).slice(0, 10),
+    subscriptionLikeSpending: spending.filter((t) => t.c.category === "Subscriptions").reduce((s, t) => s + t.debit, 0),
+    detectedSubscriptionsMonthly: recurring.filter((r) => r.isSubscription).reduce((s, r) => s + r.monthlyEquivalent, 0),
     topPeopleOut: buckets(outs.filter((t) => t.c.counterparty.kind === "person"), (t) => t.c.counterparty.name, (t) => t.debit).slice(0, 10),
     topPeopleIn: buckets(ins.filter((t) => t.c.counterparty.kind === "person"), (t) => t.c.counterparty.name, (t) => t.credit).slice(0, 10),
     largestOut: [...outs].sort((a, b) => b.debit - a.debit).slice(0, 5).map((t) => t.id),
-    lowConfidence: txns.filter((t) => t.c.confidence < 0.5).length,
+    lowConfidence: txns.filter((t) => t.c.confidence < 0.5 && !t.c.layer.startsWith("user")).length,
     byType,
     moneyOutParts: [
       { label: "Spending", amount: byType.out.SPENDING },
