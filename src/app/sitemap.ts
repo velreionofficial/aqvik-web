@@ -60,7 +60,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
   const bookPages = books.flatMap((b) => [
     { url: new URL(`/books/${b.slug}`, siteConfig.url).toString(), lastModified, changeFrequency: "weekly" as const, priority: 0.7 },
-    ...readingOrder(b).map((o) => ({ url: new URL(o.href, siteConfig.url).toString(), lastModified, changeFrequency: "monthly" as const, priority: 0.6 })),
+    ...[...readingOrder(b, "hinglish"), ...readingOrder(b, "hindi")].map((o) => ({ url: new URL(o.href, siteConfig.url).toString(), lastModified, changeFrequency: "monthly" as const, priority: 0.6 })),
   ]);
   return [...pages, ...ipos, ...bookPages];
 }

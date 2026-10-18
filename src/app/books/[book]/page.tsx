@@ -5,7 +5,7 @@ import { ArrowRight, Lock } from "lucide-react";
 
 import { Container } from "@/components/layout/container";
 import { BookCover } from "@/components/books/book-cover";
-import { books, findBook, readingOrder } from "@/content/books";
+import { books, findBook, partHref, readingOrder } from "@/content/books";
 import { toolMetadata } from "@/lib/seo";
 
 type Params = { params: Promise<{ book: string }> };
@@ -23,6 +23,7 @@ export default async function BookPage({ params }: Params) {
   const book = findBook((await params).book);
   if (!book) notFound();
   const first = readingOrder(book)[0];
+  const firstHindi = readingOrder(book, "hindi")[0];
 
   return (
     <Container>
@@ -39,13 +40,21 @@ export default async function BookPage({ params }: Params) {
             <p className="eyebrow">{book.season} · {book.language} · Free</p>
             <h1 className="mt-4 text-[2.25rem] font-semibold leading-[1.05] tracking-[-0.03em] sm:text-5xl">{book.title}</h1>
             <p className="mt-4 text-lg text-foreground">{book.tagline}</p>
+            <p lang="hi" className="mt-1 text-[0.9375rem] text-foreground/90">{book.taglineHi}</p>
             <p className="mt-1 text-[0.9375rem] text-muted">{book.taglineEn}</p>
             <p className="mt-2 text-sm text-muted-dim">Written by {book.author}</p>
-            {first ? (
-              <Link href={first.href} className="mt-8 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-semibold text-primary-foreground hover:opacity-90">
-                Case 1 padhna shuru karo <ArrowRight aria-hidden="true" className="size-4" />
-              </Link>
-            ) : null}
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              {first ? (
+                <Link href={first.href} className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-semibold text-primary-foreground hover:opacity-90">
+                  Case 1 padhna shuru karo <ArrowRight aria-hidden="true" className="size-4" />
+                </Link>
+              ) : null}
+              {firstHindi ? (
+                <Link href={firstHindi.href} lang="hi" className="glass inline-flex items-center gap-2 rounded-full px-6 py-3 font-semibold text-foreground hover:bg-white/10">
+                  हिंदी में पढ़ें <ArrowRight aria-hidden="true" className="size-4" />
+                </Link>
+              ) : null}
+            </div>
             <p className="mt-6 max-w-measure text-sm leading-relaxed text-muted-dim">{book.disclaimer}</p>
             <p className="mt-3 max-w-measure text-sm text-muted">
               Aapke saath online fraud ho jaye to turant <strong className="text-foreground">1930</strong> pe call karo aur{" "}
@@ -65,13 +74,18 @@ export default async function BookPage({ params }: Params) {
                 <p className="mt-3 max-w-measure text-[0.9375rem] italic text-foreground/90">{c.hook}</p>
                 <ul className="mt-5 grid gap-3 sm:grid-cols-3">
                   {c.parts.map((p) => (
-                    <li key={p.slug}>
-                      <Link href={`/books/${book.slug}/${c.slug}/${p.slug}`} className="group flex h-full flex-col rounded-xl border border-white/10 p-4 transition-colors hover:bg-white/[0.06] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+                    <li key={p.slug} className="flex h-full flex-col rounded-xl border border-white/10 transition-colors hover:bg-white/[0.04]">
+                      <Link href={partHref(book, c, p)} className="group flex flex-1 flex-col rounded-t-xl p-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
                         <span className="font-mono text-xs text-muted-dim">Part {p.n}</span>
                         <span className="mt-1 inline-flex items-center justify-between gap-2 font-medium text-foreground">
                           {p.title} <ArrowRight aria-hidden="true" className="size-4 shrink-0 text-primary-soft transition-transform group-hover:translate-x-0.5" />
                         </span>
                       </Link>
+                      {p.files.hindi ? (
+                        <Link href={partHref(book, c, p, "hindi")} lang="hi" className="rounded-b-xl border-t border-white/10 px-4 py-2.5 text-sm text-primary-soft hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+                          हिंदी: {p.titleHi}
+                        </Link>
+                      ) : null}
                     </li>
                   ))}
                 </ul>

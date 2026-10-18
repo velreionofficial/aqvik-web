@@ -6,7 +6,7 @@
  *   **bold**, *italic*, [link](https://…), "- " and "1. " lists, "> " quotes
  *   ---                      ignored (visual break in the source only)
  *
- *   :::call / :::videocall / :::sms / :::chat / :::message / :::dialer
+ *   :::call / :::videocall / :::sms / :::chat / :::message / :::dialer / :::upi
  *   key: value               one field per line
  *   :::
  *
@@ -27,7 +27,7 @@ export type Inline =
   | { t: "i"; v: string }
   | { t: "link"; v: string; href: string };
 
-export type ScreenKind = "call" | "videocall" | "sms" | "chat" | "message" | "dialer";
+export type ScreenKind = "call" | "videocall" | "sms" | "chat" | "message" | "dialer" | "upi";
 export type Tone = "red" | "green" | "sos" | "share" | "plain";
 
 export type Block =
@@ -41,7 +41,7 @@ export type Block =
 
 export type BookPage = { title: string; closing: boolean; blocks: Block[] };
 
-const SCREENS: readonly ScreenKind[] = ["call", "videocall", "sms", "chat", "message", "dialer"];
+const SCREENS: readonly ScreenKind[] = ["call", "videocall", "sms", "chat", "message", "dialer", "upi"];
 
 /** Splits **bold**, *italic* and [text](https://…) into tokens; everything else is text. */
 export function parseInline(src: string): Inline[] {

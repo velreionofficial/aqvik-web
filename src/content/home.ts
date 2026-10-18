@@ -35,7 +35,7 @@ export const hero = {
   bookLink: {
     tag: "Free book",
     title: "Digital Thug Life · Season 1",
-    label: "Online scam ki asli kahaniyan — padho, page palat ke",
+    label: "Online scam ki asli kahaniyan — Hinglish aur हिंदी mein",
     href: "/books/digital-thug-life",
     cover: "/books/digital-thug-life/cover.webp",
   },

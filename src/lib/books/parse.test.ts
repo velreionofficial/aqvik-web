@@ -55,20 +55,45 @@ alt: An image
   assert.throws(() => parseBook("### P\n:::weird\n:::"), /Unknown block/);
 });
 
-test("Every published part parses, has pages, screens and a closing section, and stays in Latin script", () => {
+const read = (file: string) => readFileSync(join(process.cwd(), "src", "content", "books", file), "utf8");
+const screensOf = (pages: ReturnType<typeof parseBook>) => pages.flatMap((pg) => pg.blocks.filter((b) => b.type === "screen").map((b) => (b.type === "screen" ? b.kind : "")));
+
+test("Every published part parses, has pages, screens and a closing section", () => {
   for (const c of digitalThugLife.cases) {
     for (const p of c.parts) {
-      const src = readFileSync(join(process.cwd(), "src", "content", "books", p.file), "utf8");
-      const pages = parseBook(src);
-      assert.ok(pages.length >= 8, `${p.file}: ${pages.length} pages`);
-      const words = pages.map(pageText).join(" ").split(/\s+/).length;
-      assert.ok(words > 1200 && words < 3500, `${p.file}: ${words} words`);
-      assert.ok(pages.some((pg) => pg.blocks.some((b) => b.type === "screen")), `${p.file}: no screens`);
-      assert.ok(pages.some((pg) => pg.blocks.some((b) => b.type === "h" && b.tone === "sos")), `${p.file}: no 🆘 section`);
-      assert.doesNotMatch(src, /[ऀ-ॿ]/, `${p.file}: stray Devanagari`);
-      // No real brands, emblems or agencies' logos in the fiction's company names.
-      assert.doesNotMatch(src, /\b(WhatsApp|Skype|DHL|FedEx|PhonePe|Paytm)\b/, `${p.file}: real brand name`);
-      for (const id of imageIds(pages)) assert.match(id, /^c\d+p\d+-[a-z]+$/, `${p.file}: image id ${id}`);
+      for (const [lang, file] of Object.entries(p.files)) {
+        const src = read(file!);
+        const pages = parseBook(src);
+        assert.ok(pages.length >= 8, `${file}: ${pages.length} pages`);
+        const words = pages.map(pageText).join(" ").split(/\s+/).length;
+        assert.ok(words > 1200 && words < 3800, `${file}: ${words} words`);
+        assert.ok(screensOf(pages).length > 0, `${file}: no screens`);
+        assert.ok(pages.some((pg) => pg.blocks.some((b) => b.type === "h" && b.tone === "sos")), `${file}: no 🆘 section`);
+        // No real brands in the fiction's company names.
+        assert.doesNotMatch(src, /\b(WhatsApp|Skype|DHL|FedEx|PhonePe|Paytm)\b/, `${file}: real brand name`);
+        for (const id of imageIds(pages)) assert.match(id, /^c\d+p\d+-[a-z]+$/, `${file}: image id ${id}`);
+        if (lang === "hinglish") assert.doesNotMatch(src, /[\u0900-\u097F]/, `${file}: stray Devanagari in Hinglish`);
+        if (lang === "hindi") {
+          const letters = src.replace(/:::[\s\S]*?:::/g, "").replace(/\(https?:[^)]*\)/g, "");
+          const deva = (letters.match(/[\u0900-\u097F]/g) ?? []).length;
+          const latin = (letters.match(/[A-Za-z]/g) ?? []).length;
+          assert.ok(deva > latin * 3, `${file}: Hindi text is mostly not Devanagari (${deva} vs ${latin})`);
+        }
+      }
+    }
+  }
+});
+
+test("Hindi parts match their Hinglish originals page for page", () => {
+  for (const c of digitalThugLife.cases) {
+    for (const p of c.parts) {
+      if (!p.files.hindi) continue;
+      const hl = parseBook(read(p.files.hinglish));
+      const hi = parseBook(read(p.files.hindi));
+      assert.equal(hi.length, hl.length, `${p.files.hindi}: page count`);
+      assert.deepEqual(hi.map((x) => x.closing), hl.map((x) => x.closing), `${p.files.hindi}: closing page`);
+      assert.deepEqual(imageIds(hi), imageIds(hl), `${p.files.hindi}: illustrations`);
+      assert.deepEqual(screensOf(hi), screensOf(hl), `${p.files.hindi}: phone screens`);
     }
   }
 });

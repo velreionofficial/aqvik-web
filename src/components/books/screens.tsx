@@ -100,6 +100,22 @@ export function Screen({ kind, f }: { kind: ScreenKind; f: Record<string, string
           <Flag text={f.flag} />
         </PhoneShell>
       );
+    case "upi":
+      return (
+        <PhoneShell>
+          <div className="px-5 pb-6 pt-6">
+            <p className="text-center font-mono text-[0.6875rem] uppercase tracking-[0.2em] text-muted-dim">{f.app ?? "UPI"} · {f.kind ?? "Payment request"}</p>
+            <p className="mt-4 text-center text-sm text-muted">{f.from}</p>
+            <p className="mt-1 text-center text-4xl font-semibold tabular-nums text-foreground">{f.amount}</p>
+            {f.note ? <p className="mx-auto mt-3 w-fit rounded-full bg-[#22C55E]/15 px-3 py-1 text-xs text-[#4ADE80]">{f.note}</p> : null}
+            <p className="mt-5 text-center text-xs text-muted-dim">{f.action ?? "Enter UPI PIN to pay"}</p>
+            <div aria-hidden="true" className="mt-3 flex justify-center gap-2">
+              {Array.from({ length: 6 }, (_, i) => <span key={i} className="size-3 rounded-full border border-white/30" />)}
+            </div>
+          </div>
+          <Flag text={f.flag} />
+        </PhoneShell>
+      );
     case "dialer":
       return (
         <PhoneShell className="border-[#22C55E]/60">

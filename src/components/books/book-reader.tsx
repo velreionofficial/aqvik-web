@@ -16,7 +16,21 @@ const MODE_KEY = "aqvik-book-mode";
  * scroll mode shows every page in one column. Every page is in the HTML in both modes, so search
  * engines and screen readers get the whole text.
  */
-export function BookReader({ pages, next, prev }: { pages: ReaderPage[]; next?: { href: string; label: string }; prev?: { href: string; label: string } }) {
+export type ReaderLabels = { page: string; lesson: string; next: string; prev: string; bookMode: string; scrollMode: string };
+
+const DEFAULT_LABELS: ReaderLabels = { page: "Page", lesson: "Seekh", next: "Agla page", prev: "Pichhla page", bookMode: "Book", scrollMode: "Scroll" };
+
+export function BookReader({
+  pages,
+  next,
+  prev,
+  labels = DEFAULT_LABELS,
+}: {
+  pages: ReaderPage[];
+  next?: { href: string; label: string };
+  prev?: { href: string; label: string };
+  labels?: ReaderLabels;
+}) {
   const [mode, setMode] = React.useState<"book" | "scroll">("book");
   const [index, setIndex] = React.useState(0);
   const [turn, setTurn] = React.useState<"next" | "prev" | null>(null);
@@ -65,7 +79,7 @@ export function BookReader({ pages, next, prev }: { pages: ReaderPage[]; next?: 
     return () => window.removeEventListener("keydown", onKey);
   }, [mode, index, go]);
 
-  const pageNumber = (i: number, p: ReaderPage) => (p.closing ? "Seekh" : `Page ${i + 1}`);
+  const pageNumber = (i: number, p: ReaderPage) => (p.closing ? labels.lesson : `${labels.page} ${i + 1}`);
 
   return (
     <div ref={top} className="scroll-mt-24">
@@ -80,7 +94,7 @@ export function BookReader({ pages, next, prev }: { pages: ReaderPage[]; next?: 
               className={cn("inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 transition-colors", mode === m ? "bg-white/15 text-foreground" : "text-muted hover:text-foreground")}
             >
               {m === "book" ? <BookOpen aria-hidden="true" className="size-4" /> : <ScrollText aria-hidden="true" className="size-4" />}
-              {m === "book" ? "Book" : "Scroll"}
+              {m === "book" ? labels.bookMode : labels.scrollMode}
             </button>
           ))}
         </div>
@@ -124,7 +138,7 @@ export function BookReader({ pages, next, prev }: { pages: ReaderPage[]; next?: 
       <nav aria-label="Pages" className="mt-6 flex items-center justify-between gap-3">
         {mode === "book" && index > 0 ? (
           <button type="button" onClick={() => go(index - 1)} className="glass inline-flex items-center gap-2 rounded-full px-4 py-2.5 text-sm text-foreground hover:bg-white/10">
-            <ArrowLeft aria-hidden="true" className="size-4" /> Pichhla page
+            <ArrowLeft aria-hidden="true" className="size-4" /> {labels.prev}
           </button>
         ) : prev ? (
           <Link href={prev.href} className="glass inline-flex items-center gap-2 rounded-full px-4 py-2.5 text-sm text-foreground hover:bg-white/10">
@@ -135,7 +149,7 @@ export function BookReader({ pages, next, prev }: { pages: ReaderPage[]; next?: 
         )}
         {mode === "book" && index < last ? (
           <button type="button" onClick={() => go(index + 1)} className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:opacity-90">
-            Agla page <ArrowRight aria-hidden="true" className="size-4" />
+            {labels.next} <ArrowRight aria-hidden="true" className="size-4" />
           </button>
         ) : next ? (
           <Link href={next.href} className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:opacity-90">
