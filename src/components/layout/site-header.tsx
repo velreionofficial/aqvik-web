@@ -35,12 +35,12 @@ export function SiteHeader() {
             <Logo priority />
           </Link>
 
-          <nav aria-label="Primary" className="hidden items-center gap-7 lg:flex">
+          <nav aria-label="Primary" className="hidden items-center gap-5 lg:flex xl:gap-7">
             {primaryNav.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="rounded-sm text-sm text-muted transition-colors hover:text-foreground"
+                className="whitespace-nowrap rounded-sm text-sm text-muted transition-colors hover:text-foreground"
               >
                 {item.label}
               </Link>

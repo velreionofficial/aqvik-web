@@ -50,6 +50,7 @@ export const primaryNav: readonly NavItem[] = [
   { label: "Roadmap", href: "/#roadmap" },
   { label: "FAQ", href: "/#faq" },
   { label: "Tools", href: "/tools" },
+  { label: "IPO calendar", href: "/ipo" },
   { label: "Contact", href: "/contact" },
 ] as const;
 
@@ -58,6 +59,7 @@ export const joinBetaHref = "/#beta";
 
 export const footerNav: readonly NavItem[] = [
   { label: "Tools", href: "/tools" },
+  { label: "IPO calendar", href: "/ipo" },
   { label: "Privacy Policy", href: "/privacy" },
   { label: "Terms & Conditions", href: "/terms" },
   { label: "Delete Account", href: "/delete-account" },

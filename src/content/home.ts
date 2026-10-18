@@ -25,6 +25,12 @@ export const hero = {
     label: "Tools for your work: GST invoice, EMI, FD & more",
     href: "/tools",
   },
+  /** Link to the IPO calendar, shown under the tools link. Facts only; never names a "hot" IPO. */
+  ipoLink: {
+    tag: "IPO",
+    label: "IPO calendar: dates, lot size & financials explained",
+    href: "/ipo",
+  },
   eyebrow: "Personal finance · Built in India",
   headline: "Know where you stand. Plan where you're going.",
   subheadline:

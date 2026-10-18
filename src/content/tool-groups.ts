@@ -4,6 +4,7 @@ import { byajTool } from "@/content/byaj";
 import { flatRateTool, goalTool } from "@/content/flat-goal";
 import { gstInvoiceTool } from "@/content/gst-invoice";
 import { inflationTool } from "@/content/inflation";
+import { ipoCalculatorTool } from "@/content/ipo";
 import { ratioTool } from "@/content/ratio-analyzer";
 import { statementTool } from "@/content/statement-analyzer";
 import { creditCardTool, emiTool, fdTool, gstCalcTool, prepaymentTool, rdTool, sipTool, swpTool } from "@/content/tools";
@@ -86,7 +87,7 @@ export const toolGroups: readonly ToolGroup[] = [
     description: "Plan a goal, see how investing and deposits grow, what inflation does, and read a company's accounts.",
     metaTitle: "Savings & Investment Calculators — Goal, SIP, FD, RD, Inflation | AQVIK",
     metaDescription:
-      "Free goal planner, SIP, SWP, FD, RD and inflation calculators and a financial ratio analyzer: plan a goal, see what saving grows to and what inflation does to it.",
+      "Free goal planner, SIP, SWP, FD, RD, inflation and IPO calculators and a financial ratio analyzer: plan a goal, see what saving grows to and what inflation does to it.",
     tools: [
       entry(goalTool, "Open planner", "goal plan target sip needed child education wedding house retirement lakshya", "sip-calculator"),
       entry(sipTool, "Open calculator", "mutual fund investment returns step-up monthly"),
@@ -94,6 +95,7 @@ export const toolGroups: readonly ToolGroup[] = [
       entry(fdTool, "Open calculator", "fixed deposit bank interest maturity", "rd-calculator"),
       entry(rdTool, "Open calculator", "recurring deposit bank monthly saving interest", "fd-calculator"),
       entry(inflationTool, "Open calculator", "inflation mehngai price rise future cost real return purchasing power value of money"),
+      entry(ipoCalculatorTool, "Open calculator", "ipo lot size price band minimum investment retail limit 2 lakh hni sni bni upi 5 lakh listing tax stcg share allotment"),
       entry(ratioTool, "Open analyzer", "ratio roe roce roa eps pe pb margin annual report balance sheet dupont company analysis"),
     ],
     fallback: [],

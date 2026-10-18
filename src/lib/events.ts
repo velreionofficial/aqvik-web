@@ -12,7 +12,8 @@ export type ProductEvent =
   | "review_saved"
   | "review_compared_saved"
   | "review_reminder_added"
-  | "review_full_report_opened";
+  | "review_full_report_opened"
+  | "ipo_calendar_added";
 
 export function logEvent(name: ProductEvent): void {
   try {

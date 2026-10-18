@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 
+import { publishedIpos } from "@/content/ipos";
 import { siteConfig } from "@/content/site";
 
 const routes = [
@@ -35,15 +36,25 @@ const routes = [
   { path: "/tools/goal-planner", priority: 0.8, changeFrequency: "monthly" },
   { path: "/tools/byaj-calculator", priority: 0.8, changeFrequency: "monthly" },
   { path: "/tools/bank-statement-analyzer", priority: 0.9, changeFrequency: "monthly" },
+  { path: "/tools/ipo-calculator", priority: 0.8, changeFrequency: "monthly" },
+  { path: "/ipo", priority: 0.8, changeFrequency: "daily" },
 ] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
 
-  return routes.map((route) => ({
+  const pages = routes.map((route) => ({
     url: new URL(route.path, siteConfig.url).toString(),
     lastModified,
     changeFrequency: route.changeFrequency,
     priority: route.priority,
   }));
+  // Published IPOs only; drafts never reach the sitemap.
+  const ipos = publishedIpos().map((ipo) => ({
+    url: new URL(`/ipo/${ipo.slug}`, siteConfig.url).toString(),
+    lastModified: new Date(`${ipo.verifiedOn}T00:00:00+05:30`),
+    changeFrequency: "daily" as const,
+    priority: 0.7,
+  }));
+  return [...pages, ...ipos];
 }
