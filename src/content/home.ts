@@ -31,6 +31,14 @@ export const hero = {
     label: "IPO calendar: dates, lot size & financials explained",
     href: "/ipo",
   },
+  /** The free book, shown as a small cover card under the IPO link. */
+  bookLink: {
+    tag: "Free book",
+    title: "Digital Thug Life · Season 1",
+    label: "Online scam ki asli kahaniyan — padho, page palat ke",
+    href: "/books/digital-thug-life",
+    cover: "/books/digital-thug-life/cover.webp",
+  },
   eyebrow: "Personal finance · Built in India",
   headline: "Know where you stand. Plan where you're going.",
   subheadline:

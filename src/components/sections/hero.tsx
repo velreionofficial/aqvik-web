@@ -37,6 +37,19 @@ export function Hero() {
                 <span className="min-w-0">{hero.ipoLink.label}</span>
                 <ArrowRight aria-hidden="true" className="size-4 shrink-0 text-primary-soft transition-transform group-hover:translate-x-0.5" />
               </Link>
+              <Link
+                href={hero.bookLink.href}
+                className="glass group flex max-w-full items-center gap-4 rounded-2xl p-2 pr-4 text-sm text-foreground transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element -- small static cover */}
+                <img src={hero.bookLink.cover} alt="Digital Thug Life book cover" width={56} height={90} className="h-[90px] w-14 shrink-0 rounded-md object-cover shadow-[0_8px_20px_-6px_rgba(255,45,61,.5)] ring-1 ring-white/10 transition-transform group-hover:-translate-y-0.5" />
+                <span className="min-w-0">
+                  <span className="inline-block rounded-full bg-[#FF2D3D] px-2.5 py-0.5 text-xs font-semibold text-white">{hero.bookLink.tag}</span>
+                  <span className="mt-1.5 block font-semibold">{hero.bookLink.title}</span>
+                  <span className="mt-0.5 block text-muted">{hero.bookLink.label}</span>
+                </span>
+                <ArrowRight aria-hidden="true" className="size-4 shrink-0 text-primary-soft transition-transform group-hover:translate-x-0.5" />
+              </Link>
             </div>
             <p className="eyebrow">{hero.eyebrow}</p>
 

@@ -166,3 +166,16 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* Book reader: a short page-turn when moving between pages in book mode. */
+@keyframes page-in-next {
+  from { opacity: 0; transform: rotateY(-12deg) translateX(28px); transform-origin: left center; }
+  to { opacity: 1; transform: none; transform-origin: left center; }
+}
+@keyframes page-in-prev {
+  from { opacity: 0; transform: rotateY(12deg) translateX(-28px); transform-origin: right center; }
+  to { opacity: 1; transform: none; transform-origin: right center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .book-page { animation: none !important; }
+}

@@ -60,6 +60,7 @@ export const joinBetaHref = "/#beta";
 export const footerNav: readonly NavItem[] = [
   { label: "Tools", href: "/tools" },
   { label: "IPO calendar", href: "/ipo" },
+  { label: "Free books", href: "/books" },
   { label: "Privacy Policy", href: "/privacy" },
   { label: "Terms & Conditions", href: "/terms" },
   { label: "Delete Account", href: "/delete-account" },

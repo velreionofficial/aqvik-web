@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 
+import { books, readingOrder } from "@/content/books";
 import { publishedIpos } from "@/content/ipos";
 import { siteConfig } from "@/content/site";
 
@@ -38,6 +39,7 @@ const routes = [
   { path: "/tools/bank-statement-analyzer", priority: 0.9, changeFrequency: "monthly" },
   { path: "/tools/ipo-calculator", priority: 0.8, changeFrequency: "monthly" },
   { path: "/ipo", priority: 0.8, changeFrequency: "daily" },
+  { path: "/books", priority: 0.7, changeFrequency: "weekly" },
 ] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -56,5 +58,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: "daily" as const,
     priority: 0.7,
   }));
-  return [...pages, ...ipos];
+  const bookPages = books.flatMap((b) => [
+    { url: new URL(`/books/${b.slug}`, siteConfig.url).toString(), lastModified, changeFrequency: "weekly" as const, priority: 0.7 },
+    ...readingOrder(b).map((o) => ({ url: new URL(o.href, siteConfig.url).toString(), lastModified, changeFrequency: "monthly" as const, priority: 0.6 })),
+  ]);
+  return [...pages, ...ipos, ...bookPages];
 }
