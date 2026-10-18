@@ -70,7 +70,7 @@ test("Every published part parses, has pages, screens and a closing section", ()
         assert.ok(screensOf(pages).length > 0, `${file}: no screens`);
         assert.ok(pages.some((pg) => pg.blocks.some((b) => b.type === "h" && b.tone === "sos")), `${file}: no 🆘 section`);
         // No real brands in the fiction's company names.
-        assert.doesNotMatch(src, /\b(WhatsApp|Skype|DHL|FedEx|PhonePe|Paytm)\b/, `${file}: real brand name`);
+        assert.doesNotMatch(src, /\b(WhatsApp|Skype|DHL|FedEx|PhonePe|Paytm|Telegram|Instagram|YouTube|Facebook|Google Pay|GPay)\b/, `${file}: real brand name`);
         for (const id of imageIds(pages)) assert.match(id, /^c\d+p\d+-[a-z]+$/, `${file}: image id ${id}`);
         if (lang === "hinglish") assert.doesNotMatch(src, /[\u0900-\u097F]/, `${file}: stray Devanagari in Hinglish`);
         if (lang === "hindi") {
@@ -94,6 +94,22 @@ test("Hindi parts match their Hinglish originals page for page", () => {
       assert.deepEqual(hi.map((x) => x.closing), hl.map((x) => x.closing), `${p.files.hindi}: closing page`);
       assert.deepEqual(imageIds(hi), imageIds(hl), `${p.files.hindi}: illustrations`);
       assert.deepEqual(screensOf(hi), screensOf(hl), `${p.files.hindi}: phone screens`);
+    }
+  }
+});
+
+test("Hindi and Hinglish cite the same sources, helplines and amounts", () => {
+  const links = (src: string) => [...src.matchAll(/\]\((https?:\/\/[^)\s]+)\)/g)].map((m) => m[1]).sort();
+  const numbers = (src: string) => [...new Set(src.match(/\b(1930|112|14416)\b/g) ?? [])].sort();
+  const rupees = (src: string) => (src.match(/₹[\d,]+(?:\.\d+)?/g) ?? []).sort();
+  for (const c of digitalThugLife.cases) {
+    for (const p of c.parts) {
+      if (!p.files.hindi) continue;
+      const hl = read(p.files.hinglish);
+      const hi = read(p.files.hindi);
+      assert.deepEqual(links(hi), links(hl), `${p.files.hindi}: source links differ from Hinglish`);
+      assert.deepEqual(numbers(hi), numbers(hl), `${p.files.hindi}: helpline numbers differ from Hinglish`);
+      assert.deepEqual(rupees(hi), rupees(hl), `${p.files.hindi}: rupee amounts differ from Hinglish`);
     }
   }
 });

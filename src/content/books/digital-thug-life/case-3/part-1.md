@@ -153,7 +153,7 @@ Har kadam pe ek OTP chahiye tha.
 
 Har OTP Sunil ji ke phone pe aaya. Aur har OTP, Sunil ji ke takiye ke paas pade phone se, chupchaap **monitor pe** pahunch gaya — Sunil ji ke inbox mein dikhne se pehle hi.
 
-*Payee added. ₹1,95,000 transferred. ₹1,95,000 transferred. ₹49,000…*
+*Payee added. ₹1,95,000 transferred. ₹1,95,000 transferred. ₹24,785…*
 
 Phir joint account. Rekha ji ka.
 

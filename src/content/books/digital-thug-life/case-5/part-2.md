@@ -190,7 +190,7 @@ alt: Mohalle ke mandir ke aangan mein blackboard ke saamne khadi ek bujurg mahil
 :::box news
 **📰 Ye kahani kaalpanik hai. Lekin ye sab asli mein hota hai:**
 - **Namakkal, Tamil Nadu (October 2026):** ATM pe "madad" ke bahaane PIN dekh ke card badalne wale Haryana ke do aadmi pakde gaye; **361 ATM card** zabt, kai rajyon mein 41 maamle. [ThePrint](https://theprint.in/india/haryana-duo-held-for-atm-card-swapping-fraud-in-tns-namakkal-361-cards-seized/3070740/)
-- **Jabalpur, Madhya Pradesh (March 2026):** madad ke bahaane card badalne wala ek yuvak giraftaar; **66 card** baraamad, sone ke jhumke zabt, aur **₹3.68 lakh** freeze. [The Hitavada](https://www.thehitavada.com/Encyc/2026/3/12/fraudster-held-for-swapping-atm-cards-withdrawing-money-from-many-accounts.html)
+- **Madhya Pradesh (March 2026):** madad ke bahaane card badalne wala ek yuvak giraftaar; **66 card** baraamad, sone ke jhumke zabt, aur **₹3.68 lakh** freeze. [The Hitavada](https://www.thehitavada.com/Encyc/2026/3/12/fraudster-held-for-swapping-atm-cards-withdrawing-money-from-many-accounts.html)
 - **Shahdara, Delhi (May 2025):** ATM ke paas bujurgon ko "madad" dene wale do aadmi chori ke scooter ke saath pakde gaye; **41 chori ke card** baraamad. [The Week](https://www.theweek.in/wire-updates/national/2025/05/26/nrg9-dl-atm-card-racket.html)
 - **Mohali, Punjab:** ATM kiosk mein skimmer aur chhota camera lagaakar card ki copy banane wale do aadmi pakde gaye; **₹6.9 lakh** baraamad. [The Tribune](https://www.tribuneindia.com/news/chandigarh/2-jalandhar-natives-held-for-cloning-atm-cards-in-mohali-282246/amp)
 :::
@@ -218,7 +218,7 @@ alt: Mohalle ke mandir ke aangan mein blackboard ke saamne khadi ek bujurg mahil
 2. **1930** — turant
 3. **cybercrime.gov.in** — SMS ke screenshot aur galat card ki photo ke saath
 4. **Thane** mein shikayat — ATM aur dukaan ka CCTV jaldi maangna padta hai
-5. **Card aapke paas tha aur PIN kisi ko nahi diya?** RBI ke niyam se 3 working din ke andar report karo — zimmedaari zero. Der na karo.
+5. **Card aapke paas tha aur PIN kisi ko nahi diya?** RBI ke niyam se bank ka alert milne ke 3 working din ke andar report karo — zimmedaari zero. (1 January 2027 se naye niyam mein ye muddat 5 calendar din hai.) Der na karo.
 6. Fake caller ka number **Sanchar Saathi (Chakshu)** pe report karo
 
 **💬 Ise share karo:** apne mummy-papa, daadi-naani ke saath. Aur unhe teen line yaad karwa do.

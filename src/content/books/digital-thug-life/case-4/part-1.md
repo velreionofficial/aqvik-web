@@ -22,7 +22,7 @@ Aur washing machine abhi bhi balcony mein khadi thi.
 
 ### Page 2 — Harpreet's Kitchen
 
-Harpreet Kaur 31 saal ki thi. Ghar se bakery chalaati thi — *"Harpreet's Kitchen"*, Instagram pe 4,800 followers, aur mohalle mein har birthday ka pakka order.
+Harpreet Kaur 31 saal ki thi. Ghar se bakery chalaati thi — *"Harpreet's Kitchen"*, ClipGram pe 4,800 followers, aur mohalle mein har birthday ka pakka order.
 
 Pati **Gurjeet** truck transport ki company mein supervisor the. Beta **Jasmeet** — 16 saal, gyarahvi mein, aur aajkal ek naye phone ke peeche pagal.
 
@@ -90,7 +90,7 @@ alt: Gaon ke ek kamre mein ek jawaan ladka phone pe kaam karta hua, deewar pe ha
 Harpreet ke phone pe ek notification aaya. *Payment request from MAJOR V RANA.*
 
 :::upi
-app: PayNow UPI
+app: PayChakra UPI
 kind: Collect request
 from: MAJOR V RANA requests
 amount: ₹1

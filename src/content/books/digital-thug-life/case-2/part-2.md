@@ -91,7 +91,7 @@ Deepak ne ek kaagaz liya. CA ka student tha — hisaab kaagaz pe samajhta tha.
 
 "Sun. Bank ka niyam, RBI ka niyam — main jitna samajhta hoon, seedha bata raha hoon:"
 
-> **Agar galti bank ki ho, ya system mein kahin aur ho** — jaise data leak, hacking — aur tu teen working days ke andar report kar de, to **teri zimmedaari zero.**
+> **Agar galti bank ki ho**, to **teri zimmedaari zero** — chahe tu kabhi bhi report kare. **Aur agar galti na bank ki ho na teri**, balki system mein kahin aur ho — jaise data leak, hacking — aur tu bank ka alert milne ke teen working days ke andar report kar de, to bhi **zimmedaari zero.**
 >
 > **Lekin agar tune khud OTP, PIN ya password kisi ko bataya** — to bank ise *customer ki laaparwahi* maanta hai. **Report karne tak ka saara nuksaan tera.** Report ke *baad* jo hua, wo bank ka.
 
@@ -101,7 +101,7 @@ Imran ne kaagaz ko ghoora. "Ye to… ye to bahut zaalim niyam hai."
 
 "Shayad." Deepak ne kandhe uchkaye. "Lekin seedha hai. **OTP tera signature hai, Imran.** Jaise cheque pe sign karke kisi ko de do, to bank nahi kahega ki tumhare saath dhokha hua. Bank kahega — sign to aapka hai."
 
-*(Note: RBI ne naye niyam ghoshit kiye hain jo 1 January 2027 se laagu honge — usme chhote fraud pe kuch bharpaai ka intezaam hai. Dekho kahani ke ant mein "Ye asli hai".)*
+*(Note: RBI ne June 2026 mein naye niyam jaari kiye hain jo 1 January 2027 ya uske baad ke transaction pe laagu honge — usme chhote fraud pe shartein poori hone pe kuch muaavze ka intezaam hai. Imran ka maamla usse pehle ka hai. Dekho kahani ke ant mein "Ye asli hai".)*
 
 :::image c2p2-night
 alt: Raat ko flat mein sofa pe baitha udaas Imran, saamne kaagaz pe hisaab samjhata roommate Deepak, laptop pe bank ka email
@@ -202,8 +202,8 @@ Us din Imran ki diary mein likha tha: *EMI baaki — 6. Card baante — 1,100.*
 **📰 Ye kahani kaalpanik hai. Lekin ye sab asli mein hota hai:**
 - **Bengaluru (April 2025):** ek college student ne OTP scam mein **₹2.94 lakh** gawaaye; police ne paisa trace karne ke liye bank se madad maangi. [Deccan Herald](https://www.deccanherald.com/india/karnataka/bengaluru/otp-scam-college-student-loses-rs-294-lakh-to-online-fraud-3488923)
 - **Bengaluru (December 2022):** "credit card reward points" ke naam pe thagon ne ek aadmi se card ki details nikalwa ke **₹1.5 lakh** udaaye. [Deccan Herald](https://www.deccanherald.com/india/karnataka/bengaluru/man-falls-prey-to-credit-card-reward-point-fraud-1174805.html)
-- **RBI ka niyam (2017 se):** galti bank ki ho ya system mein kahin aur ho aur aap **3 working days** mein report karein to zimmedaari zero; lekin agar customer ne khud payment credentials (OTP/PIN) bataye, to **report karne tak ka nuksaan customer ka**. [Business Standard](https://www.business-standard.com/article/pf/rbi-s-steps-on-frauds-will-help-customers-117070900714_1.html)
-- **Naya niyam (1 January 2027 se laagu):** report ki muddat **5 din**; ₹50,000 tak ke fraud pe **zindagi mein ek baar 85% ya ₹25,000 (jo kam ho)** tak bharpaai, agar bank aur 1930/cybercrime.gov.in pe 5 din mein report ho; aur bank ko saabit karna hoga ki galti customer ki thi. [ELP law firm summary](https://elplaw.in/wp-content/uploads/2026/06/RBI-Tightens-Customer-Protection-Framework-for-Fraudulent-Electronic-Banking-Transactions.pdf)
+- **RBI ka niyam (July 2017 ka circular; 1 January 2027 se pehle ke transaction):** galti bank ki ho to zimmedaari zero; galti na bank ki na customer ki (jaise data leak) aur bank ka alert milne ke **3 working days** mein report ho, to bhi zero; lekin agar customer ne khud payment credentials (OTP/PIN) bataye, to **report karne tak ka nuksaan customer ka** — report ke baad ka bank ka. Customer ki galti saabit karne ka bhaar bank pe. [RBI circular, 6 July 2017](https://www.rbi.org.in/commonman/english/scripts/Notification.aspx?Id=2336)
+- **Naya niyam (RBI ne 24 June 2026 ko jaari kiya; 1 January 2027 ya uske baad ke transaction pe laagu):** teesre paksh wale fraud mein zero zimmedaari ke liye bank ko **5 calendar din** mein report. ₹50,000 tak ke fraud mein ek vyakti ko **zindagi mein ek baar, net nuksaan ka 85% ya ₹25,000 (jo kam ho)** tak muaavza mil sakta hai — shart: fraud **5 calendar din** ke andar bank aur 1930/cybercrime.gov.in dono pe report ho, aur nuksaan sachcha ho. Ye muaavza shuru mein **1 January 2027 se ek saal tak** hue fraud ke liye hai. Muaavza apne aap pakka nahi — shartein lagu hain. [RBI notification, 24 June 2026](https://www.rbi.org.in/Scripts/NotificationUser.aspx?Id=13543&Mode=0)
 :::
 
 ---

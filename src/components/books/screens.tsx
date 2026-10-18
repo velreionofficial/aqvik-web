@@ -33,7 +33,7 @@ export function Screen({ kind, f }: { kind: ScreenKind; f: Record<string, string
         <PhoneShell>
           <div className="px-5 pb-6 pt-7 text-center">
             <p className="font-mono text-[0.6875rem] uppercase tracking-[0.2em] text-muted-dim">Incoming call</p>
-            <div aria-hidden="true" className="mx-auto mt-5 grid size-16 place-items-center rounded-full bg-white/10 text-2xl">📦</div>
+            <div aria-hidden="true" className="mx-auto mt-5 grid size-16 place-items-center rounded-full bg-white/10 text-2xl">{f.icon ?? "📦"}</div>
             <p className="mt-4 text-lg font-semibold text-foreground">{f.name}</p>
             <p className="mt-1 font-mono text-sm text-muted">{f.number}</p>
             {f.meta ? <p className="mt-0.5 text-xs text-muted-dim">{f.meta}</p> : null}

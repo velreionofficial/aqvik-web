@@ -149,7 +149,7 @@ Lambi hall mein do sau desk. Har desk pe ek laptop, ek headset, ek script. Khidk
 alt: Scam compound ka lamba hall, desk pe headset lagaye ladke, aur peeche khada guard
 :::
 
-Desk number 117 pe Raju baitha tha. Umar 22. Gorakhpur ka. Ek saal pehle Instagram pe ad dekha tha: *"Thailand mein data entry job, ₹80,000 mahina, rehna-khana free."* Agent ne passport le liya tha, airport pe. Wapas kabhi nahi diya.
+Desk number 117 pe Raju baitha tha. Umar 22. Gorakhpur ka. Ek saal pehle phone pe ek ad dekha tha: *"Thailand mein data entry job, ₹80,000 mahina, rehna-khana free."* Agent ne passport le liya tha, airport pe. Wapas kabhi nahi diya.
 
 Raju ki script ke page 3 pe likha tha:
 

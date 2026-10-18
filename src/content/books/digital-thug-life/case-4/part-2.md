@@ -165,7 +165,7 @@ Bas ek aunty, mol-bhaav, aur saamne khadi machine.
 :::box news
 **📰 Ye kahani kaalpanik hai. Lekin ye sab asli mein hota hai:**
 - **Kharar, Punjab (June 2025):** "defence personnel" bankar purani SUV ka jhootha ad dala gaya; "vehicle shipping" aur "document clearance" ke naam pe khareedaar se **₹5 lakh** liye gaye. Cyber police ne ek 27 saal ke yuvak ko giraftaar kiya, nakli army ID card mile. [The420.in](https://the420.in/kharar-olx-fraud-army-impersonation-arrest/)
-- **Tamil Nadu police (2020):** purane saamaan ki website pe khud ko "army personnel" batakar poore desh mein logon se advance lene wale gang ka pardaafaash; nakli army ID aur canteen card istemaal hote the. [The News Minute](https://www.thenewsminute.com/tamil-nadu/duping-buyers-across-india-posing-army-officers-olx-tn-cops-crack-scam-119709)
+- **Tamil Nadu police (2020):** purane saamaan ki website pe khud ko "army personnel" batakar poore desh mein logon se advance lene wale gang ke do aaropi Rajasthan se pakde gaye; nakli army ID aur canteen card istemaal hote the. [The News Minute](https://www.thenewsminute.com/tamil-nadu/duping-buyers-across-india-posing-army-officers-olx-tn-cops-crack-scam-119709)
 - **Delhi Police cyber cell ki chetavani:** "fauji" khareedaar paise "bhejne" ke naam pe QR code bhejta hai aur PIN daalne ko kehta hai — paisa aane ke bajaye **kat jaata hai**, aur phir "double wapas" ke naam pe baar-baar. [Delhi Police — Cyber](https://cyber.delhipolice.gov.in/OLX.html)
 :::
 

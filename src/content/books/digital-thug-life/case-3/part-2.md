@@ -184,7 +184,7 @@ Us din Anjali ne apni class ke 64 bachchon ke phone mein *Settings → Apps* khu
 
 :::box news
 **📰 Ye kahani kaalpanik hai. Lekin ye sab asli mein hota hai:**
-- **Fatorda, Goa (June 2026):** "Aadhaar update pending" ke naam pe ek ladki ko nakli bank KYC app (.apk) install karwaya gaya. Uske khaate se ₹1.69 lakh gaye (bank ne ₹1.49 lakh wapas kiye), aur usi mobile number se uske **pita ke khaate se ₹10 lakh** nikal gaye. [The Goan](https://www.thegoan.net/goa-news/fake-kyc-app-scam-costs-fatorda-family-rs-102-lakh/149800.html)
+- **Fatorda, Goa (June 2026):** "Aadhaar update pending" ke naam pe ek mahila ko nakli bank KYC app (.apk) install karwaya gaya. Uske khaate se ₹1.69 lakh gaye (bank ne ₹1.49 lakh wapas kiye), aur usi mobile number se uske **pita ke khaate se ₹10 lakh** nikal gaye. [The Goan](https://www.thegoan.net/goa-news/fake-kyc-app-scam-costs-fatorda-family-rs-102-lakh/149800.html)
 - **Hingoli, Maharashtra (August 2025):** ek sarkari karmachari ko "shaadi ka card" bhej ke asal mein .apk file khulwayi gayi; khaate se **₹1.9 lakh** gaye. [Outlook Money](https://www.outlookmoney.com/news/whatsapp-wedding-invite-scam-maharashtra-govt-employee-loses-rs-190000)
 - **Kai rajyon ki police** ne nakli **"RTO e-challan.apk"** file ke baare mein chetavani di hai — challan ke naam pe aayi file phone pe kabza karke paise udaati hai. [ThePrint — Kerala Police](https://theprint.in/india/keralam-police-warn-of-malicious-apk-scam-via-fake-e-challan-sms/3053993/) · [The Tribune — Himachal](https://www.tribuneindia.com/news/himachal/challan-scam-alert-fraudsters-use-whatsapp-apk-links-to-loot-money)
 :::

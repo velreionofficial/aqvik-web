@@ -184,7 +184,7 @@ alt: हार्डवेयर दुकान के काउंटर क�
 
 :::box news
 **📰 ये कहानी काल्पनिक है। लेकिन ये सब असल में होता है:**
-- **फ़ातोर्डा, गोवा (जून 2026):** "आधार अपडेट पेंडिंग" के नाम पर एक लड़की से नकली बैंक KYC ऐप (.apk) इंस्टॉल करवाया गया। उसके खाते से ₹1.69 लाख गए (बैंक ने ₹1.49 लाख वापस किए), और उसी मोबाइल नंबर से उसके **पिता के खाते से ₹10 लाख** निकल गए। [The Goan](https://www.thegoan.net/goa-news/fake-kyc-app-scam-costs-fatorda-family-rs-102-lakh/149800.html)
+- **फ़ातोर्डा, गोवा (जून 2026):** "आधार अपडेट पेंडिंग" के नाम पर एक महिला से नकली बैंक KYC ऐप (.apk) इंस्टॉल करवाया गया। उसके खाते से ₹1.69 लाख गए (बैंक ने ₹1.49 लाख वापस किए), और उसी मोबाइल नंबर से उसके **पिता के खाते से ₹10 लाख** निकल गए। [The Goan](https://www.thegoan.net/goa-news/fake-kyc-app-scam-costs-fatorda-family-rs-102-lakh/149800.html)
 - **हिंगोली, महाराष्ट्र (अगस्त 2025):** एक सरकारी कर्मचारी को "शादी का कार्ड" भेजकर असल में .apk फ़ाइल खुलवाई गई; खाते से **₹1.9 लाख** गए। [Outlook Money](https://www.outlookmoney.com/news/whatsapp-wedding-invite-scam-maharashtra-govt-employee-loses-rs-190000)
 - **कई राज्यों की पुलिस** ने नकली **"RTO ई-चालान.apk"** फ़ाइल के बारे में चेतावनी दी है — चालान के नाम पर आई फ़ाइल फोन पर क़ब्ज़ा करके पैसे उड़ाती है। [ThePrint — Kerala Police](https://theprint.in/india/keralam-police-warn-of-malicious-apk-scam-via-fake-e-challan-sms/3053993/) · [The Tribune — Himachal](https://www.tribuneindia.com/news/himachal/challan-scam-alert-fraudsters-use-whatsapp-apk-links-to-loot-money)
 :::

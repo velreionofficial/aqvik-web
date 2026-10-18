@@ -38,17 +38,17 @@ export const digitalThugLife: Book = {
   title: "Digital Thug Life",
   season: "Season 1",
   author: "AQVIK",
-  tagline: "Online scam ki asli kahaniyan — aur unse bachne ka tareeka",
-  taglineHi: "ऑनलाइन स्कैम की असली कहानियाँ — और उनसे बचने का तरीक़ा",
-  taglineEn: "Real stories of online scams, and how to stay safe",
+  tagline: "Asli online scam se prerit kahaniyan — aur unse bachne ka tareeka",
+  taglineHi: "असली ऑनलाइन स्कैम से प्रेरित कहानियाँ — और उनसे बचने का तरीक़ा",
+  taglineEn: "Stories inspired by real online scams, and how to stay safe",
   description:
     "Free story book in Hinglish and Hindi: ten cases inspired by real online scams in India — digital arrest, OTP, fake KYC, UPI, ATM, task jobs, fake trading apps, loan apps, voice clones and money mules — and how to stay safe.",
   language: "Hinglish · हिंदी",
   cover: "/books/digital-thug-life/cover.webp",
   disclaimer:
-    "Ye kahaniyan asli ghatnaon se prerit hain. Saare kirdaar, naam, jagah, company aur sansthaayein kaalpanik hain; kisi asli vyakti ya sanstha se samaanta sanyog hai. Inka maksad sirf jaagrukta hai.",
+    "Ye kahaniyan asli ghatnaon se prerit hain, lekin kaalpanik hain. Kirdaar, parivaar, gaon, bank, app aur company ke naam kaalpanik hain; kisi asli vyakti ya sanstha se samaanta sanyog hai. RBI, SEBI, police aur 1930 jaisi asli sansthaon ka zikr sirf jaankari ke liye hai — AQVIK unse juda nahi hai. Ye kanooni ya vitteey salaah nahi hai, aur shikayat karne se paisa wapas milne ki guarantee nahi hoti. Koi galti dikhe to support@aqvik.com pe batayein.",
   disclaimerHi:
-    "ये कहानियाँ असली घटनाओं से प्रेरित हैं। सारे किरदार, नाम, जगह, कंपनी और संस्थाएँ काल्पनिक हैं; किसी असली व्यक्ति या संस्था से समानता संयोग है। इनका मक़सद सिर्फ़ जागरूकता है।",
+    "ये कहानियाँ असली घटनाओं से प्रेरित हैं, लेकिन काल्पनिक हैं। किरदार, परिवार, गाँव, बैंक, ऐप और कंपनी के नाम काल्पनिक हैं; किसी असली व्यक्ति या संस्था से समानता संयोग है। RBI, SEBI, पुलिस और 1930 जैसी असली संस्थाओं का ज़िक्र सिर्फ़ जानकारी के लिए है — AQVIK उनसे जुड़ा नहीं है। ये क़ानूनी या वित्तीय सलाह नहीं है, और शिकायत करने से पैसा वापस मिलने की गारंटी नहीं होती। कोई ग़लती दिखे तो support@aqvik.com पर बताएँ।",
   imageNote: "Illustrations are AI-generated.",
   cases: [
     {
@@ -117,13 +117,73 @@ export const digitalThugLife: Book = {
         { slug: "part-2", n: 2, title: "Card kiska hai?", titleHi: "कार्ड किसका है?", files: { hinglish: "digital-thug-life/case-5/part-2.md", hindi: "digital-thug-life/case-5/part-2.hi.md" } },
       ],
     },
+    {
+      slug: "case-6",
+      n: 6,
+      title: "Like karo, kamao",
+      titleHi: "लाइक करो, कमाओ",
+      scam: "Part-time \"task\" job aur prepaid task ka jaal",
+      hook: "Teen like, ₹150 ki pehli kamaai, aur shaadi ke ₹3,92,000.",
+      hookHi: "तीन लाइक, ₹150 की पहली कमाई, और शादी के ₹3,92,000।",
+      parts: [
+        { slug: "part-1", n: 1, title: "Hi dear!", titleHi: "हाय डियर!", files: { hinglish: "digital-thug-life/case-6/part-1.md", hindi: "digital-thug-life/case-6/part-1.hi.md" } },
+        { slug: "part-2", n: 2, title: "Papa ko kaise bataun?", titleHi: "पापा को कैसे बताऊँ?", files: { hinglish: "digital-thug-life/case-6/part-2.md", hindi: "digital-thug-life/case-6/part-2.hi.md" } },
+      ],
+    },
+    {
+      slug: "case-7",
+      n: 7,
+      title: "Sure-shot tip",
+      titleHi: "श्योर-शॉट टिप",
+      scam: "Stock tips group aur nakli trading app",
+      hook: "Ek \"Professor\", ek app, aur screen pe ₹2.31 crore jo kabhi the hi nahi.",
+      hookHi: "एक \"प्रोफ़ेसर\", एक ऐप, और स्क्रीन पर ₹2.31 करोड़ जो कभी थे ही नहीं।",
+      parts: [
+        { slug: "part-1", n: 1, title: "Professor ki class", titleHi: "प्रोफ़ेसर की क्लास", files: { hinglish: "digital-thug-life/case-7/part-1.md", hindi: "digital-thug-life/case-7/part-1.hi.md" } },
+        { slug: "part-2", n: 2, title: "Paisa kahan hai?", titleHi: "पैसा कहाँ है?", files: { hinglish: "digital-thug-life/case-7/part-2.md", hindi: "digital-thug-life/case-7/part-2.hi.md" } },
+      ],
+    },
+    {
+      slug: "case-8",
+      n: 8,
+      title: "Loan app",
+      titleHi: "लोन ऐप",
+      scam: "Nakli instant loan app, dhamki aur morphed photo",
+      hook: "₹6,000 ka loan, nau app, ₹1,38,000 — aur ek photo jo 412 logon tak pahunchi.",
+      hookHi: "₹6,000 का लोन, नौ ऐप, ₹1,38,000 — और एक फोटो जो 412 लोगों तक पहुँची।",
+      parts: [
+        { slug: "part-1", n: 1, title: "Allow", titleHi: "Allow", files: { hinglish: "digital-thug-life/case-8/part-1.md", hindi: "digital-thug-life/case-8/part-1.hi.md" } },
+        { slug: "part-2", n: 2, title: "Ek message, 412 log", titleHi: "एक मैसेज, 412 लोग", files: { hinglish: "digital-thug-life/case-8/part-2.md", hindi: "digital-thug-life/case-8/part-2.hi.md" } },
+      ],
+    },
+    {
+      slug: "case-9",
+      n: 9,
+      title: "Papa, main musibat mein hoon",
+      titleHi: "पापा, मैं मुसीबत में हूँ",
+      scam: "AI se banayi nakli awaaz — \"beta musibat mein hai\"",
+      hook: "Bete ki roti hui awaaz, ek \"Inspector\", aur 40 minute mein ₹2,70,000.",
+      hookHi: "बेटे की रोती हुई आवाज़, एक \"इंस्पेक्टर\", और 40 मिनट में ₹2,70,000।",
+      parts: [
+        { slug: "part-1", n: 1, title: "Bruno ka biscuit", titleHi: "ब्रूनो का बिस्किट", files: { hinglish: "digital-thug-life/case-9/part-1.md", hindi: "digital-thug-life/case-9/part-1.hi.md" } },
+        { slug: "part-2", n: 2, title: "Asli awaaz", titleHi: "असली आवाज़", files: { hinglish: "digital-thug-life/case-9/part-2.md", hindi: "digital-thug-life/case-9/part-2.hi.md" } },
+      ],
+    },
+    {
+      slug: "case-10",
+      n: 10,
+      title: "Account kiraye pe",
+      titleHi: "खाता किराए पर",
+      scam: "Money mule — apna bank khaata thagon ko kiraye pe dena",
+      hook: "₹5,000 mahina, ek bhura lifaafa, aur 41 parivaaron ka paisa ek student ke naam se.",
+      hookHi: "₹5,000 महीना, एक भूरा लिफ़ाफ़ा, और 41 परिवारों का पैसा एक स्टूडेंट के नाम से।",
+      parts: [
+        { slug: "part-1", n: 1, title: "₹5,000 mahina", titleHi: "₹5,000 महीना", files: { hinglish: "digital-thug-life/case-10/part-1.md", hindi: "digital-thug-life/case-10/part-1.hi.md" } },
+        { slug: "part-2", n: 2, title: "Kiska paisa tha?", titleHi: "किसका पैसा था?", files: { hinglish: "digital-thug-life/case-10/part-2.md", hindi: "digital-thug-life/case-10/part-2.hi.md" } },
+      ],
+    },
   ],
   upcoming: [
-    { n: 6, title: "Like karo, kamao", scam: "Part-time task job scam" },
-    { n: 7, title: "Sure-shot tip", scam: "Stock tips group aur fake trading app" },
-    { n: 8, title: "Loan app", scam: "Loan app ki dhamki" },
-    { n: 9, title: "Papa, main musibat mein hoon", scam: "AI voice clone" },
-    { n: 10, title: "Account kiraye pe", scam: "Money mule" },
   ],
 };
 
