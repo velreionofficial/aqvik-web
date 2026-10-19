@@ -1,16 +1,10 @@
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
-
 import { ImageResponse } from "next/og";
+
+import { ogLogoBase64 as logo } from "@/lib/og/logo-data";
 
 export const alt = "AQVIK — Understand your money. Shape your tomorrow.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-
-// Inlined at build time so the card renders without a network fetch.
-const logo = readFileSync(join(process.cwd(), "public", "brand", "aqvik-icon-192.png")).toString(
-  "base64",
-);
 
 export default function OpengraphImage() {
   return new ImageResponse(

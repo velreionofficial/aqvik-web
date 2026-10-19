@@ -1,7 +1,6 @@
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
-
 import { ImageResponse } from "next/og";
+
+import { ogLogoBase64 as logo } from "./logo-data";
 
 /**
  * 1200 × 630 Open Graph card for a tool page, in the same style as the
@@ -9,8 +8,6 @@ import { ImageResponse } from "next/og";
  * it, and the page address at the bottom.
  */
 export const ogSize = { width: 1200, height: 630 };
-
-const logo = readFileSync(join(process.cwd(), "public", "brand", "aqvik-icon-192.png")).toString("base64");
 
 export function toolOgImage({ name, line, path }: { name: string; line: string; path: string }) {
   return new ImageResponse(
