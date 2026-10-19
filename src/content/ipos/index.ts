@@ -2,12 +2,13 @@ import { ipoStatus } from "../../lib/ipo/calc.ts";
 import type { Ipo, IpoStatus } from "../../lib/ipo/model.ts";
 import { validateIpo } from "../../lib/ipo/validate.ts";
 import { jioPlatforms } from "./jio-platforms.ts";
+import { parasHealthcare } from "./paras-healthcare.ts";
 
 /**
  * Every IPO entry. To add one: copy jio-platforms.ts, fill it from the RHP, add it here.
  * The test suite fails if a published entry does not pass validateIpo().
  */
-export const allIpos: Ipo[] = [jioPlatforms];
+export const allIpos: Ipo[] = [jioPlatforms, parasHealthcare];
 
 /** What the website shows: published and valid only. */
 export const publishedIpos = (list: Ipo[] = allIpos): Ipo[] => list.filter((i) => i.published && validateIpo(i).length === 0);
