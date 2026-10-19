@@ -5,10 +5,10 @@ import type { ToolCopyWithNote } from "@/content/tools";
 export const flatRateTool: ToolCopyWithNote = {
   slug: "flat-vs-reducing-rate-calculator",
   name: "Flat vs Reducing Rate Calculator",
-  cardLine: "See the real reducing-balance rate behind a flat-rate or \"0% EMI\" loan, fees included.",
+  cardLine: "See the real yearly rate behind a flat-rate, \"0% EMI\" or short loan-app loan, fees included.",
   title: "Flat vs Reducing Interest Rate Calculator — Real Loan Rate | AQVIK",
   description:
-    "Convert a flat interest rate into the equivalent reducing-balance rate, see the EMI and total interest, and what a processing fee adds to a \"0% EMI\" offer.",
+    "Convert a flat interest rate into the equivalent reducing-balance rate, see what a processing fee adds to a \"0% EMI\" offer, and the yearly cost of a short loan from a loan app.",
   h1: "Flat vs reducing rate calculator",
   intro:
     "Some loans quote a flat rate, which charges interest on the full amount for the whole tenure even as you repay it. Enter the offer and see the reducing-balance rate it works out to, the way home and personal loans are usually quoted.",
@@ -17,6 +17,7 @@ export const flatRateTool: ToolCopyWithNote = {
     "The equivalent reducing rate is the yearly rate, with monthly rests, at which the same EMI for the same months repays the same loan amount. It is found by trying rates until the two match, then rounded to 2 decimals.",
     "With a processing fee, the loan amount you actually receive is smaller, while the EMI stays the same, so the rate is worked out on the amount after the fee.",
     "This is the same monthly-rest method the EMI calculator uses. Lenders may also add GST on fees, insurance or other charges; add them to the fee to include them.",
+    "Short loan app (days): cost = total you repay − money that reached your account. Yearly rate (simple) = cost ÷ money received × 365 ÷ days × 100. It is not compounded, and it is not the lender's official APR, which the key fact statement must show.",
   ],
   faqs: [
     {
@@ -33,6 +34,11 @@ export const flatRateTool: ToolCopyWithNote = {
       question: "Which rate should I compare between lenders?",
       answer:
         "Compare like with like: reducing-balance rates, including all fees. Ask the lender for the annual percentage rate (APR) and the full list of charges in the key fact statement before you sign.",
+    },
+    {
+      question: "Why does a 7-day loan show such a huge yearly rate?",
+      answer:
+        "Because a fee that looks small is charged for only a few days. If an app deducts ₹2,220 from a ₹6,000 loan and wants ₹6,000 back in 7 days, you pay 58.7% of what you received in a week — over 3,000% as a yearly rate.",
     },
   ],
   note: "The result depends on the numbers you enter. Your lender's loan agreement and key fact statement are what apply.",

@@ -212,6 +212,13 @@ All changes below are in `apps/web/`. A copy of the files before the audit was k
 
 No commit, push or deployment was made.
 
+### E4. Follow-up, 19 Oct 2026: linking policies
+
+- **Finding:** RBI's website terms ask for written notice before linking to its home page and for permission before linking to any inner page. The Income Tax Department asks for prior permission before any link. SEBI and the GST Council allow links without permission but ask to be informed, and neither allows framing.
+- **Change:** The three RBI hyperlinks in Cases 2 and 8 (both languages) were replaced with plain-text citations giving the notification number, date and "rbi.org.in".
+- **Test:** A new test fails if any book file links to rbi.org.in or incometaxindia.gov.in.
+- **Remaining links:** The SEBI and Delhi Police links were kept. SEBI permits linking; the Delhi Police cyber page states no linking policy.
+
 ---
 
 ## F. Unresolved items needing human review

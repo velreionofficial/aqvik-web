@@ -183,7 +183,7 @@ alt: Gaon ke aangan mein khaat pe baithi daadi ki god mein school dress pehni ch
 **📰 Ye kahani kaalpanik hai. Lekin ye sab asli mein hota hai:**
 - **Visakhapatnam (April 2025):** ek loan app se sirf **₹1,100 aur ₹1,200** ke do loan liye gaye; kai guna zyada maanga gaya aur borrower aur unki patni ki **badli hui tasveerein** unke contacts ko bheji gayin. Police ne chhe rajyon mein dabish dekar chhe log pakde, ₹60 lakh ka crypto zabt. [The Hans India](https://www.thehansindia.com/andhra-pradesh/six-arrested-in-instant-loan-app-fraud-966261)
 - **Chandigarh (September 2022):** loan app ne phone ke **contacts aur gallery** ka access liya; ₹3,500 jaise chhote loan chukaane ke baad bhi morphed photo bhejne ki dhamki di gayi. Police ne call centre ke 21 log pakde, jinme ek videshi naagrik bhi tha. [The Tribune](https://www.tribuneindia.com/news/chandigarh/chinese-national-among-21-in-chandigarh-police-net-for-loan-app-fraud-431056/amp)
-- **RBI (July 2025 se):** RBI-regulated lenders jo **Digital Lending Apps** chalaate hain, unki list RBI ki website pe (Citizen's Corner) — wahan dekh sakte ho ki koi app kisi RBI-regulated bank/NBFC se juda hai ya nahi. Ye list lenders ki apni di hui jaankaari pe bani hai. [RBI press release, 8 May 2025](https://rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=60403)
+- **RBI (July 2025 se):** RBI-regulated lenders jo **Digital Lending Apps** chalaate hain, unki list RBI ki website pe (Citizen's Corner) — wahan dekh sakte ho ki koi app kisi RBI-regulated bank/NBFC se juda hai ya nahi. Ye list lenders ki apni di hui jaankaari pe bani hai. *(Source: RBI press release, 8 May 2025 — rbi.org.in)*
 :::
 
 ---

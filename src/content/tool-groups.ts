@@ -7,6 +7,7 @@ import { inflationTool } from "@/content/inflation";
 import { ipoCalculatorTool } from "@/content/ipo";
 import { ratioTool } from "@/content/ratio-analyzer";
 import { statementTool } from "@/content/statement-analyzer";
+import { gstRatesTool, incomeTaxTool } from "@/content/tax";
 import { creditCardTool, emiTool, fdTool, gstCalcTool, prepaymentTool, rdTool, sipTool, swpTool } from "@/content/tools";
 
 /**
@@ -76,7 +77,7 @@ export const toolGroups: readonly ToolGroup[] = [
       entry(prepaymentTool, "Open calculator", "loan emi part payment foreclosure interest saved byaj kist"),
       entry(creditCardTool, "Open calculator", "credit card minimum due interest debt"),
       entry(byajTool, "Open calculator", "udhaar udhar byaj sood interest sainkda saikda rupaye sau karz loan friend family simple compound byaj par byaj hisaab"),
-      entry(flatRateTool, "Open calculator", "flat rate reducing balance 0% emi no cost emi processing fee real interest apr byaj loan offer", "emi-calculator"),
+      entry(flatRateTool, "Open calculator", "flat rate reducing balance 0% emi no cost emi processing fee real interest apr byaj loan offer loan app instant loan 7 din short loan", "emi-calculator"),
     ],
     fallback: [],
   },
@@ -99,6 +100,20 @@ export const toolGroups: readonly ToolGroup[] = [
       entry(ratioTool, "Open analyzer", "ratio roe roce roa eps pe pb margin annual report balance sheet dupont company analysis"),
     ],
     fallback: [],
+  },
+  {
+    id: "tax",
+    slug: "income-tax-and-gst",
+    title: "Income tax & GST rates",
+    description: "Your income tax under the old and new regime, and how GST rates changed in 2025.",
+    metaTitle: "Income Tax Calculator & GST Rate Changes 2025 | AQVIK",
+    metaDescription:
+      "Free old vs new regime income tax calculator for tax year 2026-27, and a searchable list of GST rates before and after 22 September 2025.",
+    tools: [
+      entry(incomeTaxTool, "Open calculator", "income tax old regime new regime 2026-27 salary slab 80c rebate 87a standard deduction itr kar tax kitna", "gst-rate-changes"),
+      entry(gstRatesTool, "Open list", "gst rate change 2025 new rate old rate 5% 18% 40% gst 2.0 22 september saman sasta mehnga"),
+    ],
+    fallback: ["gst-calculator", "rent-receipt"],
   },
   {
     id: "business",

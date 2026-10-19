@@ -54,3 +54,24 @@ export function flatLoan({ principalPaise, flatRatePct, months, feePaise = 0 }: 
 export function formatRate(pct: number): string {
   return (Math.round(pct * 100 + 1e-9) / 100).toFixed(2);
 }
+
+/**
+ * A short loan repaid in one go after some days (typical of instant loan apps):
+ * the cost is everything you repay above what reached your account, and the
+ * yearly rate is that cost as a simple annual percentage of the money received.
+ */
+export type ShortLoan = { receivedPaise: number; repayPaise: number; days: number };
+
+export type ShortLoanResult = {
+  costPaise: number;
+  /** Cost as % of the money received, for the loan's days. */
+  periodPct: number;
+  /** The same scaled to 365 days (simple, not compounded). */
+  yearlyPct: number;
+};
+
+export function shortLoan({ receivedPaise, repayPaise, days }: ShortLoan): ShortLoanResult {
+  const costPaise = Math.max(0, repayPaise - receivedPaise);
+  const periodPct = receivedPaise > 0 ? (costPaise / receivedPaise) * 100 : 0;
+  return { costPaise, periodPct, yearlyPct: days > 0 ? (periodPct * 365) / days : 0 };
+}

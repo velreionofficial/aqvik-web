@@ -14,6 +14,7 @@ const routes = [
   { path: "/tools/spending-and-statements", priority: 0.7, changeFrequency: "monthly" },
   { path: "/tools/loans-and-credit", priority: 0.7, changeFrequency: "monthly" },
   { path: "/tools/savings-and-investing", priority: 0.7, changeFrequency: "monthly" },
+  { path: "/tools/income-tax-and-gst", priority: 0.7, changeFrequency: "monthly" },
   { path: "/tools/business-and-gst", priority: 0.7, changeFrequency: "monthly" },
   { path: "/tools/bills-and-receipts", priority: 0.7, changeFrequency: "monthly" },
   { path: "/tools/emi-calculator", priority: 0.8, changeFrequency: "monthly" },
@@ -38,6 +39,8 @@ const routes = [
   { path: "/tools/byaj-calculator", priority: 0.8, changeFrequency: "monthly" },
   { path: "/tools/bank-statement-analyzer", priority: 0.9, changeFrequency: "monthly" },
   { path: "/tools/ipo-calculator", priority: 0.8, changeFrequency: "monthly" },
+  { path: "/tools/income-tax-calculator", priority: 0.8, changeFrequency: "monthly" },
+  { path: "/tools/gst-rate-changes", priority: 0.8, changeFrequency: "monthly" },
   { path: "/ipo", priority: 0.8, changeFrequency: "daily" },
   { path: "/books", priority: 0.7, changeFrequency: "weekly" },
 ] as const;

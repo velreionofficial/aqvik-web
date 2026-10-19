@@ -72,6 +72,8 @@ test("Every published part parses, has pages, screens and a closing section", ()
         // No real brands in the fiction's company names.
         assert.doesNotMatch(src, /\b(WhatsApp|Skype|DHL|FedEx|PhonePe|Paytm|Telegram|Instagram|YouTube|Facebook|Google Pay|GPay)\b/, `${file}: real brand name`);
         for (const id of imageIds(pages)) assert.match(id, /^c\d+p\d+-[a-z]+$/, `${file}: image id ${id}`);
+        // RBI and the Income Tax Department require permission before linking to their inner pages; cite them as text.
+        assert.doesNotMatch(src, /\]\(https?:\/\/[^)]*(rbi\.org\.in|incometaxindia\.gov\.in)/, `${file}: hyperlink to a site that needs linking permission`);
         if (lang === "hinglish") assert.doesNotMatch(src, /[\u0900-\u097F]/, `${file}: stray Devanagari in Hinglish`);
         if (lang === "hindi") {
           const letters = src.replace(/:::[\s\S]*?:::/g, "").replace(/\(https?:[^)]*\)/g, "");

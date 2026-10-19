@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 
-import { flatLoan, formatRate } from "./flat-rate.ts";
+import { flatLoan, formatRate, shortLoan } from "./flat-rate.ts";
 import { planGoal } from "./goal.ts";
 
 const L = 1_00_000_00;
@@ -62,4 +62,16 @@ test("0% return and 0% inflation: goal ÷ months", () => {
   assert.equal(r.goalPaise, 1_20_000_00);
   assert.equal(r.monthlySipPaise, 10_000_00);
   assert.equal(r.totalSipPaise, 1_20_000_00);
+});
+
+test("Short loan: ₹3,780 received, ₹6,000 repaid after 7 days is about 3,062% a year", () => {
+  const r = shortLoan({ receivedPaise: 3_780_00, repayPaise: 6_000_00, days: 7 });
+  assert.equal(r.costPaise, 2_220_00);
+  assert.equal(formatRate(r.periodPct), "58.73");
+  assert.equal(formatRate(r.yearlyPct), "3062.36");
+});
+
+test("Short loan: ₹9,000 received, ₹10,000 after 30 days is 135.19% a year; no cost gives 0", () => {
+  assert.equal(formatRate(shortLoan({ receivedPaise: 9_000_00, repayPaise: 10_000_00, days: 30 }).yearlyPct), "135.19");
+  assert.equal(shortLoan({ receivedPaise: 5_000_00, repayPaise: 5_000_00, days: 10 }).yearlyPct, 0);
 });
